@@ -200,6 +200,10 @@ void GPSynth::getIndividuals(std::vector<GPNetwork*>& networks) {
 	std::sort(networks.begin(), networks.end(), compareNetworksByID);
 }
 
+GPNetwork* GPSynth::growNewIndividual(unsigned maxHeight) {
+	return grow(maxHeight);
+}
+
 bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 	// check if old is already evaluated
 	if (evaluated.find(old) != evaluated.end()) {
