@@ -63,8 +63,11 @@ class GPLogger {
         GPLogger(GPLoggerParams* params, std::string seed_string, std::string output_dir_path);
         ~GPLogger();
 
-        std::string get_seed_string();
+#ifndef _WIN32
         std::string get_system_info();
+#endif
+
+        std::string get_seed_string();
 
         std::string net_to_string_print(GPNetwork* net);
         std::string net_to_string_save(GPNetwork* net);

@@ -117,6 +117,7 @@ std::string GPLogger::param_to_string_print(GPMutatableParam* param) {
     return param->toString(params->print_net_precision);
 }
 
+#ifndef _WIN32
 std::string GPLogger::get_system_info() {
     std::stringstream stream;
 
@@ -162,3 +163,4 @@ std::string GPLogger::get_system_info() {
 
     return stream.str();
 }
+#endif

@@ -1,6 +1,9 @@
 #ifndef GPAUDIOUTIL_H
 #define GPAUDIOUTIL_H
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #define DBREF -54.0
 
 #include <vector>
