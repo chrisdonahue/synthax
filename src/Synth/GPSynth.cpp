@@ -201,7 +201,11 @@ void GPSynth::getIndividuals(std::vector<GPNetwork*>& networks) {
 }
 
 GPNetwork* GPSynth::growNewIndividual(unsigned maxHeight) {
-	return grow(maxHeight);
+	GPNetwork* nu = grow(maxHeight);
+	if (params->erc)
+		nu->ephemeralRandom(rng);
+
+	return nu;
 }
 
 bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
