@@ -44,9 +44,9 @@ void GPAudioUtil::apply_window(unsigned n, kiss_fft_scalar* buffer, const float*
 void GPAudioUtil::fft_real(kiss_fftr_cfg cfg, unsigned num_frames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in_buffer, kiss_fft_cpx* out_buffer, double* magnitude, double* phase) {
     unsigned fft_output_size = (n/2 + 1);
     unsigned shift = n - overlap;
-    int64 num_completed = 0;
-    int64 num_remaining = num_frames;
-    int64 num_fft_output_used = 0;
+    long int num_completed = 0;
+    long int num_remaining = num_frames;
+    long int num_fft_output_used = 0;
     while (num_remaining > 0) {
         // fill the input buffer
         unsigned num_to_transform = num_remaining > n ? n : num_remaining;
@@ -400,9 +400,9 @@ void GPAudioUtil::FftReal(kiss_fftr_cfg cfg, unsigned numFrames, const float* in
     float dBref = DBREF;
     unsigned fftOutputSize = (n/2 + 1);
     unsigned shift = n - overlap;
-    int64 numCompleted = 0;
-    int64 numRemaining = numFrames;
-    int64 numFftOutputUsed = 0;
+    long int numCompleted = 0;
+    long int numRemaining = numFrames;
+    long int numFftOutputUsed = 0;
     while (numRemaining > 0) {
         // fill the input buffer
         unsigned numToTransform = numRemaining > n ? n : numRemaining;

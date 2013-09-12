@@ -1,7 +1,7 @@
 #ifndef JUCEFILEIO_H
 #define JUCEFILEIO_H
 
-#include "../../JuceLibraryCode/JuceHeader.h"
+#include "../../../JuceLibraryCode/JuceHeader.h"
 #include <assert.h>
 
 // JUCE FILE IO

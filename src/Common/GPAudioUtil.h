@@ -3,6 +3,8 @@
 
 #define DBREF -54.0
 
+#include <vector>
+#include <limits>
 #include <sstream>
 
 #include "JuceHeader.h"
