@@ -249,7 +249,7 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 
 	// replace the old network in the string backups
     if (params->backup_all_networks) {
-		allNetworks[oldGenerationID] = std::string(nu->toString(params->backup_precision));
+		allNetworks[oldGenerationID] = nu->toString(params->backup_precision);
 	}
 
 	// delete the old
@@ -419,9 +419,7 @@ int GPSynth::nextGeneration() {
     unsigned numToReproduce = (unsigned) ((params->re_proportion/proportionSum) * populationSize);
     unsigned numToCreate = (unsigned) ((params->new_proportion/proportionSum) * populationSize);
 
-    logger->debug << numToCreate << std::flush;
-
-    assert(numToNumericMutate + numToMutate + numToCrossover + numToReproduce <= populationSize);
+    assert(numToNumericMutate + numToMutate + numToCrossover + numToReproduce + numToCreate <= populationSize);
     numToCrossover += populationSize - (numToNumericMutate + numToMutate + numToCrossover + numToReproduce + numToCreate);
 
     //std::cout << populationSize << ", " << numToNumericMutate << ", " << numToMutate << ", " << numToCrossover << ", " << numToReproduce << std::endl;
@@ -600,9 +598,10 @@ void GPSynth::addNetworkToPopulation(GPNetwork* net) {
     net->traceNetwork();
     assert(net->height >= 0 && (unsigned) net->height <= params->max_height);
     if (params->backup_all_networks)
-      allNetworks.push_back(std::string(net->toString(params->backup_precision)));
+      allNetworks.push_back(net->toString(params->backup_precision));
     currentGeneration.insert(std::make_pair(net->ID % populationSize, net));
-    if (net->fitness != -1) {
+    if (net->fitness != -1 && !params->re_reevaluate) {
+		// TODO: reorder sanity of this message
         logger->verbose << "Testing algorithm " << net->ID << " made by " << net->origin << " with height " << net->height << " and structure " << logger->net_to_string_print(net) << " which was algorithm " << oldID << " from the previous generation." << std::flush;
         assignFitness(net, net->fitness);
     }
