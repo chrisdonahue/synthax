@@ -226,7 +226,8 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 	nu->traceNetwork();
 	if (nu->height > params->max_height) {
 		logger->error << "Tried replacing individual that is too tall for the population" << std::flush;
-		return false;
+		// TODO: change this
+		// return false;
 	}
 
 	// otherwise lets go ahead and insert it into our population
