@@ -6,7 +6,7 @@
 
 class NoiseNode: public GPNode {
 public:
-    NoiseNode(GPRandom* r);
+    NoiseNode();
     ~NoiseNode();
 
 	// overrides

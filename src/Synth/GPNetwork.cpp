@@ -30,7 +30,8 @@ GPNetwork::GPNetwork(GPRandom* rng, std::string netstring) :
     traced(false), preparedToRender(false),
     renderRoot(new SilenceNode()), allNodes(0), allMutatableParams(0)
 {
-	root = createNode(netstring, rng);
+	std::string error_string;
+	root = createNode(netstring, &error_string);
 }
 
 GPNetwork::~GPNetwork() {

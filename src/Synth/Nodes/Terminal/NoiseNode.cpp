@@ -6,9 +6,7 @@
     ========================
 */
 
-NoiseNode::NoiseNode(GPRandom* r) {
-    rng = r;
-    
+NoiseNode::NoiseNode() {  
     arity = 0;
     
     minimum = -1;
@@ -27,7 +25,7 @@ NoiseNode::~NoiseNode() {
 */
 
 NoiseNode* NoiseNode::getCopy() {
-    return new NoiseNode(rng);
+    return new NoiseNode();
 }
 
 void NoiseNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
