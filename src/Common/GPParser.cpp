@@ -588,6 +588,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
 */
 
 GPNode* createNode(const std::string node_string, std::string* error_string) {
+	std::cerr << node_string << std::endl;
 	std::vector<std::string> tokens = split(node_string, " }{)(");
     unsigned index = 0;
 	GPNode* ret = nullptr;
