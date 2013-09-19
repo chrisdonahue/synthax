@@ -1,12 +1,3 @@
-/*
-  ==============================================================================
-
-    GPParser.cpp
-    Author:  cdonahue
-
-  ==============================================================================
-*/
-
 #include "GPParser.h"
 
 /*
@@ -580,7 +571,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
 	else if (type.compare("null") == 0) {
 		return NULL;
 	}
-	// otherwise s-expression formatting is wrong
+	// otherwise node type string is invalid
     else {
 		std::stringstream ss;
 		ss << "invalid node type: " << type;
@@ -609,7 +600,7 @@ GPNode* createNode(const std::string node_string, std::string* error_string) {
 
     // try to create a node, catching runtime errors 
 	try {
-		createNode(tokens, &index);
+		ret = createNode(tokens, &index);
 	}
 	catch (std::runtime_error e) {
 		*error_string = e.what();
@@ -617,8 +608,25 @@ GPNode* createNode(const std::string node_string, std::string* error_string) {
 	return ret;
 }
 
-GPMutatableParam* createMutatableParam(std::string param_string, std::string type, bool ismutatable) {
+GPMutatableParam* createMutatableParam(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
+    // init return values
+	GPMutatableParam* ret = NULL;
+	*error_string = "";
+
+	// split input into tokens
 	std::vector<std::string> tokens = split(param_string, " }{)(");
     unsigned index = 0;
-	return createMutatableParam(tokens, &index, type, ismutatable);
+    if (tokens.size() == 0) {
+        *error_string = "input string improperly formatted";
+        return ret;
+    }
+
+    // try to create a node, catching runtime errors 
+	try {
+		ret = createMutatableParam(tokens, &index, type, ismutatable);
+	}
+	catch (std::runtime_error e) {
+		*error_string = e.what();
+	}
+	return ret;
 }

@@ -24,16 +24,6 @@ GPNetwork::GPNetwork(GPNode* r, std::string o) :
 {
 }
 
-GPNetwork::GPNetwork(GPRandom* rng, std::string netstring) :
-    ID(-1), origin("string"), height(-1), fitness(-1),
-    minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
-    traced(false), preparedToRender(false),
-    renderRoot(new SilenceNode()), allNodes(0), allMutatableParams(0)
-{
-	std::string error_string;
-	root = createNode(netstring, &error_string);
-}
-
 GPNetwork::~GPNetwork() {
     if (!preparedToRender) {
         delete root;

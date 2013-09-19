@@ -28,6 +28,8 @@ GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, GPRandom* rng, std::ve
     availableFunctions = new std::vector<GPNode*>();
     availableTerminals = new std::vector<GPNode*>();
     for (unsigned i = 0; i < availablePrimitives->size(); i++) {
+		std::cerr << availablePrimitives->at(i)->toString(4);
+		std::string prim_string = availablePrimitives->at(i)->toString(4);
         if (availablePrimitives->at(i)->arity == 0) {
             availableTerminals->push_back(availablePrimitives->at(i));
         }
@@ -300,7 +302,9 @@ int GPSynth::prevGeneration() {
 	for (unsigned i = 0; i < populationSize; i++) {
 		// sort by ID in fillFromGeneration()
 		std::string oldnetstring = allNetworks[((currentGenerationNumber - 1) * populationSize) + i];
-		GPNetwork* oldnetwork = new GPNetwork(rng, oldnetstring);
+		std::string error_string = "";
+		GPNode* oldnode = createNode(oldnetstring, &error_string);
+		GPNetwork* oldnetwork = new GPNetwork(oldnode, "restored_from_last_gen");
 		lastGeneration.push_back(oldnetwork);
 	}
 	

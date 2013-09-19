@@ -24,6 +24,6 @@ extern GPNode* createNode(tokenizerFunctionArgs);
 
 // EASY ACCESS
 extern GPNode* createNode(const std::string node_string, std::string* error_string);
-extern GPMutatableParam* createMutatableParam(std::string paramstring, std::string type, bool ismutatable);
+extern GPMutatableParam* createMutatableParam(std::string paramstring, std::string type, bool ismutatable, std::string* error_string);
 
 #endif

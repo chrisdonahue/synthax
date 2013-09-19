@@ -169,8 +169,15 @@ public:
             mutatableParams[i]->toString(ss);
         }
         for (unsigned i = 0; i < descendants.size(); i++) {
-            ss << " ";
-            descendants[i]->toString(ss);
+			GPNode* descendant = descendants[i];
+			// TODO: change to check for primitive
+			ss << " ";
+			if (descendant != NULL) {
+				descendants[i]->toString(ss);
+			}
+			else {
+				ss << "(null)";
+			}
         }
         ss << ")";
     }
