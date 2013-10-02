@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::function::subtract::subtract(node* zero, GPNode* one) {
+synthax::primitive::function::subtract::subtract(node* zero, node* one) {
     arity = 2;
 
     descendants.push_back(zero);

@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace function{
 	class add : public node {
 	public:
-		add(node* zero, GPNode* one);
+		add(node* zero, node* one);
 		~add();
 
 		// overrides

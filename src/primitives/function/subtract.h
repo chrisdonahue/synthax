@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace function{
 	class subtract : public node {
 	public:
-		subtract(node* zero, GPNode* one);
+		subtract(node* zero, node* one);
 		~subtract();
 
 		// overrides

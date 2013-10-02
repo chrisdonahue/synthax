@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace logic{
 	class switcher: public node {
 	public:
-		switcher(node* mod, GPNode* sigone, GPNode* sigtwo);
+		switcher(node* mod, node* sigone, node* sigtwo);
 		~switcher();
 
 		// overrides

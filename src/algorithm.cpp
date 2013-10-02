@@ -109,7 +109,7 @@ void synthax::algorithm::done_rendering() {
 /*
     this method replaces the subtree rooted at node old with node new's
 */
-void synthax::algorithm::replace_subtree(node* old, GPNode* nu) {
+void synthax::algorithm::replace_subtree(node* old, node* nu) {
     // handle root case
     if (old == root) {
         root = nu;

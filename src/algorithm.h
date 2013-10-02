@@ -36,7 +36,7 @@ namespace synthax {
         void prepare_to_render(float sr, unsigned block_size, unsigned max_num_frames, float max_frame_start_time);
         void update_mutated_params();
         void done_rendering();
-        void replace_subtree(node* one, GPNode* two);
+        void replace_subtree(node* one, node* two);
         void ephemeral_random(random* r);
 
         // PUBLIC STATE

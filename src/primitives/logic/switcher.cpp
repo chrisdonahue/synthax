@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::logic::switcher::switcher(node* mod, GPNode* sigone, GPNode* sigtwo) {
+synthax::primitive::logic::switcher::switcher(node* mod, node* sigone, node* sigtwo) {
     arity = 3;
     descendants.push_back(mod);
     descendants.push_back(sigone);

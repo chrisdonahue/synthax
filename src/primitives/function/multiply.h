@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace function{
 	class multiply : public node {
 	public:
-		multiply(node* zero, GPNode* one);
+		multiply(node* zero, node* one);
 		~multiply();
 
 		// overrides

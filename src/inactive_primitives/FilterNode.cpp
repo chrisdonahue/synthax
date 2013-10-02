@@ -16,7 +16,7 @@
     ========================
 */
 
-FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, param* cfmultmax, param* bwq, node* signal, GPNode* center) :
+FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, param* cfmultmax, param* bwq, node* signal, node* center) :
     params()
 {
     type = t;

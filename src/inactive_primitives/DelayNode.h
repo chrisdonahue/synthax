@@ -16,7 +16,7 @@
 
 class DelayNode: public node {
 public:
-    DelayNode(int n, node* l, GPNode* r);
+    DelayNode(int n, node* l, node* r);
     ~DelayNode();
     DelayNode* get_copy();
 

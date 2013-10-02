@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace logic{
 	class mixer : public node {
 	public:
-		mixer(node* mod, GPNode* sigone, GPNode* sigtwo);
+		mixer(node* mod, node* sigone, node* sigtwo);
 		~mixer();
 
 		// overrides
