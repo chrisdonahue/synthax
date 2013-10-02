@@ -10,7 +10,6 @@
 #include "primitives/envelope/piecewise_linear.h"
 
 // function includes
-#include "primitives/function/function.h"
 #include "primitives/function/add.h"
 #include "primitives/function/subtract.h"
 #include "primitives/function/multiply.h"
@@ -19,18 +18,18 @@
 
 // logic includes
 #include "primitives/logic/mixer.h"
-#include "primitives/logic/switch.h"
+#include "primitives/logic/switcher.h"
 
 // modulation includes
-#include "primitives/modulation/am.h"
-#include "primitives/modulation/pm.h"
-#include "primitives/modulation/oscillator/sin.h"
+#include "primitives/modulation/sine_amp_mod.h"
+#include "primitives/modulation/sine_phase_mod.h"
+#include "primitives/modulation/oscillator/sine.h"
 #include "primitives/modulation/oscillator/saw.h"
 #include "primitives/modulation/oscillator/square.h"
 #include "primitives/modulation/oscillator/triangle.h"
 
 // terminal includes
-#include "primitives/terminal/oscillator/sin.h"
+#include "primitives/terminal/oscillator/sine.h"
 #include "primitives/terminal/oscillator/saw.h"
 #include "primitives/terminal/oscillator/square.h"
 #include "primitives/terminal/oscillator/triangle.h"

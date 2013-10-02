@@ -1,10 +1,10 @@
 #ifndef GP_POPULATION_H
 #define GP_POPULATION_H
 
-#include "../common/logger.h"
-#include "../common/random.h"
 #include "algorithm.h"
+#include "auxilliary/logger.h"
 #include "node.h"
+#include "random.h"
 
 #include <algorithm>
 #include <assert.h>

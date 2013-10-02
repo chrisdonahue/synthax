@@ -1,4 +1,4 @@
-#include "sin_amp_mod.h"
+#include "sine_amp_mod.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::modulation::sin_amp_mod::sin_amp_mod(param* vn, param* p, param* o, param* a, node* mod) {
+synthax::primitive::modulation::sine_amp_mod::sine_amp_mod(param* vn, param* p, param* o, param* a, node* mod) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -21,7 +21,7 @@ synthax::primitive::modulation::sin_amp_mod::sin_amp_mod(param* vn, param* p, pa
     symbol = "sin_am";
 }
 
-synthax::primitive::modulation::sin_amp_mod::~sin_amp_mod() {
+synthax::primitive::modulation::sine_amp_mod::~sine_amp_mod() {
 }
 
 /*
@@ -30,18 +30,18 @@ synthax::primitive::modulation::sin_amp_mod::~sin_amp_mod() {
     =========
 */
 
-synthax::primitive::modulation::sin_amp_mod* synthax::primitive::modulation::sin_amp_mod::get_copy() {
-    return new sin_amp_mod(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
+synthax::primitive::modulation::sine_amp_mod* synthax::primitive::modulation::sine_amp_mod::get_copy() {
+    return new sine_amp_mod(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
-void synthax::primitive::modulation::sin_amp_mod::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::modulation::sine_amp_mod::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
         buffer[i] = (offset + alpha * buffer[i]) * sin (w * (sampleTimes[i]) * (constantVariables[variableNum]));
     }
 }
 
-void synthax::primitive::modulation::sin_amp_mod::update_mutated_params() {
+void synthax::primitive::modulation::sine_amp_mod::update_mutated_params() {
     node::update_mutated_params();
 
 	// update angular frequency constant
