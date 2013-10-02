@@ -23,8 +23,8 @@
     <Filter Include="synthax\algorithm\primitives\modulation">
       <UniqueIdentifier>{A6F74B62-93AD-89DC-4BB1-693FC09B33AA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="synthax\algorithm\primitives\modulation\oscillators">
-      <UniqueIdentifier>{CB911514-C731-E25E-F61B-2E427CA0AFB9}</UniqueIdentifier>
+    <Filter Include="synthax\algorithm\primitives\modulation\oscillator">
+      <UniqueIdentifier>{8FB3C948-95EC-19FE-2796-E9B575ADB00C}</UniqueIdentifier>
     </Filter>
     <Filter Include="synthax\algorithm\primitives\super">
       <UniqueIdentifier>{3B1D29B6-B424-8CBA-AE83-276128465BFA}</UniqueIdentifier>
@@ -32,8 +32,8 @@
     <Filter Include="synthax\algorithm\primitives\terminal">
       <UniqueIdentifier>{1DA6ED41-9AA9-1929-78E1-389B9F40A7CA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="synthax\algorithm\primitives\terminal\oscillators">
-      <UniqueIdentifier>{BC1B108E-8F77-F5AC-7370-CA16BB91764A}</UniqueIdentifier>
+    <Filter Include="synthax\algorithm\primitives\terminal\oscillator">
+      <UniqueIdentifier>{0FDAE23A-6976-1E77-0167-3B23EDBC9E94}</UniqueIdentifier>
     </Filter>
     <Filter Include="synthax\common">
       <UniqueIdentifier>{47FAECBB-9FB4-95F6-CEE3-9F45ACB1F741}</UniqueIdentifier>
@@ -142,26 +142,26 @@
     <ClCompile Include="..\..\src\algorithm\primitives\function\subtract.cpp">
       <Filter>synthax\algorithm\primitives\function</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\logic\switcher.cpp">
+      <Filter>synthax\algorithm\primitives\logic</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\logic\mixer.cpp">
       <Filter>synthax\algorithm\primitives\logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\logic\switch.cpp">
-      <Filter>synthax\algorithm\primitives\logic</Filter>
+    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillator\saw.cpp">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillator\sine.cpp">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillator\square.cpp">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillator\triangle.cpp">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\modulation\am_sin.cpp">
       <Filter>synthax\algorithm\primitives\modulation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillators\saw.cpp">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillators\sine.cpp">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillators\square.cpp">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\modulation\oscillators\triangle.cpp">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\modulation\pm_sin.cpp">
       <Filter>synthax\algorithm\primitives\modulation</Filter>
@@ -181,6 +181,18 @@
     <ClCompile Include="..\..\src\algorithm\primitives\super\piecewise_linear.cpp">
       <Filter>synthax\algorithm\primitives\super</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillator\saw.cpp">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillator\sin.cpp">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillator\square.cpp">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillator\triangle.cpp">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\terminal\adsr.cpp">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
     </ClCompile>
@@ -195,18 +207,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\terminal\noise.cpp">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillators\saw.cpp">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillators\sin.cpp">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillators\square.cpp">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\algorithm\primitives\terminal\oscillators\triangle.cpp">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\algorithm\primitives\terminal\piecewise_linear.cpp">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
@@ -519,26 +519,26 @@
     <ClInclude Include="..\..\src\algorithm\primitives\function\subtract.h">
       <Filter>synthax\algorithm\primitives\function</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\logic\switcher.h">
+      <Filter>synthax\algorithm\primitives\logic</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\logic\mixer.h">
       <Filter>synthax\algorithm\primitives\logic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\logic\switch.h">
-      <Filter>synthax\algorithm\primitives\logic</Filter>
+    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillator\saw.h">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillator\sine.h">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillator\square.h">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillator\triangle.h">
+      <Filter>synthax\algorithm\primitives\modulation\oscillator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\modulation\am_sin.h">
       <Filter>synthax\algorithm\primitives\modulation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillators\saw.h">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillators\sine.h">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillators\square.h">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\modulation\oscillators\triangle.h">
-      <Filter>synthax\algorithm\primitives\modulation\oscillators</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\modulation\pm_sin.h">
       <Filter>synthax\algorithm\primitives\modulation</Filter>
@@ -558,6 +558,18 @@
     <ClInclude Include="..\..\src\algorithm\primitives\super\piecewise_linear.h">
       <Filter>synthax\algorithm\primitives\super</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillator\saw.h">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillator\sin.h">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillator\square.h">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillator\triangle.h">
+      <Filter>synthax\algorithm\primitives\terminal\oscillator</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\terminal\adsr.h">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
     </ClInclude>
@@ -572,18 +584,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\terminal\noise.h">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillators\saw.h">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillators\sin.h">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillators\square.h">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\algorithm\primitives\terminal\oscillators\triangle.h">
-      <Filter>synthax\algorithm\primitives\terminal\oscillators</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\algorithm\primitives\terminal\piecewise_linear.h">
       <Filter>synthax\algorithm\primitives\terminal</Filter>
