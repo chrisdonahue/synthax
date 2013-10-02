@@ -149,14 +149,14 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="synthax"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="synthax"/>
+                       isDebug="0" optimisation="3" targetName="synthax"/>
       </CONFIGURATIONS>
     </VS2012>
     <LINUX_MAKE targetFolder="Builds/Linux" juceFolder="..\..\JUCE\modules">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="synthax"/>
-        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
                        targetName="synthax"/>
       </CONFIGURATIONS>
     </LINUX_MAKE>
