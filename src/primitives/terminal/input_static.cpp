@@ -18,7 +18,7 @@ synthax::primitive::terminal::input_static::input_static(param* vn, param* range
 
     arity = 0;
 
-    symbol = "var";
+    symbol = "input_s";
 }
 
 synthax::primitive::terminal::input_static::~input_static() {

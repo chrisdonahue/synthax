@@ -30,7 +30,7 @@ std::vector<std::string> synthax::parser::split(const std::string &s, const char
     ======
 */
 
-std::vector<param*> synthax::parser::parse_mutatable_params(tokenizer_function_args) {
+std::vector<synthax::param*> synthax::parser::parse_mutatable_params(tokenizer_function_args) {
     std::vector<param*> ret;
     unsigned tokens_remaining = tokens.size() - (*current_index);
     param* current = NULL;
@@ -59,7 +59,7 @@ std::vector<param*> synthax::parser::parse_mutatable_params(tokenizer_function_a
     return ret;
 }
 
-param* synthax::parser::create_mutatable_param(tokenizer_function_args, std::string type, bool ismutatable) {
+synthax::param* synthax::parser::create_mutatable_param(tokenizer_function_args, std::string type, bool ismutatable) {
 	// make sure we're not out of tokens
     unsigned tokens_remaining = tokens.size() - (*current_index);
 	if (tokens_remaining < 4) {
@@ -127,7 +127,7 @@ void synthax::parser::parse_child(tokenizer_function_args, node** child) {
 	}
 }
 
-node* synthax::parser::create_node(tokenizer_function_args) {
+synthax::node* synthax::parser::create_node(tokenizer_function_args) {
     // check to make sure we have a type token
     unsigned tokens_remaining = tokens.size() - (*current_index);
     if (tokens_remaining <= 0) {
@@ -153,7 +153,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
         params[5]->set_type("adsr_terminal_sustain_height");
         params[6]->set_type("adsr_terminal_release");
 
-        return new synthax::primitive::terminal::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+        return new primitive::terminal::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
     }
     else if (type.compare("adsr*") == 0) {
         if (params.size() != 7) {
@@ -170,7 +170,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new synthax::primitive::envelope::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
+        return new primitive::envelope::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
     }
     // constant nodes
     else if (type.compare("pi") == 0) {
@@ -178,7 +178,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 			throw std::runtime_error("incorrect number of mutatable params for pi");
         }
 
-        return new synthax::primitive::terminal::constant(true, NULL);
+        return new primitive::terminal::constant(true, NULL);
     }
     else if (type.compare("const") == 0) {
         if (params.size() != 1) {
@@ -186,7 +186,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
         }
         params[0]->set_type("constant_value");
 
-        return new synthax::primitive::terminal::constant(false, params[0]);
+        return new primitive::terminal::constant(false, params[0]);
     }
     else if (type.compare("gain") == 0) {
         if (params.size() != 1) {
@@ -197,7 +197,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new synthax::primitive::envelope::gain(params[0], signal);
+        return new primitive::envelope::gain(params[0], signal);
     }
     // function nodes
     else if (type.compare("+") == 0) {
@@ -211,7 +211,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalone;
 		parse_child(tokenizer_args, &signalone);
 
-        return new AddNode(signalzero, signalone);
+        return new primitive::function::add(signalzero, signalone);
     }
     else if (type.compare("-") == 0) {
         if (params.size() != 0) {
@@ -224,7 +224,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalone;
 		parse_child(tokenizer_args, &signalone);
 
-        return new SubtractNode(signalzero, signalone);
+        return new primitive::function::subtract(signalzero, signalone);
     }
     else if (type.compare("*") == 0) {
         if (params.size() != 0) {
@@ -237,7 +237,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalone;
 		parse_child(tokenizer_args, &signalone);
 
-        return new MultiplyNode(signalzero, signalone);
+        return new primitive::function::multiply(signalzero, signalone);
     }
     else if (type.compare("sin") == 0) {
         if (params.size() != 0) {
@@ -247,7 +247,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalzero;
 		parse_child(tokenizer_args, &signalzero);
        
-        return new SineNode(signalzero);
+        return new primitive::function::sine(signalzero);
     }
     else if (type.compare("cos") == 0) {
         if (params.size() != 0) {
@@ -257,7 +257,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalzero;
 		parse_child(tokenizer_args, &signalzero);
        
-        return new CosineNode(signalzero);
+        return new primitive::function::cosine(signalzero);
     }
     // LFO nodes
     else if (type.compare("lfo") == 0) {
@@ -266,7 +266,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
         }
         params[0]->set_type("lfo_terminal_rate");
 
-        return new LFOTerminalNode(params[0]);
+        return new primitive::terminal::lfo(params[0]);
     }
     else if (type.compare("lfo*") == 0) {
         if (params.size() != 1) {
@@ -277,7 +277,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new LFOEnvelopeNode(params[0], signal);
+        return new primitive::envelope::lfo(params[0], signal);
     }
     // mixer nodes
     else if (type.compare("switch") == 0) {
@@ -294,7 +294,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalone;
 		parse_child(tokenizer_args, &signalone);
 
-        return new SwitchNode(control, signalzero, signalone);
+        return new primitive::logic::switcher(control, signalzero, signalone);
     }
     else if (type.compare("mix") == 0) {
         if (params.size() != 0) {
@@ -310,7 +310,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signalone;
 		parse_child(tokenizer_args, &signalone);
 
-        return new MixerNode(control, signalzero, signalone);
+        return new primitive::logic::mixer(control, signalzero, signalone);
     }
     // noise node
     else if (type.compare("whitenoise") == 0) {
@@ -318,10 +318,10 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 			throw std::runtime_error("incorrect number of mutatable params for whitenoise");
         }
 
-        return new NoiseNode();
+        return new primitive::terminal::noise();
     }
     // modulation nodes
-    else if (type.compare("am") == 0) {
+    else if (type.compare("sin_am") == 0) {
         if (params.size() != 4) {
 			throw std::runtime_error("incorrect number of mutatable params for am");
         }
@@ -334,9 +334,9 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new AMNode(params[0], params[1], params[2], params[3], signal);
+        return new primitive::modulation::sine_amp_mod(params[0], params[1], params[2], params[3], signal);
     }
-    else if (type.compare("pm") == 0) {
+    else if (type.compare("sin_pm") == 0) {
         if (params.size() != 3) {
 			throw std::runtime_error("incorrect number of mutatable params for pm");
         }
@@ -348,52 +348,60 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new PMNode(params[0], params[1], params[2], signal);
+        return new primitive::modulation::sine_phase_mod(params[0], params[1], params[2], signal);
     }
-    // wave table freq nodes
-    else if (type.compare("sinfreqosc") == 0) {
-        if (params.size() != 1) {
-			throw std::runtime_error("incorrect number of mutatable params for sinfreqosc");
+    // wave table freq mods
+    else if (type.compare("saw_fm") == 0) {
+        if (params.size() != 3) {
+			throw std::runtime_error("incorrect number of mutatable params for saw_fm");
         }
-        params[0]->set_type("sinfreqosc_phase");
+        params[0]->set_type("saw_fm_freq_min");
+        params[1]->set_type("saw_fm_freq_max");
+        params[2]->set_type("saw_fm_phase");
 
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new SinFreqOscNode(params[0], signal);
+        return new primitive::modulation::saw(params[0], params[1], params[2], signal);
     }
-    else if (type.compare("sawfreqosc") == 0) {
-        if (params.size() != 1) {
-			throw std::runtime_error("incorrect number of mutatable params for sawfreqosc");
+    else if (type.compare("sin_fm") == 0) {
+        if (params.size() != 3) {
+			throw std::runtime_error("incorrect number of mutatable params for sin_fm");
         }
-        params[0]->set_type("sawfreqosc_phase");
+        params[0]->set_type("sin_fm_freq_min");
+        params[1]->set_type("sin_fm_freq_max");
+        params[2]->set_type("sin_fm_phase");
 
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new SawFreqOscNode(params[0], signal);
+        return new primitive::modulation::sine(params[0], params[1], params[2], signal);
     }
-    else if (type.compare("squarefreqosc") == 0) {
-        if (params.size() != 1) {
-			throw std::runtime_error("incorrect number of mutatable params for squarefrecosc");
+    else if (type.compare("sin_fm") == 0) {
+        if (params.size() != 3) {
+			throw std::runtime_error("incorrect number of mutatable params for sqr_fm");
         }
-        params[0]->set_type("squarefreqosc_phase");
+        params[0]->set_type("sqr_fm_freq_min");
+        params[1]->set_type("sqr_fm_freq_max");
+        params[2]->set_type("sqr_fm_phase");
 
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new SquareFreqOscNode(params[0], signal);
+        return new primitive::modulation::square(params[0], params[1], params[2], signal);
     }
-    else if (type.compare("trianglefreqosc") == 0) {
-        if (params.size() != 1) {
-			throw std::runtime_error("incorrect number of mutatable params for trianglefreqosc");
+    else if (type.compare("tri_fm") == 0) {
+        if (params.size() != 3) {
+			throw std::runtime_error("incorrect number of mutatable params for tri_fm");
         }
-        params[0]->set_type("trianglefreqosc_phase");
+        params[0]->set_type("tri_fm_freq_min");
+        params[1]->set_type("tri_fm_freq_max");
+        params[2]->set_type("tri_fm_phase");
 
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new TriangleFreqOscNode(params[0], signal);
+        return new primitive::modulation::triangle(params[0], params[1], params[2], signal);
     }
     // silence node
     else if (type.compare("silence") == 0) {
@@ -401,7 +409,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 			throw std::runtime_error("incorrect number of mutatable params for silence");
         }
 
-        return new SilenceNode();
+        return new primitive::terminal::silence();
     }
     // spline node (already created)
     else if (type.compare("spline") == 0) {
@@ -508,64 +516,64 @@ node* synthax::parser::create_node(tokenizer_function_args) {
             throw std::runtime_error("incorrect number of mutatable params for time");
         }
 
-        return new TimeNode();
+        return new primitive::terminal::time();
     }
     // variable node
-    else if (type.compare("var") == 0) {
+    else if (type.compare("input_s") == 0) {
         if (params.size() != 2) {
-            throw std::runtime_error("incorrect number of mutatable params for var");
+            throw std::runtime_error("incorrect number of mutatable params for input_s");
         }
-        params[0]->set_type("var_num");
+        params[0]->set_type("input_s_var_num");
         params[0]->set_unmutatable();
-        params[1]->set_type("var_range");
+        params[1]->set_type("input_s_range");
         params[1]->set_unmutatable();
 
-        return new VariableNode(params[0], params[1]);
+        return new primitive::terminal::input_static(params[0], params[1]);
     }
     // wave table oscillator nodes
-    else if (type.compare("sinosc") == 0) {
+    else if (type.compare("saw_s_gen") == 0) {
         if (params.size() != 3) {
-            throw std::runtime_error("incorrect number of mutatable params for sinosc");
+            throw std::runtime_error("incorrect number of mutatable params for saw_s_gen");
         }
-        params[0]->set_type("sinosc_var_num");
+        params[0]->set_type("saw_s_gen_var_num");
         params[0]->set_unmutatable();
-        params[1]->set_type("sinosc_partial");
-        params[2]->set_type("sinosc_phase");
+        params[1]->set_type("saw_s_gen_partial");
+        params[2]->set_type("saw_s_gen_phase");
 
-        return new SinOscNode(params[0], params[1], params[2]);
+        return new primitive::terminal::saw(params[0], params[1], params[2]);
     }
-    else if (type.compare("sawosc") == 0) {
+    else if (type.compare("sin_s_gen") == 0) {
         if (params.size() != 3) {
-            throw std::runtime_error("incorrect number of mutatable params for sawosc");
+            throw std::runtime_error("incorrect number of mutatable params for sin_s_gen");
         }
-        params[0]->set_type("sawosc_var_num");
+        params[0]->set_type("sin_s_gen_var_num");
         params[0]->set_unmutatable();
-        params[1]->set_type("sawosc_partial");
-        params[2]->set_type("sawosc_phase");
+        params[1]->set_type("sin_s_gen_partial");
+        params[2]->set_type("sin_s_gen_phase");
 
-        return new SawOscNode(params[0], params[1], params[2]);
+        return new primitive::terminal::sine(params[0], params[1], params[2]);
     }
-    else if (type.compare("squareosc") == 0) {
+    else if (type.compare("sqr_s_gen") == 0) {
         if (params.size() != 3) {
-            throw std::runtime_error("incorrect number of mutatable params for squareosc");
+            throw std::runtime_error("incorrect number of mutatable params for sqr_s_gen");
         }
-        params[0]->set_type("squareosc_var_num");
+        params[0]->set_type("sqr_s_gen_var_num");
         params[0]->set_unmutatable();
-        params[1]->set_type("squareosc_partial");
-        params[2]->set_type("squareosc_phase");
+        params[1]->set_type("sqr_s_gen_partial");
+        params[2]->set_type("sqr_s_gen_phase");
 
-        return new SquareOscNode(params[0], params[1], params[2]);
+        return new primitive::terminal::square(params[0], params[1], params[2]);
     }
-    else if (type.compare("triangleosc") == 0) {
+    else if (type.compare("tri_s_gen") == 0) {
         if (params.size() != 3) {
-			throw std::runtime_error("incorrect number of mutatable params for triangleosc");
+			throw std::runtime_error("incorrect number of mutatable params for tri_s_gen");
         }
-        params[0]->set_type("triangleosc_var_num");
+        params[0]->set_type("tri_s_gen_var_num");
         params[0]->set_unmutatable();
-        params[1]->set_type("triangleosc_partial");
-        params[2]->set_type("triangleosc_phase");
+        params[1]->set_type("tri_s_gen_partial");
+        params[2]->set_type("tri_s_gen_phase");
 
-        return new TriangleOscNode(params[0], params[1], params[2]);
+        return new primitive::terminal::triangle(params[0], params[1], params[2]);
     }
 	// explicitly null node for primitives
 	else if (type.compare("null") == 0) {
@@ -585,7 +593,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
     ===========
 */
 
-node* synthax::parser::create_node(const std::string node_string, std::string* error_string) {
+synthax::node* synthax::parser::create_node(const std::string node_string, std::string* error_string) {
     // init return values
 	node* ret = NULL;
 	*error_string = "";
@@ -608,7 +616,7 @@ node* synthax::parser::create_node(const std::string node_string, std::string* e
 	return ret;
 }
 
-param* synthax::parser::create_mutatable_param(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
+synthax::param* synthax::parser::create_mutatable_param(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
     // init return values
 	param* ret = NULL;
 	*error_string = "";

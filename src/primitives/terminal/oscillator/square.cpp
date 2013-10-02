@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::primitive::terminal::square::square(param* min_freq, param* max_freq, param* phase, node* freq) {
+synthax::primitive::terminal::square::square(param* vn, param* partial, param* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -34,7 +34,7 @@ synthax::primitive::terminal::square::~square() {
 */
 
 synthax::primitive::terminal::square* synthax::primitive::terminal::square::get_copy() {
-    return new square(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
+    return new square(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy());
 }
 
 /*

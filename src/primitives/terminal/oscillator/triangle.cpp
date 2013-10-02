@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::primitive::terminal::triangle::triangle(param* min_freq, param* max_freq, param* phase, node* freq) {
+synthax::primitive::terminal::triangle::triangle(param* vn, param* partial, param* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -34,7 +34,7 @@ synthax::primitive::terminal::triangle::~triangle() {
 */
 
 synthax::primitive::terminal::triangle* synthax::primitive::terminal::triangle::get_copy() {
-    return new triangle(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
+    return new triangle(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy());
 }
 
 /*

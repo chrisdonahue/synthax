@@ -34,7 +34,7 @@ synthax::primitive::terminal::sine::~sine() {
 */
 
 synthax::primitive::terminal::sine* synthax::primitive::terminal::sine::get_copy() {
-    return new sine(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
+    return new sine(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy());
 }
 
 /*

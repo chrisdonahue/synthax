@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace terminal{
 	class square : public synthax::primitive::terminal::wave_table {
 	public:
-		square(param*, param*, param*, node*);
+		square(param*, param*, param*);
 		~square();
 
 		// node overrides

@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace terminal{
 	class triangle : public synthax::primitive::terminal::wave_table {
 	public:
-		triangle(param*, param*, param*, node*);
+		triangle(param*, param*, param*);
 		~triangle();
 
 		// node overrides

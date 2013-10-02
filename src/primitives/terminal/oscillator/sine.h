@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace terminal{
 	class sine : public synthax::primitive::terminal::wave_table {
 	public:
-		sine(param*, param*, param*, node*);
+		sine(param*, param*, param*);
 		~sine();
 
 		// node overrides
