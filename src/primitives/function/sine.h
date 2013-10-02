@@ -1,22 +1,23 @@
-#ifndef SINENODE_H
-#define SINENODE_H
+#ifndef SINE_H
+#define SINE_H
 
-#include <math.h>
-#include "FunctionNode.h"
+#include "../../node.h"
 
-class SineNode: public FunctionNode {
-public:
-    SineNode(node* zero);
-    ~SineNode();
+namespace synthax{namespace primitive{namespace function{
+	class sine: public node {
+	public:
+		sine(node* zero);
+		~sine();
 
-	// overrides
-    SineNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		sine* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-    // optional overrides
-	void update_mutated_params();
+		// optional overrides
+		void update_mutated_params();
 
-private:
-};
+	private:
+	};
+}}}
 
 #endif

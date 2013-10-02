@@ -3,124 +3,14 @@
 <JUCERPROJECT id="E2eohP" name="synthax" projectType="dll" version="0.1" bundleIdentifier="com.rhs.synthax"
               jucerVersion="3.1.0" companyName="radio hunches software">
   <MAINGROUP id="iQgqzK" name="synthax">
-    <GROUP id="{0BE6166D-1A67-25C6-C8F3-C2C68B811F1C}" name="algorithm">
-      <FILE id="At9zOG" name="algorithm.cpp" compile="1" resource="0" file="src/algorithm/algorithm.cpp"/>
-      <FILE id="h0vPLQ" name="algorithm.h" compile="0" resource="0" file="src/algorithm/algorithm.h"/>
-      <FILE id="EAc1mF" name="gp_population.cpp" compile="1" resource="0"
-            file="src/algorithm/gp_population.cpp"/>
-      <FILE id="lpzJBS" name="gp_population.h" compile="0" resource="0" file="src/algorithm/gp_population.h"/>
-      <FILE id="rxMfLN" name="node.h" compile="0" resource="0" file="src/algorithm/node.h"/>
-      <FILE id="WiVbCP" name="param.h" compile="0" resource="0" file="src/algorithm/param.h"/>
-      <GROUP id="{B34CE772-DEA7-C4EF-83B2-D78DB8BF8A43}" name="primitives">
-        <GROUP id="{EC7B81F2-CDDF-6043-6EC0-13F3BEDA3DF8}" name="envelope">
-          <FILE id="kTjjeT" name="adsr.cpp" compile="1" resource="0" file="src/algorithm/primitives/envelope/adsr.cpp"/>
-          <FILE id="vBAePV" name="adsr.h" compile="0" resource="0" file="src/algorithm/primitives/envelope/adsr.h"/>
-          <FILE id="vOAS49" name="gain.cpp" compile="1" resource="0" file="src/algorithm/primitives/envelope/gain.cpp"/>
-          <FILE id="RxRQUW" name="gain.h" compile="0" resource="0" file="src/algorithm/primitives/envelope/gain.h"/>
-          <FILE id="b2tXSg" name="lfo.cpp" compile="1" resource="0" file="src/algorithm/primitives/envelope/lfo.cpp"/>
-          <FILE id="dh4rBG" name="lfo.h" compile="0" resource="0" file="src/algorithm/primitives/envelope/lfo.h"/>
-          <FILE id="tD0eVh" name="piecewise_linear.cpp" compile="1" resource="0"
-                file="src/algorithm/primitives/envelope/piecewise_linear.cpp"/>
-          <FILE id="eJ3tSp" name="piecewise_linear.h" compile="0" resource="0"
-                file="src/algorithm/primitives/envelope/piecewise_linear.h"/>
-        </GROUP>
-        <GROUP id="{897F9986-675B-20BF-F451-C3BCF15827A2}" name="function">
-          <FILE id="LQ9jn8" name="add.cpp" compile="1" resource="0" file="src/algorithm/primitives/function/add.cpp"/>
-          <FILE id="Je0Mnh" name="add.h" compile="0" resource="0" file="src/algorithm/primitives/function/add.h"/>
-          <FILE id="ufYdMr" name="cosine.cpp" compile="1" resource="0" file="src/algorithm/primitives/function/cosine.cpp"/>
-          <FILE id="A0A2CO" name="cosine.h" compile="0" resource="0" file="src/algorithm/primitives/function/cosine.h"/>
-          <FILE id="YFztcN" name="multiply.cpp" compile="1" resource="0" file="src/algorithm/primitives/function/multiply.cpp"/>
-          <FILE id="nU8Try" name="multiply.h" compile="0" resource="0" file="src/algorithm/primitives/function/multiply.h"/>
-          <FILE id="dz8uS1" name="sine.cpp" compile="1" resource="0" file="src/algorithm/primitives/function/sine.cpp"/>
-          <FILE id="p7LVlE" name="sine.h" compile="0" resource="0" file="src/algorithm/primitives/function/sine.h"/>
-          <FILE id="U7xBvu" name="subtract.cpp" compile="1" resource="0" file="src/algorithm/primitives/function/subtract.cpp"/>
-          <FILE id="yqqg7c" name="subtract.h" compile="0" resource="0" file="src/algorithm/primitives/function/subtract.h"/>
-        </GROUP>
-        <GROUP id="{24BAF802-47DA-E373-3A02-47324304C042}" name="logic">
-          <FILE id="LGZLU4" name="switcher.cpp" compile="1" resource="0" file="src/algorithm/primitives/logic/switcher.cpp"/>
-          <FILE id="OAE4S2" name="switcher.h" compile="0" resource="0" file="src/algorithm/primitives/logic/switcher.h"/>
-          <FILE id="yvE2ie" name="mixer.cpp" compile="1" resource="0" file="src/algorithm/primitives/logic/mixer.cpp"/>
-          <FILE id="wXtHXL" name="mixer.h" compile="0" resource="0" file="src/algorithm/primitives/logic/mixer.h"/>
-        </GROUP>
-        <GROUP id="{F83C1A66-0393-5202-F139-7CD54DF9A981}" name="modulation">
-          <GROUP id="{F825E93E-0392-004A-D25C-1F8184872CD2}" name="oscillator">
-            <FILE id="VWcN0W" name="saw.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/oscillator/saw.cpp"/>
-            <FILE id="pydHyq" name="saw.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/oscillator/saw.h"/>
-            <FILE id="zmkZsE" name="sine.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/oscillator/sine.cpp"/>
-            <FILE id="H9Dqmd" name="sine.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/oscillator/sine.h"/>
-            <FILE id="ktRC7P" name="square.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/oscillator/square.cpp"/>
-            <FILE id="sfGVIM" name="square.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/oscillator/square.h"/>
-            <FILE id="WRO4en" name="triangle.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/oscillator/triangle.cpp"/>
-            <FILE id="uBiJd5" name="triangle.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/oscillator/triangle.h"/>
-          </GROUP>
-          <FILE id="gWgHJb" name="am_sin.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/am_sin.cpp"/>
-          <FILE id="BshdS3" name="am_sin.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/am_sin.h"/>
-          <FILE id="P3hKiw" name="pm_sin.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/pm_sin.cpp"/>
-          <FILE id="cfUrF2" name="pm_sin.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/pm_sin.h"/>
-          <FILE id="qQk7OZ" name="wave_table.cpp" compile="1" resource="0" file="src/algorithm/primitives/modulation/wave_table.cpp"/>
-          <FILE id="oy68QH" name="wave_table.h" compile="0" resource="0" file="src/algorithm/primitives/modulation/wave_table.h"/>
-        </GROUP>
-        <GROUP id="{DD61B573-92E7-9D46-E680-A67D42DA0B66}" name="super">
-          <FILE id="RWDpUC" name="adsr.cpp" compile="1" resource="0" file="src/algorithm/primitives/super/adsr.cpp"/>
-          <FILE id="tlD5Hs" name="adsr.h" compile="0" resource="0" file="src/algorithm/primitives/super/adsr.h"/>
-          <FILE id="CjlqAp" name="function.cpp" compile="1" resource="0" file="src/algorithm/primitives/super/function.cpp"/>
-          <FILE id="UdZIBd" name="function.h" compile="0" resource="0" file="src/algorithm/primitives/super/function.h"/>
-          <FILE id="N5Z0oM" name="lfo.cpp" compile="1" resource="0" file="src/algorithm/primitives/super/lfo.cpp"/>
-          <FILE id="i9rw9J" name="lfo.h" compile="0" resource="0" file="src/algorithm/primitives/super/lfo.h"/>
-          <FILE id="k3U9XD" name="piecewise_linear.cpp" compile="1" resource="0"
-                file="src/algorithm/primitives/super/piecewise_linear.cpp"/>
-          <FILE id="T2zz9T" name="piecewise_linear.h" compile="0" resource="0"
-                file="src/algorithm/primitives/super/piecewise_linear.h"/>
-        </GROUP>
-        <GROUP id="{D682FA45-4297-AF76-2607-56DBEF1C7348}" name="terminal">
-          <GROUP id="{8344E27F-ABFD-71EC-BE5F-76B91030F112}" name="oscillator">
-            <FILE id="v3NXai" name="saw.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/oscillator/saw.cpp"/>
-            <FILE id="VtCC2U" name="saw.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/oscillator/saw.h"/>
-            <FILE id="gBbvEM" name="sin.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/oscillator/sin.cpp"/>
-            <FILE id="vJIqtK" name="sin.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/oscillator/sin.h"/>
-            <FILE id="LRn8Ir" name="square.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/oscillator/square.cpp"/>
-            <FILE id="gq2W4c" name="square.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/oscillator/square.h"/>
-            <FILE id="KtDWqS" name="triangle.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/oscillator/triangle.cpp"/>
-            <FILE id="kIHVku" name="triangle.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/oscillator/triangle.h"/>
-          </GROUP>
-          <FILE id="u63El0" name="adsr.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/adsr.cpp"/>
-          <FILE id="XzJtkF" name="adsr.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/adsr.h"/>
-          <FILE id="JYNAl3" name="constant.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/constant.cpp"/>
-          <FILE id="UyM3lr" name="constant.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/constant.h"/>
-          <FILE id="WrdR3a" name="input_static.cpp" compile="1" resource="0"
-                file="src/algorithm/primitives/terminal/input_static.cpp"/>
-          <FILE id="jtVZQv" name="input_static.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/input_static.h"/>
-          <FILE id="STnal9" name="lfo.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/lfo.cpp"/>
-          <FILE id="bovMqu" name="lfo.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/lfo.h"/>
-          <FILE id="nTEcQx" name="noise.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/noise.cpp"/>
-          <FILE id="bhqIfI" name="noise.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/noise.h"/>
-          <FILE id="YYQMMF" name="piecewise_linear.cpp" compile="1" resource="0"
-                file="src/algorithm/primitives/terminal/piecewise_linear.cpp"/>
-          <FILE id="Ll7L7z" name="piecewise_linear.h" compile="0" resource="0"
-                file="src/algorithm/primitives/terminal/piecewise_linear.h"/>
-          <FILE id="WFBGY6" name="silence.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/silence.cpp"/>
-          <FILE id="MnrjAW" name="silence.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/silence.h"/>
-          <FILE id="Eued5k" name="time.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/time.cpp"/>
-          <FILE id="rCXZvE" name="time.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/time.h"/>
-          <FILE id="ymdiW0" name="wave_table.cpp" compile="1" resource="0" file="src/algorithm/primitives/terminal/wave_table.cpp"/>
-          <FILE id="ktcZkb" name="wave_table.h" compile="0" resource="0" file="src/algorithm/primitives/terminal/wave_table.h"/>
-        </GROUP>
-      </GROUP>
-      <FILE id="Z7jde1" name="primitives.h" compile="0" resource="0" file="src/algorithm/primitives.h"/>
-    </GROUP>
-    <GROUP id="{7D3AA2C3-A662-969D-C3C7-E68F8B553A97}" name="common">
-      <FILE id="SWsWbq" name="audio_util.cpp" compile="1" resource="0" file="src/common/audio_util.cpp"/>
-      <FILE id="cBKwhT" name="audio_util.h" compile="0" resource="0" file="src/common/audio_util.h"/>
-      <FILE id="Jg0ZiN" name="helpers.h" compile="0" resource="0" file="src/common/helpers.h"/>
-      <FILE id="Z381sZ" name="juce_file_io.cpp" compile="1" resource="0"
-            file="src/common/juce_file_io.cpp"/>
-      <FILE id="ruotgr" name="juce_file_io.h" compile="0" resource="0" file="src/common/juce_file_io.h"/>
-      <FILE id="WwH0S2" name="logger.cpp" compile="1" resource="0" file="src/common/logger.cpp"/>
-      <FILE id="avGe4a" name="logger.h" compile="0" resource="0" file="src/common/logger.h"/>
-      <FILE id="AJYtnu" name="parser.cpp" compile="1" resource="0" file="src/common/parser.cpp"/>
-      <FILE id="OQerL4" name="parser.h" compile="0" resource="0" file="src/common/parser.h"/>
-      <FILE id="UnsAop" name="random.cpp" compile="1" resource="0" file="src/common/random.cpp"/>
-      <FILE id="CczAdo" name="random.h" compile="0" resource="0" file="src/common/random.h"/>
+    <GROUP id="{EBC94AD8-B395-A55E-1726-009A2E7E7D8F}" name="auxilliary">
+      <FILE id="d4E4dp" name="audio_util.cpp" compile="1" resource="0" file="src/auxilliary/audio_util.cpp"/>
+      <FILE id="THxF49" name="audio_util.h" compile="0" resource="0" file="src/auxilliary/audio_util.h"/>
+      <FILE id="NlhKXB" name="juce_file_io.cpp" compile="1" resource="0"
+            file="src/auxilliary/juce_file_io.cpp"/>
+      <FILE id="BEQV0s" name="juce_file_io.h" compile="0" resource="0" file="src/auxilliary/juce_file_io.h"/>
+      <FILE id="pg8eQw" name="logger.cpp" compile="1" resource="0" file="src/auxilliary/logger.cpp"/>
+      <FILE id="ZEvIXE" name="logger.h" compile="0" resource="0" file="src/auxilliary/logger.h"/>
     </GROUP>
     <GROUP id="{F5A2D3BC-C8F8-DBD0-89EC-E2F052380E76}" name="dependencies">
       <GROUP id="{E5478172-D40F-766B-D4AC-A62FA1BE8619}" name="kissfft">
@@ -138,6 +28,116 @@
         <FILE id="vUONV0" name="WaveTableOsc.h" compile="0" resource="0" file="src/dependencies/WaveTableOsc/WaveTableOsc.h"/>
       </GROUP>
     </GROUP>
+    <GROUP id="{98B2B79D-4856-3D12-1872-C5F92C812594}" name="primitives">
+      <GROUP id="{71D68885-6E7E-FFC3-D1A2-A3A75D1D9659}" name="envelope">
+        <FILE id="qh17x8" name="adsr.cpp" compile="1" resource="0" file="src/primitives/envelope/adsr.cpp"/>
+        <FILE id="oBIIux" name="adsr.h" compile="0" resource="0" file="src/primitives/envelope/adsr.h"/>
+        <FILE id="miDZfh" name="gain.cpp" compile="1" resource="0" file="src/primitives/envelope/gain.cpp"/>
+        <FILE id="M4k3Rh" name="gain.h" compile="0" resource="0" file="src/primitives/envelope/gain.h"/>
+        <FILE id="xJaq3b" name="lfo.cpp" compile="1" resource="0" file="src/primitives/envelope/lfo.cpp"/>
+        <FILE id="qGW3dr" name="lfo.h" compile="0" resource="0" file="src/primitives/envelope/lfo.h"/>
+        <FILE id="UkVq3O" name="piecewise_linear.cpp" compile="1" resource="0"
+              file="src/primitives/envelope/piecewise_linear.cpp"/>
+        <FILE id="wjVTl4" name="piecewise_linear.h" compile="0" resource="0"
+              file="src/primitives/envelope/piecewise_linear.h"/>
+      </GROUP>
+      <GROUP id="{191D1C45-7B09-7D1C-09D7-A4568EEBB159}" name="function">
+        <FILE id="PixBiw" name="add.cpp" compile="1" resource="0" file="src/primitives/function/add.cpp"/>
+        <FILE id="cESJB8" name="add.h" compile="0" resource="0" file="src/primitives/function/add.h"/>
+        <FILE id="VPGK1i" name="cosine.cpp" compile="1" resource="0" file="src/primitives/function/cosine.cpp"/>
+        <FILE id="fehB7V" name="cosine.h" compile="0" resource="0" file="src/primitives/function/cosine.h"/>
+        <FILE id="FGbbk5" name="multiply.cpp" compile="1" resource="0" file="src/primitives/function/multiply.cpp"/>
+        <FILE id="OGbqI3" name="multiply.h" compile="0" resource="0" file="src/primitives/function/multiply.h"/>
+        <FILE id="lw23GD" name="sine.cpp" compile="1" resource="0" file="src/primitives/function/sine.cpp"/>
+        <FILE id="RdANnG" name="sine.h" compile="0" resource="0" file="src/primitives/function/sine.h"/>
+        <FILE id="ZwHmrT" name="subtract.cpp" compile="1" resource="0" file="src/primitives/function/subtract.cpp"/>
+        <FILE id="VFKcW5" name="subtract.h" compile="0" resource="0" file="src/primitives/function/subtract.h"/>
+      </GROUP>
+      <GROUP id="{9EDC3B35-3F65-E0DE-4589-8A010FC999CF}" name="logic">
+        <FILE id="vreVlD" name="mixer.cpp" compile="1" resource="0" file="src/primitives/logic/mixer.cpp"/>
+        <FILE id="BbFD7C" name="mixer.h" compile="0" resource="0" file="src/primitives/logic/mixer.h"/>
+        <FILE id="vD3R4Q" name="switcher.cpp" compile="1" resource="0" file="src/primitives/logic/switcher.cpp"/>
+        <FILE id="TZJLaN" name="switcher.h" compile="0" resource="0" file="src/primitives/logic/switcher.h"/>
+      </GROUP>
+      <GROUP id="{14AC94D1-F2F9-ABA6-2F92-AEFF6F544728}" name="modulation">
+        <FILE id="sExAKA" name="am_sin.cpp" compile="1" resource="0" file="src/primitives/modulation/am_sin.cpp"/>
+        <FILE id="o0XeAm" name="am_sin.h" compile="0" resource="0" file="src/primitives/modulation/am_sin.h"/>
+        <GROUP id="{C5FE136D-172E-F90F-D7C6-46AFBF190EEB}" name="oscillator">
+          <FILE id="a1LxZl" name="saw.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/saw.cpp"/>
+          <FILE id="stTsam" name="saw.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/saw.h"/>
+          <FILE id="YmTDCR" name="sine.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/sine.cpp"/>
+          <FILE id="BWDsxI" name="sine.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/sine.h"/>
+          <FILE id="zmR7co" name="square.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/square.cpp"/>
+          <FILE id="ret4lD" name="square.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/square.h"/>
+          <FILE id="RKnGgU" name="triangle.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/triangle.cpp"/>
+          <FILE id="O3x0Dr" name="triangle.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/triangle.h"/>
+        </GROUP>
+        <FILE id="dWvb0T" name="pm_sin.cpp" compile="1" resource="0" file="src/primitives/modulation/pm_sin.cpp"/>
+        <FILE id="hKVM0L" name="pm_sin.h" compile="0" resource="0" file="src/primitives/modulation/pm_sin.h"/>
+        <FILE id="Czddhc" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/modulation/wave_table.cpp"/>
+        <FILE id="GDPsWJ" name="wave_table.h" compile="0" resource="0" file="src/primitives/modulation/wave_table.h"/>
+      </GROUP>
+      <GROUP id="{773E5E5D-B99F-B67C-0C66-BD91553EFFEF}" name="super">
+        <FILE id="G5zJZU" name="adsr.cpp" compile="1" resource="0" file="src/primitives/super/adsr.cpp"/>
+        <FILE id="j7tURC" name="adsr.h" compile="0" resource="0" file="src/primitives/super/adsr.h"/>
+        <FILE id="Oq16Il" name="function.cpp" compile="1" resource="0" file="src/primitives/super/function.cpp"/>
+        <FILE id="VC6kNX" name="function.h" compile="0" resource="0" file="src/primitives/super/function.h"/>
+        <FILE id="N2BI0K" name="lfo.cpp" compile="1" resource="0" file="src/primitives/super/lfo.cpp"/>
+        <FILE id="Ts99SU" name="lfo.h" compile="0" resource="0" file="src/primitives/super/lfo.h"/>
+        <FILE id="yRoLqp" name="piecewise_linear.cpp" compile="1" resource="0"
+              file="src/primitives/super/piecewise_linear.cpp"/>
+        <FILE id="Udf0Cv" name="piecewise_linear.h" compile="0" resource="0"
+              file="src/primitives/super/piecewise_linear.h"/>
+        <FILE id="u6O3hz" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/super/wave_table.cpp"/>
+        <FILE id="VJva7B" name="wave_table.h" compile="0" resource="0" file="src/primitives/super/wave_table.h"/>
+      </GROUP>
+      <GROUP id="{DAEB0116-A990-76D6-5C85-88462C076E19}" name="terminal">
+        <GROUP id="{C345E940-B276-DBBB-3F8E-A8BD13D495B1}" name="oscillator">
+          <FILE id="P4A5W2" name="saw.cpp" compile="1" resource="0" file="src/primitives/terminal/oscillator/saw.cpp"/>
+          <FILE id="frrL8X" name="saw.h" compile="0" resource="0" file="src/primitives/terminal/oscillator/saw.h"/>
+          <FILE id="Dnu881" name="sine.cpp" compile="1" resource="0" file="src/primitives/terminal/oscillator/sine.cpp"/>
+          <FILE id="Q4dlY9" name="sine.h" compile="0" resource="0" file="src/primitives/terminal/oscillator/sine.h"/>
+          <FILE id="hLnjV4" name="square.cpp" compile="1" resource="0" file="src/primitives/terminal/oscillator/square.cpp"/>
+          <FILE id="fMM9KX" name="square.h" compile="0" resource="0" file="src/primitives/terminal/oscillator/square.h"/>
+          <FILE id="H1nccR" name="triangle.cpp" compile="1" resource="0" file="src/primitives/terminal/oscillator/triangle.cpp"/>
+          <FILE id="Js525p" name="triangle.h" compile="0" resource="0" file="src/primitives/terminal/oscillator/triangle.h"/>
+        </GROUP>
+        <FILE id="yFFtZG" name="adsr.cpp" compile="1" resource="0" file="src/primitives/terminal/adsr.cpp"/>
+        <FILE id="nSVOtD" name="adsr.h" compile="0" resource="0" file="src/primitives/terminal/adsr.h"/>
+        <FILE id="L9zKpD" name="constant.cpp" compile="1" resource="0" file="src/primitives/terminal/constant.cpp"/>
+        <FILE id="vM2yMV" name="constant.h" compile="0" resource="0" file="src/primitives/terminal/constant.h"/>
+        <FILE id="Xhse6Q" name="input_static.cpp" compile="1" resource="0"
+              file="src/primitives/terminal/input_static.cpp"/>
+        <FILE id="twlFYh" name="input_static.h" compile="0" resource="0" file="src/primitives/terminal/input_static.h"/>
+        <FILE id="zXKLxJ" name="lfo.cpp" compile="1" resource="0" file="src/primitives/terminal/lfo.cpp"/>
+        <FILE id="UWLDol" name="lfo.h" compile="0" resource="0" file="src/primitives/terminal/lfo.h"/>
+        <FILE id="bQ3TO0" name="noise.cpp" compile="1" resource="0" file="src/primitives/terminal/noise.cpp"/>
+        <FILE id="KPaxDp" name="noise.h" compile="0" resource="0" file="src/primitives/terminal/noise.h"/>
+        <FILE id="hEuImB" name="piecewise_linear.cpp" compile="1" resource="0"
+              file="src/primitives/terminal/piecewise_linear.cpp"/>
+        <FILE id="GAWrU3" name="piecewise_linear.h" compile="0" resource="0"
+              file="src/primitives/terminal/piecewise_linear.h"/>
+        <FILE id="Phtfvy" name="silence.cpp" compile="1" resource="0" file="src/primitives/terminal/silence.cpp"/>
+        <FILE id="MBzUkA" name="silence.h" compile="0" resource="0" file="src/primitives/terminal/silence.h"/>
+        <FILE id="Tmc5RA" name="time.cpp" compile="1" resource="0" file="src/primitives/terminal/time.cpp"/>
+        <FILE id="x5z5T8" name="time.h" compile="0" resource="0" file="src/primitives/terminal/time.h"/>
+        <FILE id="GSiNh2" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/terminal/wave_table.cpp"/>
+        <FILE id="Jg9N4f" name="wave_table.h" compile="0" resource="0" file="src/primitives/terminal/wave_table.h"/>
+      </GROUP>
+    </GROUP>
+    <FILE id="OxwGwP" name="algorithm.cpp" compile="1" resource="0" file="src/algorithm.cpp"/>
+    <FILE id="yirWsG" name="algorithm.h" compile="0" resource="0" file="src/algorithm.h"/>
+    <FILE id="mlqVvy" name="gp_population.cpp" compile="1" resource="0"
+          file="src/gp_population.cpp"/>
+    <FILE id="al8AYP" name="gp_population.h" compile="0" resource="0" file="src/gp_population.h"/>
+    <FILE id="lmvXxj" name="helpers.h" compile="0" resource="0" file="src/helpers.h"/>
+    <FILE id="kC38Kj" name="node.h" compile="0" resource="0" file="src/node.h"/>
+    <FILE id="VpZNmz" name="param.h" compile="0" resource="0" file="src/param.h"/>
+    <FILE id="HsB7w7" name="parser.cpp" compile="1" resource="0" file="src/parser.cpp"/>
+    <FILE id="w9l5YW" name="parser.h" compile="0" resource="0" file="src/parser.h"/>
+    <FILE id="z717mK" name="primitives.h" compile="0" resource="0" file="src/primitives.h"/>
+    <FILE id="Zvy4Gv" name="random.cpp" compile="1" resource="0" file="src/random.cpp"/>
+    <FILE id="hOYW7Q" name="random.h" compile="0" resource="0" file="src/random.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>

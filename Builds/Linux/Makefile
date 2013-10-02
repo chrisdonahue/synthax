@@ -49,51 +49,52 @@ endif
 DEPFLAGS := $(if $(word 2, $(TARGET_ARCH)), , -MMD)
 
 OBJECTS := \
-  $(OBJDIR)/algorithm_e540ed39.o \
-  $(OBJDIR)/gp_population_51cf8cad.o \
-  $(OBJDIR)/adsr_f7fba9be.o \
-  $(OBJDIR)/gain_b74730fb.o \
-  $(OBJDIR)/lfo_dd5ab343.o \
-  $(OBJDIR)/piecewise_linear_e95510ee.o \
-  $(OBJDIR)/add_5e4fb7.o \
-  $(OBJDIR)/cosine_7ff13ead.o \
-  $(OBJDIR)/multiply_6d3a9e98.o \
-  $(OBJDIR)/sine_75bf3201.o \
-  $(OBJDIR)/subtract_8e511b88.o \
-  $(OBJDIR)/switcher_7f072a3f.o \
-  $(OBJDIR)/mixer_3a7331b5.o \
-  $(OBJDIR)/saw_1e939e0a.o \
-  $(OBJDIR)/sine_4ea52456.o \
-  $(OBJDIR)/square_53a7c1e6.o \
-  $(OBJDIR)/triangle_65f63051.o \
-  $(OBJDIR)/am_sin_d65f8bd5.o \
-  $(OBJDIR)/pm_sin_26ad2ca6.o \
-  $(OBJDIR)/wave_table_6d149d98.o \
-  $(OBJDIR)/adsr_4a8ef5a3.o \
-  $(OBJDIR)/function_1078dab9.o \
-  $(OBJDIR)/lfo_7cebd6be.o \
-  $(OBJDIR)/piecewise_linear_b584ad53.o \
-  $(OBJDIR)/saw_e6910b0a.o \
-  $(OBJDIR)/sin_f3b8fc79.o \
-  $(OBJDIR)/square_601734e6.o \
-  $(OBJDIR)/triangle_1454e351.o \
-  $(OBJDIR)/adsr_8cb06892.o \
-  $(OBJDIR)/constant_b4fce7f4.o \
-  $(OBJDIR)/input_static_f02a33d3.o \
-  $(OBJDIR)/lfo_ea68c9ef.o \
-  $(OBJDIR)/noise_fb288714.o \
-  $(OBJDIR)/piecewise_linear_d35e31c2.o \
-  $(OBJDIR)/silence_46e5bbdb.o \
-  $(OBJDIR)/time_3ff1a01d.o \
-  $(OBJDIR)/wave_table_7ed08a98.o \
-  $(OBJDIR)/audio_util_1c111119.o \
-  $(OBJDIR)/juce_file_io_45dd0d85.o \
-  $(OBJDIR)/logger_41348dde.o \
-  $(OBJDIR)/parser_e813f4ed.o \
-  $(OBJDIR)/random_286eab91.o \
+  $(OBJDIR)/audio_util_1e6dca20.o \
+  $(OBJDIR)/juce_file_io_23efa0cc.o \
+  $(OBJDIR)/logger_f86ce265.o \
   $(OBJDIR)/kiss_fft_5150b3c.o \
   $(OBJDIR)/kiss_fftr_9d8d5580.o \
   $(OBJDIR)/WaveTableOsc_3abb7d69.o \
+  $(OBJDIR)/adsr_cea0a9de.o \
+  $(OBJDIR)/gain_8dec311b.o \
+  $(OBJDIR)/lfo_dc052f23.o \
+  $(OBJDIR)/piecewise_linear_c0dae10e.o \
+  $(OBJDIR)/add_ff08cb97.o \
+  $(OBJDIR)/cosine_4156b6cd.o \
+  $(OBJDIR)/multiply_6b228eb8.o \
+  $(OBJDIR)/sine_4c643221.o \
+  $(OBJDIR)/subtract_8c390ba8.o \
+  $(OBJDIR)/mixer_99b9d5.o \
+  $(OBJDIR)/switcher_7d022e1f.o \
+  $(OBJDIR)/am_sin_d4477bf5.o \
+  $(OBJDIR)/saw_f6196e2a.o \
+  $(OBJDIR)/sine_67d95836.o \
+  $(OBJDIR)/square_f09e7dc6.o \
+  $(OBJDIR)/triangle_a02d7431.o \
+  $(OBJDIR)/pm_sin_24951cc6.o \
+  $(OBJDIR)/wave_table_57477db8.o \
+  $(OBJDIR)/adsr_1f66e983.o \
+  $(OBJDIR)/function_e73de99.o \
+  $(OBJDIR)/lfo_b555e6de.o \
+  $(OBJDIR)/piecewise_linear_11add133.o \
+  $(OBJDIR)/wave_table_9b64d2c9.o \
+  $(OBJDIR)/saw_f8c632a.o \
+  $(OBJDIR)/sine_7cc50336.o \
+  $(OBJDIR)/square_794b68c6.o \
+  $(OBJDIR)/triangle_b14b9f31.o \
+  $(OBJDIR)/adsr_635568b2.o \
+  $(OBJDIR)/constant_b2e4d814.o \
+  $(OBJDIR)/input_static_da5d13f3.o \
+  $(OBJDIR)/lfo_e91345cf.o \
+  $(OBJDIR)/noise_f9238af4.o \
+  $(OBJDIR)/piecewise_linear_aae401e2.o \
+  $(OBJDIR)/silence_b22f47bb.o \
+  $(OBJDIR)/time_1696a03d.o \
+  $(OBJDIR)/wave_table_a27cf2b8.o \
+  $(OBJDIR)/algorithm_267fb119.o \
+  $(OBJDIR)/gp_population_8c49608d.o \
+  $(OBJDIR)/parser_f3a199ff.o \
+  $(OBJDIR)/random_33fc50a3.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_core_aff681cc.o \
 
@@ -116,214 +117,19 @@ strip:
 	@echo Stripping synthax
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/algorithm_e540ed39.o: ../../src/algorithm/algorithm.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling algorithm.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/gp_population_51cf8cad.o: ../../src/algorithm/gp_population.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling gp_population.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/adsr_f7fba9be.o: ../../src/algorithm/primitives/envelope/adsr.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling adsr.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/gain_b74730fb.o: ../../src/algorithm/primitives/envelope/gain.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling gain.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/lfo_dd5ab343.o: ../../src/algorithm/primitives/envelope/lfo.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling lfo.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/piecewise_linear_e95510ee.o: ../../src/algorithm/primitives/envelope/piecewise_linear.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling piecewise_linear.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/add_5e4fb7.o: ../../src/algorithm/primitives/function/add.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling add.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/cosine_7ff13ead.o: ../../src/algorithm/primitives/function/cosine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cosine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/multiply_6d3a9e98.o: ../../src/algorithm/primitives/function/multiply.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling multiply.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/sine_75bf3201.o: ../../src/algorithm/primitives/function/sine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling sine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/subtract_8e511b88.o: ../../src/algorithm/primitives/function/subtract.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling subtract.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/switcher_7f072a3f.o: ../../src/algorithm/primitives/logic/switcher.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling switcher.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/mixer_3a7331b5.o: ../../src/algorithm/primitives/logic/mixer.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling mixer.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/saw_1e939e0a.o: ../../src/algorithm/primitives/modulation/oscillator/saw.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling saw.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/sine_4ea52456.o: ../../src/algorithm/primitives/modulation/oscillator/sine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling sine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/square_53a7c1e6.o: ../../src/algorithm/primitives/modulation/oscillator/square.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling square.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/triangle_65f63051.o: ../../src/algorithm/primitives/modulation/oscillator/triangle.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling triangle.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/am_sin_d65f8bd5.o: ../../src/algorithm/primitives/modulation/am_sin.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling am_sin.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/pm_sin_26ad2ca6.o: ../../src/algorithm/primitives/modulation/pm_sin.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling pm_sin.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/wave_table_6d149d98.o: ../../src/algorithm/primitives/modulation/wave_table.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wave_table.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/adsr_4a8ef5a3.o: ../../src/algorithm/primitives/super/adsr.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling adsr.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/function_1078dab9.o: ../../src/algorithm/primitives/super/function.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling function.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/lfo_7cebd6be.o: ../../src/algorithm/primitives/super/lfo.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling lfo.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/piecewise_linear_b584ad53.o: ../../src/algorithm/primitives/super/piecewise_linear.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling piecewise_linear.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/saw_e6910b0a.o: ../../src/algorithm/primitives/terminal/oscillator/saw.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling saw.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/sin_f3b8fc79.o: ../../src/algorithm/primitives/terminal/oscillator/sin.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling sin.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/square_601734e6.o: ../../src/algorithm/primitives/terminal/oscillator/square.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling square.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/triangle_1454e351.o: ../../src/algorithm/primitives/terminal/oscillator/triangle.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling triangle.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/adsr_8cb06892.o: ../../src/algorithm/primitives/terminal/adsr.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling adsr.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/constant_b4fce7f4.o: ../../src/algorithm/primitives/terminal/constant.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling constant.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/input_static_f02a33d3.o: ../../src/algorithm/primitives/terminal/input_static.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling input_static.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/lfo_ea68c9ef.o: ../../src/algorithm/primitives/terminal/lfo.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling lfo.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/noise_fb288714.o: ../../src/algorithm/primitives/terminal/noise.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling noise.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/piecewise_linear_d35e31c2.o: ../../src/algorithm/primitives/terminal/piecewise_linear.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling piecewise_linear.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/silence_46e5bbdb.o: ../../src/algorithm/primitives/terminal/silence.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling silence.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/time_3ff1a01d.o: ../../src/algorithm/primitives/terminal/time.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling time.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/wave_table_7ed08a98.o: ../../src/algorithm/primitives/terminal/wave_table.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wave_table.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/audio_util_1c111119.o: ../../src/common/audio_util.cpp
+$(OBJDIR)/audio_util_1e6dca20.o: ../../src/auxilliary/audio_util.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling audio_util.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_file_io_45dd0d85.o: ../../src/common/juce_file_io.cpp
+$(OBJDIR)/juce_file_io_23efa0cc.o: ../../src/auxilliary/juce_file_io.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_file_io.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/logger_41348dde.o: ../../src/common/logger.cpp
+$(OBJDIR)/logger_f86ce265.o: ../../src/auxilliary/logger.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling logger.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/parser_e813f4ed.o: ../../src/common/parser.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling parser.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/random_286eab91.o: ../../src/common/random.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling random.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/kiss_fft_5150b3c.o: ../../src/dependencies/kissfft/kiss_fft.c
@@ -339,6 +145,206 @@ $(OBJDIR)/kiss_fftr_9d8d5580.o: ../../src/dependencies/kissfft/kiss_fftr.c
 $(OBJDIR)/WaveTableOsc_3abb7d69.o: ../../src/dependencies/WaveTableOsc/WaveTableOsc.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling WaveTableOsc.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/adsr_cea0a9de.o: ../../src/primitives/envelope/adsr.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling adsr.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/gain_8dec311b.o: ../../src/primitives/envelope/gain.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling gain.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/lfo_dc052f23.o: ../../src/primitives/envelope/lfo.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling lfo.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/piecewise_linear_c0dae10e.o: ../../src/primitives/envelope/piecewise_linear.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling piecewise_linear.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/add_ff08cb97.o: ../../src/primitives/function/add.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling add.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/cosine_4156b6cd.o: ../../src/primitives/function/cosine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling cosine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/multiply_6b228eb8.o: ../../src/primitives/function/multiply.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling multiply.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sine_4c643221.o: ../../src/primitives/function/sine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/subtract_8c390ba8.o: ../../src/primitives/function/subtract.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling subtract.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/mixer_99b9d5.o: ../../src/primitives/logic/mixer.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling mixer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/switcher_7d022e1f.o: ../../src/primitives/logic/switcher.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling switcher.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/am_sin_d4477bf5.o: ../../src/primitives/modulation/am_sin.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling am_sin.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/saw_f6196e2a.o: ../../src/primitives/modulation/oscillator/saw.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling saw.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sine_67d95836.o: ../../src/primitives/modulation/oscillator/sine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/square_f09e7dc6.o: ../../src/primitives/modulation/oscillator/square.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling square.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/triangle_a02d7431.o: ../../src/primitives/modulation/oscillator/triangle.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling triangle.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/pm_sin_24951cc6.o: ../../src/primitives/modulation/pm_sin.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling pm_sin.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/wave_table_57477db8.o: ../../src/primitives/modulation/wave_table.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling wave_table.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/adsr_1f66e983.o: ../../src/primitives/super/adsr.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling adsr.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/function_e73de99.o: ../../src/primitives/super/function.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling function.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/lfo_b555e6de.o: ../../src/primitives/super/lfo.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling lfo.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/piecewise_linear_11add133.o: ../../src/primitives/super/piecewise_linear.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling piecewise_linear.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/wave_table_9b64d2c9.o: ../../src/primitives/super/wave_table.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling wave_table.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/saw_f8c632a.o: ../../src/primitives/terminal/oscillator/saw.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling saw.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sine_7cc50336.o: ../../src/primitives/terminal/oscillator/sine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/square_794b68c6.o: ../../src/primitives/terminal/oscillator/square.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling square.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/triangle_b14b9f31.o: ../../src/primitives/terminal/oscillator/triangle.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling triangle.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/adsr_635568b2.o: ../../src/primitives/terminal/adsr.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling adsr.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/constant_b2e4d814.o: ../../src/primitives/terminal/constant.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling constant.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/input_static_da5d13f3.o: ../../src/primitives/terminal/input_static.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling input_static.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/lfo_e91345cf.o: ../../src/primitives/terminal/lfo.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling lfo.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/noise_f9238af4.o: ../../src/primitives/terminal/noise.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling noise.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/piecewise_linear_aae401e2.o: ../../src/primitives/terminal/piecewise_linear.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling piecewise_linear.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/silence_b22f47bb.o: ../../src/primitives/terminal/silence.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling silence.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/time_1696a03d.o: ../../src/primitives/terminal/time.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling time.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/wave_table_a27cf2b8.o: ../../src/primitives/terminal/wave_table.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling wave_table.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/algorithm_267fb119.o: ../../src/algorithm.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling algorithm.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/gp_population_8c49608d.o: ../../src/gp_population.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling gp_population.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/parser_f3a199ff.o: ../../src/parser.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling parser.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/random_33fc50a3.o: ../../src/random.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling random.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp

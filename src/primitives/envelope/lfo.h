@@ -4,7 +4,7 @@
 #include "../super/lfo.h"
 
 namespace synthax{namespace primitive{namespace envelope{
-	class lfo : public synthax::primitive::super::lfo
+	class lfo : public synthax::primitive::super::lfo {
 	public:
 		lfo(param* rate, node* mod);
 		~lfo();
