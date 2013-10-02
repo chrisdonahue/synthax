@@ -1,4 +1,4 @@
-#include "SplineEnvelopeNode.h"
+#include "piecewise_linear.h"
 
 /*
     ========================
@@ -7,7 +7,7 @@
 */
 
 // points should always have something in it
-SplineEnvelopeNode::SplineEnvelopeNode(param* splinetype, GPMutatableParam* numsegments, std::vector<GPMutatableParam*>* pointsOrParams, node* signal)
+synthax::primitive::envelope::piecewise_linear::piecewise_linear(param* splinetype, GPMutatableParam* numsegments, std::vector<GPMutatableParam*>* pointsOrParams, node* signal)
 {
     assert(splinetype->is_unmutatable());
     isPrimitive = (pointsOrParams->size() == 2 && numsegments->is_mutatable());
@@ -36,7 +36,7 @@ SplineEnvelopeNode::SplineEnvelopeNode(param* splinetype, GPMutatableParam* nums
     symbol = "spline*";
 }
 
-SplineEnvelopeNode::~SplineEnvelopeNode() {
+synthax::primitive::envelope::piecewise_linear::~piecewise_linear() {
     done_rendering();
 }
 
@@ -46,142 +46,20 @@ SplineEnvelopeNode::~SplineEnvelopeNode() {
     =========
 */
 
-SplineEnvelopeNode* SplineEnvelopeNode::get_copy() {
+synthax::primitive::envelope::piecewise_linear* synthax::primitive::envelope::piecewise_linear::get_copy() {
     // make copies of spline points
     std::vector<param*>* paramCopies = new std::vector<GPMutatableParam*>(params.size() - 2);
     for (unsigned i = 2; i < params.size(); i++) {
         paramCopies->at(i - 2) = params[i]->get_copy();
     }
 
-    return new SplineEnvelopeNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new piecewise_linear(params[0]->get_copy(), mutatableParams[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void SplineEnvelopeNode::ephemeral_random(random* rng) {
-    // if this is a primitive spline then generate its points
-    if (isPrimitive) {
-        // randomize the number of points and lock it
-        params[1]->ephemeral_random(rng);
-        numSegments = params[1]->get_dvalue();
-        params[1]->set_unmutatable();
-
-        // get copies
-        param* ampRangeCopy = params[2]->get_copy();
-        ampRangeCopy->set_type("spline_amp");
-        param* segmentLengthRangeCopy = params[3]->get_copy();
-        segmentLengthRangeCopy->set_type("spline_segment_length");
-
-        // remove and delete range specifiers
-        delete params[2];
-        delete params[3];
-        params.resize(2);
-
-        // create the segments
-        for (int i = 0; i < numSegments; i++) {
-            param* newSplineAmp = ampRangeCopy->get_copy();
-            param* newSplineSegmentLength = segmentLengthRangeCopy->get_copy();
-            params.push_back(newSplineAmp);
-            params.push_back(newSplineSegmentLength);
-        }
-
-        // create the final value
-        param* newSplineAmpFinal = ampRangeCopy->get_copy();
-        newSplineAmpFinal->set_type("spline_amp_final");
-        params.push_back(newSplineAmpFinal);
-
-        // delete copies
-        delete ampRangeCopy;
-        delete segmentLengthRangeCopy;
-
-        // set as no longer primitive
-        isPrimitive = false;
-    }
-
-    node::ephemeral_random(rng);
-}
-
-void SplineEnvelopeNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
-    assert(!isPrimitive);
-    done_rendering();
-    sampleRate = sr;
-    envelopeSize = max_frame_number;
-    envelope = (float*) malloc(sizeof(float) * envelopeSize);
-    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
-}
-
-void SplineEnvelopeNode::done_rendering() {
-    if (prepared_to_render) {
-        sampleRate = 0;
-        free(envelope);
-    }
-    node::done_rendering();
-}
-
-void SplineEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::envelope::piecewise_linear::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     // copy envelope into buffer
     for (unsigned bi = 0, ei = firstFrameNumber; bi < numSamples; bi++, ei++) {
         buffer[bi] = buffer[bi] * envelope[ei];
-    }
-}
-
-void SplineEnvelopeNode::update_mutated_params() {
-    node::update_mutated_params();
-
-    assert(!isPrimitive);
-
-    // get minimum and maximum value for spline envelope
-    float minSplineHeight = params[2]->get_cmin();
-    float maxSplineHeight = params[2]->get_cmax();
-    for (int i = 4; i < params.size(); i += 2) {
-        if (params[i]->get_cmin() < minSplineHeight)
-            minSplineHeight = params[i]->get_cmin();
-        if (params[i]->get_cmax() > maxSplineHeight)
-            maxSplineHeight = params[i]->get_cmax();
-    }
-    
-    // update min/max of envelope spline
-    intervalMultiply(&minimum, &maximum, minSplineHeight, maxSplineHeight, descendants[0]->minimum, descendants[0]->maximum);
-    
-    fillFromParams();
-}
-
-/*
-    ==============
-    CLASS SPECIFIC
-    ==============
-*/
-
-void SplineEnvelopeNode::fillFromParams() {
-    if (splineType == 0) {
-        unsigned currentFrame = 0;
-        unsigned usedPoints = 0;
-        float currentLevel = params[2]->get_cvalue();
-        while (currentFrame < envelopeSize && usedPoints < numSegments) {
-            float transitionLength = params[(usedPoints * 2) + 2 + 1]->get_cvalue();
-            float nextLevel = params[(usedPoints * 2) + 2 + 2]->get_cvalue();
-            unsigned currentTransitionFrame = 0;
-            unsigned numTransitionFrames = (unsigned) (transitionLength * sampleRate);
-            // may be infinite if numTransitionFrames is 0 but will never be used in that case
-            float slope = (nextLevel - currentLevel) / float(numTransitionFrames);
-            while (currentTransitionFrame < numTransitionFrames && currentFrame < envelopeSize) {
-                envelope[currentFrame] = currentLevel + currentTransitionFrame * slope;
-                currentFrame++;
-                currentTransitionFrame++;
-            }
-            usedPoints++;
-            currentLevel = nextLevel;
-        }
-        while (currentFrame < envelopeSize) {
-            envelope[currentFrame] = currentLevel;
-            currentFrame++;
-        }
-    }
-    else {
-        unsigned currentFrame = 0;
-        float currentLevel = params[2]->get_cvalue();
-        while (currentFrame < envelopeSize) {
-            envelope[currentFrame] = currentLevel;
-            currentFrame++;
-        }
     }
 }

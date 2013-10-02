@@ -1,12 +1,12 @@
-#include "AddNode.h"
+#include "add.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-AddNode::AddNode(node* zero, GPNode* one) {
+synthax::primitive::function::add(node* zero, GPNode* one) {
     arity = 2;
 
     descendants.push_back(zero);
@@ -15,21 +15,21 @@ AddNode::AddNode(node* zero, GPNode* one) {
     symbol = "+";
 }
 
-AddNode::~AddNode() {
+synthax::primitive::function::~add() {
 }
 
 /*
     =========
-    OVERRidES
+    overrides
     =========
 */
 
-AddNode* AddNode::get_copy() {
-    AddNode* ret = new AddNode(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
+synthax::primitive::function::add* synthax::primitive::function::get_copy() {
+    add* ret = new add(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
     return ret;
 }
 
-void AddNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::function::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     descendants[1]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[0]);
     for (unsigned i = 0; i < numSamples; i++) {
@@ -37,7 +37,7 @@ void AddNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSa
     }
 }
 
-void AddNode::update_mutated_params() {
-    FunctionNode::update_mutated_params();
-    intervalAdd(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, descendants[1]->minimum, descendants[1]->maximum);
+void synthax::primitive::function::update_mutated_params() {
+    node::update_mutated_params();
+    synthax::helpers::intervalAdd(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, descendants[1]->minimum, descendants[1]->maximum);
 }

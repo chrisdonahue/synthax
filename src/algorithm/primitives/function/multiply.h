@@ -1,21 +1,23 @@
-#ifndef MULTIPLYNODE_H
-#define MULTIPLYNODE_H
+#ifndef MULTIPLY_H
+#define MULTIPLY_H
 
-#include "FunctionNode.h"
+#include "../../node.h"
 
-class MultiplyNode: public FunctionNode {
-public:
-    MultiplyNode(node* zero, GPNode* one);
-    ~MultiplyNode();
+namespace synthax{namespace primitive{namespace function{
+	class multiply : public node {
+	public:
+		multiply(node* zero, GPNode* one);
+		~multiply();
 
-	// overrides
-    MultiplyNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		multiply* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-    // optional overrides
-	void update_mutated_params();
+		// optional overrides
+		void update_mutated_params();
 
-private:
-};
+	private:
+	};
+}}}
 
 #endif

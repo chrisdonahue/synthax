@@ -1,16 +1,16 @@
-#ifndef SUBTRACT_H
-#define SUBTRACT_H
+#ifndef SWITCHER_H
+#define SWITCHER_H
 
 #include "../../node.h"
 
-namespace synthax{namespace primitive{namespace function{
-	class subtract : public node {
+namespace synthax{namespace primitive{namespace logic{
+	class switcher: public node {
 	public:
-		subtract(node* zero, GPNode* one);
-		~subtract();
+		switcher(node* mod, GPNode* sigone, GPNode* sigtwo);
+		~switcher();
 
 		// overrides
-		subtract* get_copy();
+		switcher* get_copy();
 		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
 		// optional overrides

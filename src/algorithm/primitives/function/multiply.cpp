@@ -1,4 +1,4 @@
-#include "MultiplyNode.h"
+#include "multiply.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-MultiplyNode::MultiplyNode(node* zero, GPNode* one) {
+synthax::primitive::function::multiply::multiply(node* zero, GPNode* one) {
     arity = 2;
 
     descendants.push_back(zero);
@@ -15,7 +15,7 @@ MultiplyNode::MultiplyNode(node* zero, GPNode* one) {
     symbol = "*";
 }
 
-MultiplyNode::~MultiplyNode() {
+synthax::primitive::function::multiply::~multiply() {
 }
 
 /*
@@ -24,12 +24,12 @@ MultiplyNode::~MultiplyNode() {
     =========
 */
 
-MultiplyNode* MultiplyNode::get_copy() {
-    MultiplyNode* ret = new MultiplyNode(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
+synthax::primitive::function::multiply* synthax::primitive::function::multiply::get_copy() {
+    multiply* ret = new multiply(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
     return ret;
 }
 
-void MultiplyNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::function::multiply::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     descendants[1]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[0]);
     for (unsigned i = 0; i < numSamples; i++) {
@@ -37,7 +37,7 @@ void MultiplyNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned 
     }
 }
 
-void MultiplyNode::update_mutated_params() {
-    FunctionNode::update_mutated_params();
-    intervalMultiply(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, descendants[1]->minimum, descendants[1]->maximum);
+void synthax::primitive::function::multiply::update_mutated_params() {
+    node::update_mutated_params();
+    synthax::helpers::intervalMultiply(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, descendants[1]->minimum, descendants[1]->maximum);
 }

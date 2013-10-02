@@ -1,21 +1,23 @@
-#ifndef ADDNODE_H
-#define ADDNODE_H
+#ifndef ADD_H
+#define ADD_H
 
-#include "FunctionNode.h"
+#include "../../node.h"
 
-class AddNode: public FunctionNode {
-public:
-    AddNode(node* zero, GPNode* one);
-    ~AddNode();
+namespace synthax{namespace primitive{namespace function{
+	class add : public node {
+	public:
+		add(node* zero, GPNode* one);
+		~add();
 
-	// overrides
-    AddNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		add* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-    // optional overrides
-	void update_mutated_params();
+		// optional overrides
+		void update_mutated_params();
 
-private:
-};
+	private:
+	};
+}}}
 
 #endif

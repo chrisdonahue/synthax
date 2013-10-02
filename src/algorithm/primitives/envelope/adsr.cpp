@@ -1,12 +1,12 @@
-#include "ADSREnvelopeNode.h"
+#include "adsr.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-ADSREnvelopeNode::ADSREnvelopeNode(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, node* signal)
+synthax::primitive::envelope::adsr::adsr(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, node* signal)
 {
     releaseFinished = false;
     framesInEnvelope = 0;
@@ -27,7 +27,7 @@ ADSREnvelopeNode::ADSREnvelopeNode(param* del, GPMutatableParam* atk, GPMutatabl
     symbol = "adsr*";
 }
 
-ADSREnvelopeNode::~ADSREnvelopeNode() {
+synthax::primitive::envelope::adsr::~adsr() {
     if (prepared_to_render) {
         free(envelope);
     }
@@ -35,29 +35,15 @@ ADSREnvelopeNode::~ADSREnvelopeNode() {
 
 /*
     =========
-    OVERRidES
+    overrides
     =========
 */
 
-ADSREnvelopeNode* ADSREnvelopeNode::get_copy() {
-    return new ADSREnvelopeNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), mutatableParams[4]->getCopy(), mutatableParams[5]->getCopy(), mutatableParams[6]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+synthax::primitive::envelope::adsr* synthax::primitive::envelope::adsr::get_copy() {
+    return new adsr(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), mutatableParams[4]->getCopy(), mutatableParams[5]->getCopy(), mutatableParams[6]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void ADSREnvelopeNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
-    done_rendering();
-    sampleRate = sr;
-    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
-}
-
-void ADSREnvelopeNode::done_rendering() {
-    if (prepared_to_render) {
-        sampleRate = 0;
-        free(envelope);
-    }
-    node::done_rendering();
-}
-
-void ADSREnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::envelope::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     // if frame number is within the envelope
     if (firstFrameNumber < framesInEnvelope)
         releaseFinished = false;
@@ -88,78 +74,5 @@ void ADSREnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsig
         for (unsigned i = 0; i < numSamples; i++) {
             buffer[i] = 0.0;
         }
-    }
-}
-
-void ADSREnvelopeNode::update_mutated_params() {
-    node::update_mutated_params();
-
-	// get minimum value for attack or sustain
-    float minAttackHeight = params[2]->get_cmin();
-    if (params[5]->get_cmin() < minAttackHeight)
-    	minAttackHeight = params[5]->get_cmin();
-    
-    // get maximum value for attack or sustain
-    float maxAttackHeight = params[2]->get_cmax();
-    if (params[5]->get_cmax() > maxAttackHeight)
-    	maxAttackHeight = params[5]->get_cmax();
-    
-    // update min/max of envelope ADSR 
-    intervalMultiply(&minimum, &maximum, minAttackHeight, maxAttackHeight, descendants[0]->minimum, descendants[0]->maximum);
-    
-    fillFromParams();
-}
-
-/*
-    ==============
-    CLASS SPECIFIC
-    ==============
-*/
-
-void ADSREnvelopeNode::fillFromParams() {
-	// update class values from mutatable params
-    delay = params[0]->get_cvalue();
-    delayFrames = delay * sampleRate;
-
-    attack = params[1]->get_cvalue();
-    attackFrames = delayFrames + attack * sampleRate;
-    attackheight = params[2]->get_cvalue();
-
-    decay = params[3]->get_cvalue();
-    decayFrames = attackFrames + decay * sampleRate;
-
-    sustain = params[4]->get_cvalue();
-    sustainFrames = decayFrames + sustain * sampleRate;
-    sustainheight = params[5]->get_cvalue();
-
-    release = params[6]->get_cvalue();
-    releaseFrames = sustainFrames + release * sampleRate;
-
-	// calculate the length of the envelope in frames
-    framesInEnvelope = (unsigned) (delay * sampleRate) + (unsigned) (attack * sampleRate) + (unsigned) (decay * sampleRate) + (unsigned) (sustain * sampleRate) + (unsigned) (release * sampleRate);
-
-	// if we are pre-rendering the buffer for efficiency do so here
-    envelope = (float*) malloc(sizeof(float) * framesInEnvelope);
-
-    // delay
-    unsigned framesFilled = 0;
-    for (unsigned i = 0; i < (unsigned) (delay * sampleRate); i++, framesFilled++) {
-        envelope[framesFilled] = 0.0;
-    }
-    // attack
-    for (unsigned i = 0; i < (unsigned) (attack * sampleRate); i++, framesFilled++) {
-        envelope[framesFilled] = (i / (attack * sampleRate)) * attackheight;
-    }
-    // decay
-    for (unsigned i = 0; i < (unsigned) (decay * sampleRate); i++, framesFilled++) {
-        envelope[framesFilled] = attackheight - ((i / (decay * sampleRate)) * (attackheight - sustainheight));
-    }
-    // sustain
-    for (unsigned i = 0; i < (unsigned) (sustain * sampleRate); i++, framesFilled++) {
-        envelope[framesFilled] = sustainheight;
-    }
-    // release
-    for (unsigned i = 0; i < (unsigned) (release * sampleRate); i++, framesFilled++) {
-        envelope[framesFilled]  = sustainheight - ((i / (release * sampleRate)) * (sustainheight));
     }
 }

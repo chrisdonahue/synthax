@@ -1,23 +1,20 @@
-#ifndef LFOENVELOPENODE_H
-#define LFOENVELOPENODE_H
+#ifndef ENVELOPE_LFO_H
+#define ENVELOPE_LFO_H
 
-#include "../../node.h"
+#include "../super/lfo.h"
 
-class LFOEnvelopeNode: public node {
-public:
-    LFOEnvelopeNode(param* rate, node* mod);
-    ~LFOEnvelopeNode();
+namespace synthax{namespace primitive{namespace envelope{
+	class lfo : public synthax::primitive::super::lfo
+	public:
+		lfo(param* rate, node* mod);
+		~lfo();
 
-	// overrides
-    LFOEnvelopeNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		lfo* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-    // optional overrides
-	void update_mutated_params();
-
-private:
-    float rate;
-    float w;
-};
+	private:
+	};
+}}}
 
 #endif

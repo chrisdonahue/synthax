@@ -1,7 +1,6 @@
 #ifndef TERMINAL_PIECEWISE_LINEAR_H
 #define TERMINAL_PIECEWISE_LINEAR_H
 
-#include "../../node.h"
 #include "../super/piecewise_linear.h"
 
 namespace synthax{namespace node{namespace terminal{

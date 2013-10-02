@@ -1,4 +1,4 @@
-#include "SwitchNode.h"
+#include "switcher.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-SwitchNode::SwitchNode(node* mod, GPNode* sigone, GPNode* sigtwo) {
+synthax::primitive::logic::switcher::switcher(node* mod, GPNode* sigone, GPNode* sigtwo) {
     arity = 3;
     descendants.push_back(mod);
     descendants.push_back(sigone);
@@ -15,7 +15,7 @@ SwitchNode::SwitchNode(node* mod, GPNode* sigone, GPNode* sigtwo) {
     symbol = "switch";
 }
 
-SwitchNode::~SwitchNode() {
+synthax::primitive::logic::switcher::~switcher() {
 }
 
 /*
@@ -24,11 +24,11 @@ SwitchNode::~SwitchNode() {
     =========
 */
 
-SwitchNode* SwitchNode::get_copy() {
-    return new SwitchNode(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
+synthax::primitive::logic::switcher* synthax::primitive::logic::switcher::get_copy() {
+    return new switcher(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
 }
 
-void SwitchNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::logic::switcher::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     descendants[1]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[0]);
     descendants[2]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[1]);
@@ -43,7 +43,7 @@ void SwitchNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned nu
     }
 }
 
-void SwitchNode::update_mutated_params() {
+void synthax::primitive::logic::switcher::update_mutated_params() {
     node::update_mutated_params();
 
     // update min/max values from descendants

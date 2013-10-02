@@ -1,22 +1,25 @@
-#ifndef COSINENODE_H
-#define COSINENODE_H
+#ifndef COSINE_H
+#define COSINE_H
+
+#include "../../node.h"
 
 #include <math.h>
-#include "FunctionNode.h"
 
-class CosineNode: public FunctionNode {
-public:
-    CosineNode(node* zero);
-    ~CosineNode();
+namespace synthax{namespace primitive{namespace function{
+	class cosine : public node {
+	public:
+		cosine(node* zero);
+		~cosine();
 
-	// overrides
-    CosineNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		cosine* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-    // optional overrides
-	void update_mutated_params();
+		// optional overrides
+		void update_mutated_params();
 
-private:
-};
+	private:
+	};
+}}}
 
 #endif

@@ -1,4 +1,4 @@
-#include "MixerNode.h"
+#include "mixer.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-MixerNode::MixerNode(node* mod, GPNode* sigone, GPNode* sigtwo) {
+synthax::primitive::logic::mixer::mixer(node* mod, GPNode* sigone, GPNode* sigtwo) {
     arity = 3;
     descendants.push_back(mod);
     descendants.push_back(sigone);
@@ -15,7 +15,7 @@ MixerNode::MixerNode(node* mod, GPNode* sigone, GPNode* sigtwo) {
     symbol = "mix";
 }
 
-MixerNode::~MixerNode() {
+synthax::primitive::logic::mixer::~mixer() {
 }
 
 /*
@@ -24,11 +24,11 @@ MixerNode::~MixerNode() {
     =========
 */
 
-MixerNode* MixerNode::get_copy() {
-    return new MixerNode(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
+synthax::primitive::logic::mixer* synthax::primitive::logic::mixer::get_copy() {
+    return new mixer(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
 }
 
-void MixerNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::logic::mixer::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     descendants[1]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[0]);
     descendants[2]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, descendant_buffers[1]);
@@ -39,12 +39,12 @@ void MixerNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned num
 	float level_two;
     for (unsigned i = 0; i < numSamples; i++) {
 		// map control signal to -1 to 1
-        continuousMapRange(-1.0f, 1.0f, controlMin, controlMax, &level_m, &level_b);
-        buffer[i] = (descendant_buffers[0][i] * level_one) + (descendantBuffers[1][i] * level_two);
+        synthax::helpers::continuousMapRange(-1.0f, 1.0f, controlMin, controlMax, &level_m, &level_b);
+        buffer[i] = (descendant_buffers[0][i] * level_one) + (descendant_buffers[1][i] * level_two);
     }
 }
 
-void MixerNode::update_mutated_params() {
+void synthax::primitive::logic::mixer::update_mutated_params() {
     node::update_mutated_params();
 
     // update min/max values from descendants
