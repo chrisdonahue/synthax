@@ -141,30 +141,30 @@ namespace synthax {
 		}
 
 		// null
-		void set_value_null() {
+		void set_val_null() {
 			instantiated = false;
 			value_null = true;
 		}
 
-		void set_minimum_null() {
+		void set_min_null() {
 			instantiated = false;
 			minimum_null = true;
 		}
 
-		void set_maximum_null() {
+		void set_max_null() {
 			instantiated = false;
 			maximum_null = true;
 		}
 
-		bool has_value_null() {
+		bool has_val_null() {
 			return value_null;
 		}
 
-		bool has_minimum_null() {
+		bool has_min_null() {
 			return minimum_null;
 		}
 
-		bool has_maximum_null() {
+		bool has_max_null() {
 			return maximum_null;
 		}
 

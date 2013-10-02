@@ -63,7 +63,7 @@ synthax::param* synthax::parser::create_mutatable_param(tokenizer_function_args,
 	// make sure we're not out of tokens
     unsigned tokens_remaining = tokens.size() - (*current_index);
 	if (tokens_remaining < 4) {
-		throw std::runtime_error("not enough tokens to create mutatable param");
+		throw std::runtime_error("not enough tokens remaining to create mutatable param");
 	}
 
     // get tokens
@@ -71,35 +71,61 @@ synthax::param* synthax::parser::create_mutatable_param(tokenizer_function_args,
     std::string minstr = tokens[consume];
     std::string valstr = tokens[consume];
     std::string maxstr = tokens[consume];
+	bool min_null = minstr.compare("null") == 0;
+	bool val_null = valstr.compare("null") == 0;
+	bool max_null = maxstr.compare("null") == 0;
+
+	// create potential error message
+	std::stringstream ss;
+    ss << "invalid mutatable param: " << "{" << tag << " " << minstr << " " << valstr << " " << maxstr << "}";
+	std::string error_str = ss.str();
+
+	// create return param
+	param* ret = NULL;
 
     // if the param is continuous
     if (tag.compare("c") == 0) {
         float min = (float) std::atof(minstr.c_str());
         float val = (float) std::atof(valstr.c_str());
         float max = (float) std::atof(maxstr.c_str());
-        if (min > val || val > max || min > max) {
-			std::stringstream ss;
-            ss << "invalid mutatable param: " << "{" << tag << " " << minstr << " " << valstr << " " << maxstr << "}";
-			throw std::runtime_error(ss.str().c_str());
+        if (min > val && !(min_null | val_null)) {
+			throw std::runtime_error(error_str.c_str());
         }
-        return new param(type, ismutatable, val, min, max);
+		if (val > max && !(val_null | max_null)) {
+			throw std::runtime_error(error_str.c_str());
+		}
+		if (min > max && !(min_null | max_null)) {
+			throw std::runtime_error(error_str.c_str());
+		}
+		ret = new param(type, ismutatable, val, min, max);
     }
     // else if the param is discrete
     else if (tag.compare("d") == 0) {
         int min = std::atoi(minstr.c_str());
         int val = std::atoi(valstr.c_str());
         int max = std::atoi(maxstr.c_str());
-        if (min > val || val > max || min > max) {
-			std::stringstream ss;
-            ss << "invalid mutatable param: " << "{" << tag << " " << minstr << " " << valstr << " " << maxstr << "}";
-			throw std::runtime_error(ss.str().c_str());
+        if (min > val && !(min_null | val_null)) {
+			throw std::runtime_error(error_str.c_str());
         }
-        return new param(type, ismutatable, val, min, max);
+		if (val > max && !(val_null | max_null)) {
+			throw std::runtime_error(error_str.c_str());
+		}
+		if (min > max && !(min_null | max_null)) {
+			throw std::runtime_error(error_str.c_str());
+		}
+        ret = new param(type, ismutatable, val, min, max);
     }
-    // else this isn't a mutatable param
-    else {
-        return NULL;
-    }
+
+	// set null values
+	if (min_null)
+		ret->set_min_null();
+	if (val_null)
+		ret->set_val_null();
+	if (max_null)
+		ret->set_max_null();
+	
+	// return valid or NULL param pointer
+	return ret;
 }
 
 /*
@@ -635,6 +661,11 @@ synthax::param* synthax::parser::create_mutatable_param(std::string param_string
 	}
 	catch (std::runtime_error e) {
 		*error_string = e.what();
+	}
+
+	// check to make sure there's no extra garbage at the end
+	if (index != tokens.size()) {
+		*error_string = "tokens remaining after successful parse";
 	}
 	return ret;
 }
