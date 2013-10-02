@@ -73,7 +73,7 @@ namespace synthax {
 
 			// recursively execute
 			for (unsigned i = 0; i < arity; i++) {
-				descendants[i]->set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
+				descendants[i]->set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
 			}
 
 			render_info_set = true;
