@@ -1,12 +1,12 @@
-#include "LFOTerminalNode.h"
+#include "lfo.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-LFOTerminalNode::LFOTerminalNode(param* rate)
+synthax::node::terminal::lfo::lfo(param* rate)
 {
     params.push_back(rate);
 
@@ -17,7 +17,7 @@ LFOTerminalNode::LFOTerminalNode(param* rate)
     symbol = "lfo";
 }
 
-LFOTerminalNode::~LFOTerminalNode() {
+synthax::node::terminal::lfo::~lfo() {
 }
 
 /*
@@ -26,23 +26,13 @@ LFOTerminalNode::~LFOTerminalNode() {
     =========
 */
 
-LFOTerminalNode* LFOTerminalNode::get_copy() {
-    return new LFOTerminalNode(params[0]->get_copy());
+synthax::node::terminal::lfo* synthax::node::terminal::lfo::get_copy() {
+    return new lfo(params[0]->get_copy());
 }
 
-void LFOTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::node::terminal::lfo::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     for (unsigned i = 0; i < numSamples; i++) {
         // produce a sine wave at LFO rate
         buffer[i] = sin(w * (sampleTimes[i]));
     }
-}
-
-void LFOTerminalNode::update_mutated_params() {
-    node::update_mutated_params();
-
-	// update angular frequency constant
-    rate = params[0]->get_value();
-    w = 2.0 * M_PI * rate;
-	
-    // minimum/maximum constant and declared in constructor
 }

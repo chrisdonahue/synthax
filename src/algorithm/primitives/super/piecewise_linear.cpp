@@ -1,61 +1,6 @@
-#include "SplineTerminalNode.h"
+#include "piecewise_linear.h"
 
-/*
-    ========================
-    construction/DESTRUCTION
-    ========================
-*/
-
-// points should always have something in it
-SplineTerminalNode::SplineTerminalNode(param* splinetype, GPMutatableParam* numsegments, std::vector<GPMutatableParam*>* pointsOrParams)
-{
-    assert(splinetype->is_unmutatable());
-    isPrimitive = (pointsOrParams->size() == 2 && numsegments->is_mutatable());
-    assert(isPrimitive || numsegments->is_unmutatable());
-
-    splineType = splinetype->get_dvalue();
-
-    params.push_back(splinetype);
-    params.push_back(numsegments);
-
-    if (isPrimitive) {
-    }
-    else {
-        numSegments = numsegments->get_dvalue();
-        assert(pointsOrParams->size() == (numSegments * 2) + 1);
-    }
-
-    for (unsigned i = 0; i < pointsOrParams->size(); i++) {
-        params.push_back(pointsOrParams->at(i));
-    }
-    delete pointsOrParams;
-
-    arity = 0;
-
-    symbol = "spline";
-}
-
-SplineTerminalNode::~SplineTerminalNode() {
-    done_rendering();
-}
-
-/*
-    =========
-    OVERRidES
-    =========
-*/
-
-SplineTerminalNode* SplineTerminalNode::get_copy() {
-    // make copies of spline points
-    std::vector<param*>* paramCopies = new std::vector<GPMutatableParam*>(params.size() - 2);
-    for (unsigned i = 2; i < params.size(); i++) {
-        paramCopies->at(i - 2) = params[i]->get_copy();
-    }
-
-    return new SplineTerminalNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), paramCopies);
-}
-
-void SplineTerminalNode::ephemeral_random(random* rng) {
+void synthax::node::super::piecewise_linear::ephemeral_random(random* rng) {
     // if this is a primitive spline then generate its points
     if (isPrimitive) {
         // randomize the number of points and lock it
@@ -98,7 +43,7 @@ void SplineTerminalNode::ephemeral_random(random* rng) {
     node::ephemeral_random(rng);
 }
 
-void SplineTerminalNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::node::super::piecewise_linear::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     assert(!isPrimitive);
     done_rendering();
     sampleRate = sr;
@@ -107,7 +52,7 @@ void SplineTerminalNode::set_render_info(float sr, unsigned block_size, unsigned
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void SplineTerminalNode::done_rendering() {
+void synthax::node::super::piecewise_linear::done_rendering() {
     if (prepared_to_render) {
         sampleRate = 0;
         free(envelope);
@@ -115,14 +60,7 @@ void SplineTerminalNode::done_rendering() {
     node::done_rendering();
 }
 
-void SplineTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
-    // copy envelope into buffer
-    for (unsigned bi = 0, ei = firstFrameNumber; bi < numSamples; bi++, ei++) {
-        buffer[bi] = envelope[ei];
-    }
-}
-
-void SplineTerminalNode::update_mutated_params() {
+void synthax::node::super::piecewise_linear::update_mutated_params() {
     node::update_mutated_params();
 
     assert(!isPrimitive);
@@ -150,7 +88,7 @@ void SplineTerminalNode::update_mutated_params() {
     ==============
 */
 
-void SplineTerminalNode::fillFromParams() {
+void synthax::node::super::piecewise_linear::fillFromParams() {
     if (splineType == 0) {
         unsigned currentFrame = 0;
         unsigned usedPoints = 0;

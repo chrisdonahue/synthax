@@ -1,18 +1,20 @@
-#ifndef SILENCENODE_H
-#define SILENCENODE_H
+#ifndef SILENCE_H
+#define SILENCE_H
 
 #include "../../node.h"
 
-class SilenceNode: public node {
-public:
-    SilenceNode();
-    ~SilenceNode();
+namespace synthax{namespace node{namespace terminal{
+	class silence : public node {
+	public:
+		silence();
+		~silence();
 
-	// overrides
-    SilenceNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		silence* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-private:
-};
+	private:
+	};
+}}}
 
 #endif

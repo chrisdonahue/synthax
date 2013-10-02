@@ -1,9 +1,9 @@
 #include "input_static.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
 synthax::node::terminal::input_static::input_static(param* vn, param* range) {
@@ -26,12 +26,12 @@ synthax::node::terminal::input_static::~input_static() {
 
 /*
     =========
-    OVERRidES
+    overrides
     =========
 */
 
-input_static* synthax::node::terminal::input_static::get_copy() {
-    return new input_static(params[0]->get_copy(), mutatableParams[1]->get_copy());
+synthax::node::terminal::input_static* synthax::node::terminal::input_static::get_copy() {
+    return new input_static(params[0]->get_copy(), params[1]->get_copy());
 }
 
 void synthax::node::terminal::input_static::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

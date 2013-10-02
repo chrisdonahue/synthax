@@ -1,18 +1,18 @@
-#include "SilenceNode.h"
+#include "silence.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-SilenceNode::SilenceNode() {
+synthax::node::terminal::silence::silence() {
     arity = 0;
 
     symbol = "silence";
 }
 
-SilenceNode::~SilenceNode() {
+synthax::node::terminal::silence::~silence() {
 }
 
 /*
@@ -21,11 +21,11 @@ SilenceNode::~SilenceNode() {
     =========
 */
 
-SilenceNode* SilenceNode::get_copy() {
-    return new SilenceNode();
+synthax::node::terminal::silence* synthax::node::terminal::silence::get_copy() {
+    return new silence();
 }
 
-void SilenceNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::node::terminal::silence::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;

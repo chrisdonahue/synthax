@@ -1,4 +1,4 @@
-#include "TimeNode.h"
+#include "time.h"
 
 /*
     ========================
@@ -6,13 +6,13 @@
     ========================
 */
 
-TimeNode::TimeNode() {
+synthax::node::terminal::time::time() {
     arity = 0;
 
     symbol = "time";
 }
 
-TimeNode::~TimeNode() {
+synthax::node::terminal::time::~time() {
 }
 
 /*
@@ -21,22 +21,22 @@ TimeNode::~TimeNode() {
     =========
 */
 
-TimeNode* TimeNode::get_copy() {
-    return new TimeNode();
+synthax::node::terminal::time* synthax::node::terminal::time::get_copy() {
+    return new time();
 }
 
-void TimeNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::node::terminal::time::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     maximum = max_frame_start_time;
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void TimeNode::done_rendering() {
-    if (renderInfoSet) {
+void synthax::node::terminal::time::done_rendering() {
+    if (render_info_set) {
         maximum = 0.0;
     }
 }
 
-void TimeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::node::terminal::time::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     firstFrameNumber;
     numConstantVariables;
     constantVariables;

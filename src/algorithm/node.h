@@ -1,6 +1,10 @@
 #ifndef NODE_H
 #define NODE_H
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #include "../common/helpers.h"
 #include "../common/random.h"
 #include "param.h"

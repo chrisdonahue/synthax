@@ -1,23 +1,18 @@
-#ifndef LFOTERMINALNODE_H
-#define LFOTERMINALNODE_H
+#ifndef LFO_H
+#define LFO_H
 
 #include "../../node.h"
 
-class LFOTerminalNode: public node {
-public:
-    LFOTerminalNode(param* rate);
-    ~LFOTerminalNode();
+namespace synthax{namespace node{namespace super{
+	class lfo : public node {
+	public:
+		// optional overrides
+		void update_mutated_params();
 
-	// overrides
-    LFOTerminalNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
-
-    // optional overrides
-	void update_mutated_params();
-
-private:
-    float rate;
-    double w;
-};
+	private:
+		float rate;
+		double w;
+	};
+}}}
 
 #endif
