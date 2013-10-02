@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2012
+Project("{CFA0EDD5-8D90-CB40-9D54-C1A8E3F43892}") = "synthax", "synthax.vcxproj", "{4D9C00CE-7547-7956-9459-B7B3CE129189}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D9C00CE-7547-7956-9459-B7B3CE129189}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4D9C00CE-7547-7956-9459-B7B3CE129189}.Debug|Win32.Build.0 = Debug|Win32
+		{4D9C00CE-7547-7956-9459-B7B3CE129189}.Release|Win32.ActiveCfg = Release|Win32
+		{4D9C00CE-7547-7956-9459-B7B3CE129189}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
