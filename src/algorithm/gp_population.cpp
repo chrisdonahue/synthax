@@ -1,4 +1,4 @@
-#include "GPSynth.h"
+#include "gp_population.h"
 
 /*
    ============
@@ -6,7 +6,7 @@
    ============
 */
 
-GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, random* rng, std::vector<node*>* primitives) :
+synthax::gp_population::gp_population(logger* logger, gp_population_params* params, random* rng, std::vector<node*>* primitives) :
     logger(logger),
     params(params), rng(rng), availablePrimitives(primitives),
     allNetworks(), unevaluated(), evaluated(), currentGeneration(),
@@ -49,7 +49,7 @@ GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, random* rng, std::vect
     printGenerationDelim();
 }
 
-GPSynth::~GPSynth() {
+synthax::gp_population::~gp_population() {
     clearGenerationState();
     for (unsigned i = 0; i < availablePrimitives->size(); i++) {
         delete availablePrimitives->at(i);
@@ -62,7 +62,7 @@ GPSynth::~GPSynth() {
     delete champ;
 }
 
-node* GPSynth::fullRecursive(unsigned cd, unsigned d) {
+node* synthax::gp_population::fullRecursive(unsigned cd, unsigned d) {
     if (cd == d) {
         node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
         return term;
@@ -76,11 +76,11 @@ node* GPSynth::fullRecursive(unsigned cd, unsigned d) {
     }
 }
 
-algorithm* GPSynth::full(unsigned d) {
+algorithm* synthax::gp_population::full(unsigned d) {
     return new algorithm(fullRecursive(0, d), "full");
 }
 
-node* GPSynth::growRecursive(unsigned cd, unsigned m) {
+node* synthax::gp_population::growRecursive(unsigned cd, unsigned m) {
     if (cd == m) {
         node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
         return term;
@@ -103,11 +103,11 @@ node* GPSynth::growRecursive(unsigned cd, unsigned m) {
     }
 }
 
-algorithm* GPSynth::grow(unsigned m) {
+algorithm* synthax::gp_population::grow(unsigned m) {
     return new algorithm(growRecursive(0, m), "grow");
 }
 
-void GPSynth::initPopulation() {
+void synthax::gp_population::initPopulation() {
     logger->log << "Initializing population of size " << populationSize << std::flush;
 
 	// if maxInitialHeight is 0 we just want a single terminal
@@ -167,7 +167,7 @@ void GPSynth::initPopulation() {
    =================
 */
 
-algorithm* GPSynth::getIndividual() {
+algorithm* synthax::gp_population::getIndividual() {
     // if no more networks remain advance population
     if (unevaluated.empty()) {
         nextGeneration();
@@ -179,7 +179,7 @@ algorithm* GPSynth::getIndividual() {
     return ret;
 }
 
-void GPSynth::getIndividuals(std::vector<algorithm*>& networks) {
+void synthax::gp_population::getIndividuals(std::vector<algorithm*>& networks) {
     // if no more networks remain advance population
     if (unevaluated.empty()) {
         nextGeneration();
@@ -202,7 +202,7 @@ void GPSynth::getIndividuals(std::vector<algorithm*>& networks) {
 	std::sort(networks.begin(), networks.end(), compare_algorithms_by_id);
 }
 
-algorithm* GPSynth::growNewIndividual(unsigned maxHeight) {
+algorithm* synthax::gp_population::growNewIndividual(unsigned maxHeight) {
 	algorithm* nu = grow(maxHeight);
 	if (params->erc)
 		nu->ephemeral_random(rng);
@@ -210,7 +210,7 @@ algorithm* GPSynth::growNewIndividual(unsigned maxHeight) {
 	return nu;
 }
 
-bool GPSynth::replaceIndividual(algorithm* old, algorithm* nu) {
+bool synthax::gp_population::replaceIndividual(algorithm* old, algorithm* nu) {
 	// check if old is already evaluated
 	if (evaluated.find(old) != evaluated.end()) {
         logger->error << "Tried replacing population individual that had already been evaluated" << std::flush;
@@ -262,7 +262,7 @@ bool GPSynth::replaceIndividual(algorithm* old, algorithm* nu) {
 	return true;
 }
 
-int GPSynth::assignFitness(algorithm* net, double fitness) {
+int synthax::gp_population::assignFitness(algorithm* net, double fitness) {
     // assign network fitness and move it to evaluated
     net->fitness = fitness;
     unevaluated.erase(net);
@@ -281,7 +281,7 @@ int GPSynth::assignFitness(algorithm* net, double fitness) {
     return numStillNeedingEvaluation;
 }
 
-int GPSynth::prevGeneration() {
+int synthax::gp_population::prevGeneration() {
 	// check to see we're not at generation 1
     if (currentGenerationNumber == 0) {
         logger->error << "Attempted to revert to a previous generation during generation 0" << std::flush;
@@ -327,11 +327,11 @@ int GPSynth::prevGeneration() {
     return currentGenerationNumber;
 }
 
-void GPSynth::printGenerationDelim() {
+void synthax::gp_population::printGenerationDelim() {
     logger->log << "------------------------- START OF GENERATION " << currentGenerationNumber << " -------------------------" << std::flush;
 }
 
-void GPSynth::endGeneration() {
+void synthax::gp_population::endGeneration() {
     assert(currentGenerationAlive);
 
     // parse assigned fitnesses
@@ -384,12 +384,12 @@ void GPSynth::endGeneration() {
     currentGenerationAlive = false;
 }
 
-void GPSynth::printGenerationSummary() {
+void synthax::gp_population::printGenerationSummary() {
     // print generation summary
     logger->log << "Generation " << currentGenerationNumber << " had average fitness " << generationAverageFitness << " and best fitness " << generationBestFitness << " attained by algorithm " << generationChamp->id << " made by " << generationChamp->origin << " with height " << generationChamp->height << " and structure " << logger->net_to_string_print(generationChamp) << std::flush;
 }
 
-void GPSynth::printEvolutionSummary() {
+void synthax::gp_population::printEvolutionSummary() {
     float numEvaluatedGenerations = (float) currentGenerationNumber + (evaluated.size() / populationSize);
 
     logger->log << "-------------------------------- SUMMARY --------------------------------" << std::flush;
@@ -399,13 +399,13 @@ void GPSynth::printEvolutionSummary() {
     }
 }
 
-void GPSynth::getCurrentGeneration(std::vector<algorithm*>& networks) {
+void synthax::gp_population::getCurrentGeneration(std::vector<algorithm*>& networks) {
     for (int i = 0; i < populationSize; i++) {
         networks.push_back(currentGeneration[i]);
     }
 }
 
-int GPSynth::nextGeneration() {
+int synthax::gp_population::nextGeneration() {
     assert(!currentGenerationAlive);
     assert(evaluated.size() == rawFitnesses.size());
     assert(evaluated.size() == populationSize);
@@ -543,7 +543,7 @@ int GPSynth::nextGeneration() {
     return currentGenerationNumber;
 }
 
-void GPSynth::calculateGenerationRanks() {
+void synthax::gp_population::calculateGenerationRanks() {
     for (unsigned i = 0; i < populationSize; i++) {
         rank[i] = currentGeneration[i];
     }
@@ -553,7 +553,7 @@ void GPSynth::calculateGenerationRanks() {
         std::sort(rank.begin(), rank.end(), compareFitnessesHigher);
 }
 
-void GPSynth::calculateGenerationNormalizedFitnesses() {
+void synthax::gp_population::calculateGenerationNormalizedFitnesses() {
     // STANDARDIZE FITNESS
     std::vector<double>* standardizedFitnesses;
     if (lowerFitnessIsBetter) {
@@ -594,7 +594,7 @@ void GPSynth::calculateGenerationNormalizedFitnesses() {
    =======
 */
 
-void GPSynth::addNetworkToPopulation(algorithm* net) {
+void synthax::gp_population::addNetworkToPopulation(algorithm* net) {
     int oldid = -1;
     if (net->fitness != -1) {
         oldid = net->id;
@@ -615,7 +615,7 @@ void GPSynth::addNetworkToPopulation(algorithm* net) {
     }
 }
 
-void GPSynth::clearGenerationState() {
+void synthax::gp_population::clearGenerationState() {
     // delete all networks from last generation
     for (std::set<algorithm*>::iterator i = unevaluated.begin(); i != unevaluated.end(); i++) {
         delete (*i);
@@ -638,7 +638,7 @@ void GPSynth::clearGenerationState() {
     rank.resize(populationSize, NULL);
 }
 
-algorithm* GPSynth::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
+algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
     //http://en.wikipedia.org/wiki/Selection_%28genetic_algorithm%29
     assert(rawFitnesses.size() == populationSize && normalizedFitnesses.size() == populationSize);
     if (selectionType == 0 && normalizedFitnesses[0] == -1) {
@@ -691,7 +691,7 @@ algorithm* GPSynth::selectFromEvaluated(unsigned selectionType, unsigned paramet
     =========
 */
 
-algorithm* GPSynth::crossover(unsigned crossoverType, algorithm* one, GPNetwork* two) {
+algorithm* synthax::gp_population::crossover(unsigned crossoverType, algorithm* one, GPNetwork* two) {
     if (crossoverType == 0) {
         // standard GP crossover
         node* subtreeone = one->get_random_network_node(rng);
@@ -727,7 +727,7 @@ algorithm* GPSynth::crossover(unsigned crossoverType, algorithm* one, GPNetwork*
     return NULL;
 }
 
-void GPSynth::mutate(unsigned mutationType, algorithm* one) {
+void synthax::gp_population::mutate(unsigned mutationType, algorithm* one) {
     if (mutationType == 0) {
         // pick old subtree
         node* forReplacement = one->get_random_network_node(rng);
@@ -750,7 +750,7 @@ void GPSynth::mutate(unsigned mutationType, algorithm* one) {
     }
 }
 
-void GPSynth::numericallyMutate(algorithm* one) {
+void synthax::gp_population::numericallyMutate(algorithm* one) {
     //std::cout << "BEFORE NUMERIC MUTATION " << one->to_string(3) << std::endl;
     double bestProportion = generationBestFitness / generationAverageFitness;
     double temperatureConstant = params->nm_temperature;
@@ -784,7 +784,7 @@ void GPSynth::numericallyMutate(algorithm* one) {
     //std::cout << "AFTER NUMERIC MUTATION " << one->to_string(3) << std::endl;
 }
 
-algorithm* GPSynth::newIndividual(unsigned new_type) {
+algorithm* synthax::gp_population::newIndividual(unsigned new_type) {
     if (new_type == 0) {
         algorithm* newnet = grow(params->max_initial_height);
         if (params->erc)

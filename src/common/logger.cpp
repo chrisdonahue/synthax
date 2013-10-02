@@ -1,12 +1,12 @@
-#include "GPLogger.h"
+#include "logger.h"
 
 #include <cassert>
 
 /*
-    GPLog
+    log
 */
 
-GPLog::GPLog(GPLogParams* params, std::string output_file_path, std::size_t buff_sz) :
+log::log(log_params* params, std::string output_file_path, std::size_t buff_sz) :
     params(params), do_forward(false),
     sink_(), buffer_(buff_sz + 1)
 {
@@ -22,17 +22,17 @@ GPLog::GPLog(GPLogParams* params, std::string output_file_path, std::size_t buff
     setp(base, base + buffer_.size() - 1);
 }
 
-GPLog::~GPLog()
+log::~log()
 {
     log_file_stream.close();
 }
 
-void GPLog::set_forward(std::ostream* f) {
+void log::set_forward(std::ostream* f) {
     do_forward = true;
     forward = f;
 }
 
-GPLog::int_type GPLog::overflow(int_type ch)
+log::int_type log::overflow(int_type ch)
 {
     if (sink_ && ch != EOF)
     {
@@ -46,12 +46,12 @@ GPLog::int_type GPLog::overflow(int_type ch)
     return EOF;
 }
 
-int GPLog::sync()
+int log::sync()
 {
     return forward_and_flush() ? 0 : -1;
 }
 
-bool GPLog::forward_and_flush()
+bool log::forward_and_flush()
 {
     char* p = pbase();
     *(pptr()) = '\0';
@@ -75,10 +75,10 @@ bool GPLog::forward_and_flush()
 }
 
 /*
-    GPLogger
+    logger
 */
 
-GPLogger::GPLogger(GPLoggerParams* params, std::string seed_string, std::string output_dir_path) :
+logger::logger(logger_params* params, std::string seed_string, std::string output_dir_path) :
     params(params), seed_string(seed_string),
     log_buff(params->log_params, output_dir_path + seed_string + ".log"),
     verbose_buff(params->verbose_params, output_dir_path + seed_string + ".log.verbose"),
@@ -98,27 +98,27 @@ GPLogger::GPLogger(GPLoggerParams* params, std::string seed_string, std::string 
     error.precision(params->log_precision);
 }
 
-GPLogger::~GPLogger() {
+logger::~logger() {
 }
 
-std::string GPLogger::get_seed_string() {
+std::string logger::get_seed_string() {
     return seed_string;
 }
 
-std::string GPLogger::net_to_string_print(algorithm* net) {
+std::string logger::net_to_string_print(synthax::algorithm* net) {
     return net->to_string(params->print_net_precision);
 }
 
-std::string GPLogger::net_to_string_save(algorithm* net) {
+std::string logger::net_to_string_save(synthax::algorithm* net) {
     return net->to_string(params->save_net_precision);
 }
 
-std::string GPLogger::param_to_string_print(param* param) {
+std::string logger::param_to_string_print(param* param) {
     return param->to_string(params->print_net_precision);
 }
 
 #ifndef _WIN32
-std::string GPLogger::get_system_info() {
+std::string logger::get_system_info() {
     std::stringstream stream;
 
     // print time/date

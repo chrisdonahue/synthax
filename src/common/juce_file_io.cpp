@@ -1,4 +1,4 @@
-#include "JUCEFileIO.h"
+#include "juce_file_io.h"
 
 /*
     =============
@@ -6,7 +6,7 @@
     =============
 */
 
-void JUCEFileIO::get_wav_file_metadata(std::string path, unsigned long* num_frames, unsigned* bits_per_sample, double* length_seconds, double* sampling_frequency, double* nyquist_frequency) {
+void juce_file_io::get_wav_file_metadata(std::string path, unsigned long* num_frames, unsigned* bits_per_sample, double* length_seconds, double* sampling_frequency, double* nyquist_frequency) {
     using namespace juce;
     File input(path);
     if (!(input.existsAsFile())) {
@@ -27,7 +27,7 @@ void JUCEFileIO::get_wav_file_metadata(std::string path, unsigned long* num_fram
     *nyquist_frequency = (*sampling_frequency) / 2;
 }
 
-void JUCEFileIO::load_wav_file(std::string path, unsigned chunk_size, unsigned num_frames, float* buffer) {
+void juce_file_io::load_wav_file(std::string path, unsigned chunk_size, unsigned num_frames, float* buffer) {
     File input(path);
     if (!(input.existsAsFile())) {
         std::cerr << "Invalid input file: " << path << std::endl;
@@ -44,7 +44,7 @@ void JUCEFileIO::load_wav_file(std::string path, unsigned chunk_size, unsigned n
     memcpy(buffer, chanData, sizeof(float) * num_frames);
 }
 
-void JUCEFileIO::save_wav_file(std::string path, std::string desc, std::string origin, double sample_rate, unsigned chunk_size, unsigned num_frames, float* data) {
+void juce_file_io::save_wav_file(std::string path, std::string desc, std::string origin, double sample_rate, unsigned chunk_size, unsigned num_frames, float* data) {
     File output(path);
     if (output.existsAsFile()) {
         output.deleteFile();
@@ -79,7 +79,7 @@ void JUCEFileIO::save_wav_file(std::string path, std::string desc, std::string o
     ==============
 */
 
-void JUCEFileIO::save_text_file(std::string path, std::string text) {
+void juce_file_io::save_text_file(std::string path, std::string text) {
     File output(path);
     if (output.existsAsFile()) {
         output.deleteFile();
@@ -88,7 +88,7 @@ void JUCEFileIO::save_text_file(std::string path, std::string text) {
     output.replaceWithText(text);
 }
 
-void JUCEFileIO::append_to_text_file(std::string path, std::string text) {
+void juce_file_io::append_to_text_file(std::string path, std::string text) {
     File output(path);
     if (!output.existsAsFile()) {
 		output.create();
@@ -96,7 +96,7 @@ void JUCEFileIO::append_to_text_file(std::string path, std::string text) {
     output.appendText(text);
 }
 
-std::string JUCEFileIO::read_text_from_file(std::string path) {
+std::string juce_file_io::read_text_from_file(std::string path) {
     File input(path);
     if (!input.existsAsFile()) {
 		return "";

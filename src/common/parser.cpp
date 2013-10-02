@@ -1,13 +1,13 @@
-#include "GPParser.h"
+#include "parser.h"
 
 /*
     =========
-    TOKENIZER
+    tokenizer
     =========
 */
 
 // http://stackoverflow.com/a/236803
-std::vector<std::string> &split(const std::string &s, std::vector<std::string> &elems, const char* delims) {
+std::vector<std::string>& synthax::parser::split(const std::string &s, std::vector<std::string> &elems, const char* delims) {
     std::size_t prev = 0, pos;
     while ((pos = s.find_first_of(delims, prev)) != std::string::npos)
     {
@@ -18,31 +18,31 @@ std::vector<std::string> &split(const std::string &s, std::vector<std::string> &
     return elems;
 }
 
-std::vector<std::string> split(const std::string &s, const char* delims) {
+std::vector<std::string> synthax::parser::split(const std::string &s, const char* delims) {
     std::vector<std::string> elems;
     split(s, elems, delims);
     return elems;
 }
 
 /*
-    ====================
-    S-EXPRESSION PARSING
-    ====================
+    ======
+    parser
+    ======
 */
 
-std::vector<param*> parseMutatableParams(tokenizerFunctionArgs) {
+std::vector<param*> synthax::parser::parse_mutatable_params(tokenizer_function_args) {
     std::vector<param*> ret;
-    unsigned tokens_remaining = tokens.size() - (*currentIndex);
+    unsigned tokens_remaining = tokens.size() - (*current_index);
     param* current = NULL;
 
     // if we have at least 4 tokens remaining
     while (tokens_remaining >= 4) {
         // try to make a mutatable param
-        current = createMutatableParam(tokenizerArgs, "", true);
+        current = create_mutatable_param(tokenizer_args, "", true);
 
         // if bad parse reset the tokenizer position and break
         if (current == NULL) {
-            *currentIndex -= 4;
+            *current_index -= 4;
             break;
         }
 
@@ -52,16 +52,16 @@ std::vector<param*> parseMutatableParams(tokenizerFunctionArgs) {
         }
         
         // update number of tokens remaining
-        tokens_remaining = tokens.size() - (*currentIndex);
+        tokens_remaining = tokens.size() - (*current_index);
     }
 
     // return the list of mutatable params
     return ret;
 }
 
-param* createMutatableParam(tokenizerFunctionArgs, std::string type, bool ismutatable) {
+param* synthax::parser::create_mutatable_param(tokenizer_function_args, std::string type, bool ismutatable) {
 	// make sure we're not out of tokens
-    unsigned tokens_remaining = tokens.size() - (*currentIndex);
+    unsigned tokens_remaining = tokens.size() - (*current_index);
 	if (tokens_remaining < 4) {
 		throw std::runtime_error("not enough tokens to create mutatable param");
 	}
@@ -106,18 +106,18 @@ param* createMutatableParam(tokenizerFunctionArgs, std::string type, bool ismuta
 	returns true for a successful parse, false for an unsuccessful parse
 */
 
-void parseChild(tokenizerFunctionArgs, node** child) {
+void synthax::parser::parse_child(tokenizer_function_args, node** child) {
 	// make sure we're not out of tokens
-    unsigned tokens_remaining = tokens.size() - (*currentIndex);
+    unsigned tokens_remaining = tokens.size() - (*current_index);
 	if (tokens_remaining <= 0) {
 		throw std::runtime_error("no node found where one was expected");
 	}
 
 	// cache the type of the upcoming child to check later if it was intentionally null
-	std::string child_type = tokens[*currentIndex];
+	std::string child_type = tokens[*current_index];
 
 	// create the child and deref the return value
-	*child = createNode(tokenizerArgs);
+	*child = create_node(tokenizer_args);
 	
 	// check if return child null and return successful parse if it was intentional
 	if (*child == NULL) {
@@ -127,9 +127,9 @@ void parseChild(tokenizerFunctionArgs, node** child) {
 	}
 }
 
-node* createNode(tokenizerFunctionArgs) {
+node* synthax::parser::create_node(tokenizer_function_args) {
     // check to make sure we have a type token
-    unsigned tokens_remaining = tokens.size() - (*currentIndex);
+    unsigned tokens_remaining = tokens.size() - (*current_index);
     if (tokens_remaining <= 0) {
         throw std::runtime_error("no node found where one was expected");
     }
@@ -138,7 +138,7 @@ node* createNode(tokenizerFunctionArgs) {
     std::string type = tokens[consume];
 
     // parse mutatable params list
-    std::vector<param*> params = parseMutatableParams(tokenizerArgs);
+    std::vector<param*> params = parse_mutatable_params(tokenizer_args);
 
     // ADSR nodes
     if (type.compare("adsr") == 0) {
@@ -168,7 +168,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[6]->set_type("adsr_envelope_release");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new ADSREnvelopeNode(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
     }
@@ -195,7 +195,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("gain_value");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new GainNode(params[0], signal);
     }
@@ -206,10 +206,10 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
         
 		node* signalone;
-		parseChild(tokenizerArgs, &signalone);
+		parse_child(tokenizer_args, &signalone);
 
         return new AddNode(signalzero, signalone);
     }
@@ -219,10 +219,10 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
         
 		node* signalone;
-		parseChild(tokenizerArgs, &signalone);
+		parse_child(tokenizer_args, &signalone);
 
         return new SubtractNode(signalzero, signalone);
     }
@@ -232,10 +232,10 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
         
 		node* signalone;
-		parseChild(tokenizerArgs, &signalone);
+		parse_child(tokenizer_args, &signalone);
 
         return new MultiplyNode(signalzero, signalone);
     }
@@ -245,7 +245,7 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
        
         return new SineNode(signalzero);
     }
@@ -255,7 +255,7 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
        
         return new CosineNode(signalzero);
     }
@@ -275,7 +275,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("lfo_envelope_rate");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new LFOEnvelopeNode(params[0], signal);
     }
@@ -286,13 +286,13 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* control;
-		parseChild(tokenizerArgs, &control);
+		parse_child(tokenizer_args, &control);
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
         
 		node* signalone;
-		parseChild(tokenizerArgs, &signalone);
+		parse_child(tokenizer_args, &signalone);
 
         return new SwitchNode(control, signalzero, signalone);
     }
@@ -302,13 +302,13 @@ node* createNode(tokenizerFunctionArgs) {
         }
 
 		node* control;
-		parseChild(tokenizerArgs, &control);
+		parse_child(tokenizer_args, &control);
 
 		node* signalzero;
-		parseChild(tokenizerArgs, &signalzero);
+		parse_child(tokenizer_args, &signalzero);
         
 		node* signalone;
-		parseChild(tokenizerArgs, &signalone);
+		parse_child(tokenizer_args, &signalone);
 
         return new MixerNode(control, signalzero, signalone);
     }
@@ -332,7 +332,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[3]->set_type("am_alpha");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new AMNode(params[0], params[1], params[2], params[3], signal);
     }
@@ -346,7 +346,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[2]->set_type("pm_index");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new PMNode(params[0], params[1], params[2], signal);
     }
@@ -358,7 +358,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("sinfreqosc_phase");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new SinFreqOscNode(params[0], signal);
     }
@@ -369,7 +369,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("sawfreqosc_phase");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new SawFreqOscNode(params[0], signal);
     }
@@ -380,7 +380,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("squarefreqosc_phase");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new SquareFreqOscNode(params[0], signal);
     }
@@ -391,7 +391,7 @@ node* createNode(tokenizerFunctionArgs) {
         params[0]->set_type("trianglefreqosc_phase");
 
 		node* signal;
-		parseChild(tokenizerArgs, &signal);
+		parse_child(tokenizer_args, &signal);
 
         return new TriangleFreqOscNode(params[0], signal);
     }
@@ -468,7 +468,7 @@ node* createNode(tokenizerFunctionArgs) {
             splinepoints->push_back(params[3]);
 
             node* signal;
-            parseChild(tokenizerArgs, &signal);
+            parse_child(tokenizer_args, &signal);
 
             return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
         }
@@ -497,7 +497,7 @@ node* createNode(tokenizerFunctionArgs) {
             splinepoints->push_back(params[currentParam]);
 
             node* signal;
-            parseChild(tokenizerArgs, &signal);
+            parse_child(tokenizer_args, &signal);
 
             return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
         }
@@ -585,7 +585,7 @@ node* createNode(tokenizerFunctionArgs) {
     ===========
 */
 
-node* createNode(const std::string node_string, std::string* error_string) {
+node* synthax::parser::create_node(const std::string node_string, std::string* error_string) {
     // init return values
 	node* ret = NULL;
 	*error_string = "";
@@ -600,7 +600,7 @@ node* createNode(const std::string node_string, std::string* error_string) {
 
     // try to create a node, catching runtime errors 
 	try {
-		ret = createNode(tokens, &index);
+		ret = create_node(tokens, &index);
 	}
 	catch (std::runtime_error e) {
 		*error_string = e.what();
@@ -608,7 +608,7 @@ node* createNode(const std::string node_string, std::string* error_string) {
 	return ret;
 }
 
-param* createMutatableParam(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
+param* synthax::parser::create_mutatable_param(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
     // init return values
 	param* ret = NULL;
 	*error_string = "";
@@ -623,7 +623,7 @@ param* createMutatableParam(std::string param_string, std::string type, bool ism
 
     // try to create a node, catching runtime errors 
 	try {
-		ret = createMutatableParam(tokens, &index, type, ismutatable);
+		ret = create_mutatable_param(tokens, &index, type, ismutatable);
 	}
 	catch (std::runtime_error e) {
 		*error_string = e.what();

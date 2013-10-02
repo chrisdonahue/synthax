@@ -1,12 +1,12 @@
-#include "ADSRTerminalNode.h"
+#include "adsr.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-ADSRTerminalNode::ADSRTerminalNode(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel)
+synthax::terminal::adsr::adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel)
 {
     releaseFinished = false;
     framesInEnvelope = 0;
@@ -26,7 +26,7 @@ ADSRTerminalNode::ADSRTerminalNode(param* del, GPMutatableParam* atk, GPMutatabl
     symbol = "adsr";
 }
 
-ADSRTerminalNode::~ADSRTerminalNode() {
+synthax::terminal::adsr::~adsr() {
     if (prepared_to_render) {
         free(envelope);
     }
@@ -38,17 +38,17 @@ ADSRTerminalNode::~ADSRTerminalNode() {
     =========
 */
 
-ADSRTerminalNode* ADSRTerminalNode::get_copy() {
-    return new ADSRTerminalNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), mutatableParams[4]->getCopy(), mutatableParams[5]->getCopy(), mutatableParams[6]->getCopy());
+synthax::terminal::adsr* synthax::terminal::adsr::get_copy() {
+    return new adsr(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), params[4]->get_copy(), params[5]->get_copy(), params[6]->get_copy());
 }
 
-void ADSRTerminalNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::terminal::adsr::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     done_rendering();
     sampleRate = sr;
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void ADSRTerminalNode::done_rendering() {
+void synthax::terminal::adsr::done_rendering() {
     if (prepared_to_render) {
         sampleRate = 0;
         free(envelope);
@@ -56,7 +56,7 @@ void ADSRTerminalNode::done_rendering() {
     node::done_rendering();
 }
 
-void ADSRTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::terminal::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     // if frame number is within the envelope
     if (firstFrameNumber < framesInEnvelope)
         releaseFinished = false;
@@ -87,7 +87,7 @@ void ADSRTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsig
     }
 }
 
-void ADSRTerminalNode::update_mutated_params() {
+void synthax::terminal::adsr::update_mutated_params() {
     node::update_mutated_params();
 
 	// get minimum value for attack or sustain
@@ -109,11 +109,11 @@ void ADSRTerminalNode::update_mutated_params() {
 
 /*
     ==============
-    CLASS SPECIFIC
+    class specific
     ==============
 */
 
-void ADSRTerminalNode::fillFromParams() {
+void synthax::terminal::adsr::fillFromParams() {
 	// update class values from mutatable params
     delay = params[0]->get_cvalue();
     delayFrames = delay * sampleRate;

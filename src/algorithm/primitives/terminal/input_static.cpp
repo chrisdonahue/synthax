@@ -1,4 +1,4 @@
-#include "VariableNode.h"
+#include "input_static.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-VariableNode::VariableNode(param* vn, GPMutatableParam* range) {
+synthax::node::terminal::input_static::input_static(param* vn, param* range) {
     assert(vn->is_unmutatable());
     variableNum = vn->get_dvalue();
     params.push_back(vn);
@@ -21,7 +21,7 @@ VariableNode::VariableNode(param* vn, GPMutatableParam* range) {
     symbol = "var";
 }
 
-VariableNode::~VariableNode() {
+synthax::node::terminal::input_static::~input_static() {
 }
 
 /*
@@ -30,11 +30,11 @@ VariableNode::~VariableNode() {
     =========
 */
 
-VariableNode* VariableNode::get_copy() {
-    return new VariableNode(params[0]->get_copy(), mutatableParams[1]->getCopy());
+input_static* synthax::node::terminal::input_static::get_copy() {
+    return new input_static(params[0]->get_copy(), mutatableParams[1]->get_copy());
 }
 
-void VariableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::node::terminal::input_static::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     firstFrameNumber;
     sampleTimes;
     numConstantVariables;

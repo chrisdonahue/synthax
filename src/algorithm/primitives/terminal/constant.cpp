@@ -1,12 +1,12 @@
-#include "ConstantNode.h"
+#include "constant.h"
 
 /*
-    ========================
-    construction/DESTRUCTION
-    ========================
+    ============
+    construction
+    ============
 */
 
-ConstantNode::ConstantNode(bool pi, param* v) {
+synthax::node::terminal::constant::constant(bool pi, param* v) {
     isPi = pi;
     
     if (!isPi) {
@@ -20,7 +20,7 @@ ConstantNode::ConstantNode(bool pi, param* v) {
     symbol = "const";
 }
 
-ConstantNode::~ConstantNode() {
+synthax::node::terminal::constant::~constant() {
 }
 
 /*
@@ -29,11 +29,11 @@ ConstantNode::~ConstantNode() {
     =========
 */
 
-ConstantNode* ConstantNode::get_copy() {
-    return new ConstantNode(isPi, isPi ? NULL : params[0]->get_copy());
+synthax::node::terminal::constant* synthax::node::terminal::constant::get_copy() {
+    return new constant(isPi, isPi ? NULL : params[0]->get_copy());
 }
 
-void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::node::terminal::constant::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;
@@ -46,17 +46,17 @@ void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned 
     }
 }
 
-void ConstantNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::node::terminal::constant::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
     // TODO: maybe fill an array with value and use memcpy for terminals? will this be faster?
 }
 
-void ConstantNode::done_rendering() {
+void synthax::node::terminal::constant::done_rendering() {
     node::done_rendering();
     // TODO: free if we do above TODO
 }
 
-void ConstantNode::update_mutated_params() {
+void synthax::node::terminal::constant::update_mutated_params() {
     node::update_mutated_params();
     if (isPi) {
         value = M_PI;

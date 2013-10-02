@@ -1,4 +1,4 @@
-#include "GPAudioUtil.h"
+#include "audio_util.h"
 
 /*
 	==============
@@ -6,7 +6,7 @@
 	==============
 */
 
-void GPAudioUtil::calculate_fft_buffer_size(unsigned num_frames, unsigned n, unsigned o, unsigned* fft_num_bins, unsigned* fft_num_frames, unsigned* fft_output_buffer_length) {
+void audio_util::calculate_fft_buffer_size(unsigned num_frames, unsigned n, unsigned o, unsigned* fft_num_bins, unsigned* fft_num_frames, unsigned* fft_output_buffer_length) {
     unsigned num_fft_calls = 0;
     unsigned shift = n - o;
     for (unsigned i = 0; i < num_frames;) {
@@ -18,7 +18,7 @@ void GPAudioUtil::calculate_fft_buffer_size(unsigned num_frames, unsigned n, uns
     *fft_output_buffer_length = num_fft_calls * (*fft_num_bins);
 }
 
-void GPAudioUtil::window(const char* type, unsigned n, float* window_buffer) {
+void audio_util::window(const char* type, unsigned n, float* window_buffer) {
     if (strcmp(type, "hann") == 0) {
         // 0.5 * (1 - cos(2*pi*n)/(N-1))
         double insideCosineValue = 0.0;
@@ -35,13 +35,13 @@ void GPAudioUtil::window(const char* type, unsigned n, float* window_buffer) {
     }
 }
 
-void GPAudioUtil::apply_window(unsigned n, kiss_fft_scalar* buffer, const float* window) {
+void audio_util::apply_window(unsigned n, kiss_fft_scalar* buffer, const float* window) {
     for (unsigned i = 0; i < n; i++) {
         buffer[i] *= window[i];
     }
 }
 
-void GPAudioUtil::fft_real(kiss_fftr_cfg cfg, unsigned num_frames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in_buffer, kiss_fft_cpx* out_buffer, double* magnitude, double* phase) {
+void audio_util::fft_real(kiss_fftr_cfg cfg, unsigned num_frames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in_buffer, kiss_fft_cpx* out_buffer, double* magnitude, double* phase) {
     unsigned fft_output_size = (n/2 + 1);
     unsigned shift = n - overlap;
     long int num_completed = 0;
@@ -61,7 +61,7 @@ void GPAudioUtil::fft_real(kiss_fftr_cfg cfg, unsigned num_frames, const float* 
         }
 
         // apply window
-        GPAudioUtil::apply_window(n, in_buffer, window);
+        audio_util::apply_window(n, in_buffer, window);
 
         // perform fft
         kiss_fftr(cfg, in_buffer, out_buffer + num_fft_output_used);
@@ -89,7 +89,7 @@ void GPAudioUtil::fft_real(kiss_fftr_cfg cfg, unsigned num_frames, const float* 
 	=================
 */
 
-void GPAudioUtil::find_moving_average(unsigned type, unsigned n, const double* data, double* moving_average_buffer, double* data_average, double* max_deviation_below, double* max_deviation_above, unsigned past_radius, unsigned future_radius, double alpha) {
+void audio_util::find_moving_average(unsigned type, unsigned n, const double* data, double* moving_average_buffer, double* data_average, double* max_deviation_below, double* max_deviation_above, unsigned past_radius, unsigned future_radius, double alpha) {
     // NON-MOVING AVERAGE
     if (type == 0) {
         double sum = 0;
@@ -202,13 +202,13 @@ void GPAudioUtil::find_moving_average(unsigned type, unsigned n, const double* d
 	==================
 */
 
-void GPAudioUtil::fill_time_domain_buffer(unsigned num_samples, double sr, float* buffer) {
+void audio_util::fill_time_domain_buffer(unsigned num_samples, double sr, float* buffer) {
     for (unsigned frame = 0; frame < num_samples; frame++) {
         buffer[frame] = float(frame)/sr;
     }
 }
 
-void GPAudioUtil::fill_frequency_domain_buffer(unsigned fft_size, double sr, float* buffer) {
+void audio_util::fill_frequency_domain_buffer(unsigned fft_size, double sr, float* buffer) {
     for (unsigned i = 0; i < (fft_size/2) + 1; i++) {
         buffer[i] = (sr / fft_size) * i;
     }
@@ -220,7 +220,7 @@ void GPAudioUtil::fill_frequency_domain_buffer(unsigned fft_size, double sr, flo
 	=============
 */
 
-std::string GPAudioUtil::float_buffers_to_graph_string(std::string options, std::string x_label, std::string y_label, bool index_as_x_axis, unsigned n, const float* x, const float* y, const float* z) {
+std::string audio_util::float_buffers_to_graph_string(std::string options, std::string x_label, std::string y_label, bool index_as_x_axis, unsigned n, const float* x, const float* y, const float* z) {
 	std::stringstream ss;
 	ss << options;
 	ss << std::endl;
@@ -248,7 +248,7 @@ std::string GPAudioUtil::float_buffers_to_graph_string(std::string options, std:
 	return ss.str();
 }
 
-std::string GPAudioUtil::double_buffers_to_graph_string(std::string options, std::string x_label, std::string y_label, bool index_as_x_axis, unsigned n, const double* x, const double* y, const double* z) {
+std::string audio_util::double_buffers_to_graph_string(std::string options, std::string x_label, std::string y_label, bool index_as_x_axis, unsigned n, const double* x, const double* y, const double* z) {
 	std::stringstream ss;
 	ss << options;
 	ss << std::endl;
@@ -282,14 +282,14 @@ std::string GPAudioUtil::double_buffers_to_graph_string(std::string options, std
 	======
 */
 
-void GPAudioUtil::applyEnvelope(unsigned n, float* buffer, const float* envelope) {
+void audio_util::applyEnvelope(unsigned n, float* buffer, const float* envelope) {
 	for (unsigned i = 0; i < n; i++) {
 		buffer[i] *= envelope[i];
 	}
 }
 
 // FROM: http://musicdsp.org/showArchiveComment.php?Archiveid=136 
-void GPAudioUtil::followEnvelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double samplerate) {
+void audio_util::followEnvelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double samplerate) {
     double attack_coef = exp(log(0.01)/( attack_in_ms * samplerate * 0.001));
     double release_coef = exp(log(0.01)/( release_in_ms * samplerate * 0.001));
     
@@ -308,7 +308,7 @@ void GPAudioUtil::followEnvelope(unsigned n, float* buffer, float* envelope, dou
     }
 }
 
-void GPAudioUtil::findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float* env) {
+void audio_util::findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float* env) {
     // MAKE AMPLITUDE ENVELOPE OF TARGET
     // x/y pairs for absolute waveform bound
     std::vector<unsigned> x;
@@ -377,7 +377,7 @@ void GPAudioUtil::findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float*
     env[n - 1] = wav[n - 1];
 }
 
-double GPAudioUtil::compareAmplitudes(unsigned numSamples, const float* samplesOne, const float* samplesTwo) {
+double audio_util::compareAmplitudes(unsigned numSamples, const float* samplesOne, const float* samplesTwo) {
     double sum = 0;
     for (unsigned frameNum = 0; frameNum < numSamples; frameNum++) {
         double error = fabs(samplesTwo[frameNum] - samplesOne[frameNum]);
@@ -386,7 +386,7 @@ double GPAudioUtil::compareAmplitudes(unsigned numSamples, const float* samplesO
     return sum;
 }
 
-double GPAudioUtil::compareAmplitudesWeighted(unsigned numSamples, const float* samplesOne, const float* samplesTwo, float weight) {
+double audio_util::compareAmplitudesWeighted(unsigned numSamples, const float* samplesOne, const float* samplesTwo, float weight) {
     double sum = 0;
     for (unsigned frameNum = 0; frameNum < numSamples; frameNum++) {
         double error = fabs(samplesTwo[frameNum] - samplesOne[frameNum]);
@@ -396,7 +396,7 @@ double GPAudioUtil::compareAmplitudesWeighted(unsigned numSamples, const float* 
     return sum;
 }
 
-void GPAudioUtil::FftReal(kiss_fftr_cfg cfg, unsigned numFrames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in, kiss_fft_cpx* out, bool dB, double* magnitude, double* phase) {
+void audio_util::FftReal(kiss_fftr_cfg cfg, unsigned numFrames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in, kiss_fft_cpx* out, bool dB, double* magnitude, double* phase) {
     float dBref = DBREF;
     unsigned fftOutputSize = (n/2 + 1);
     unsigned shift = n - overlap;
@@ -417,7 +417,7 @@ void GPAudioUtil::FftReal(kiss_fftr_cfg cfg, unsigned numFrames, const float* in
         }
 
         // apply window
-        GPAudioUtil::apply_window(n, in, window);
+        audio_util::apply_window(n, in, window);
 
         // perform fft
         kiss_fftr(cfg, in, out + numFftOutputUsed);

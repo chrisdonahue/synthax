@@ -1,19 +1,21 @@
-#ifndef VARIABLENODE_H
-#define VARIABLENODE_H
+#ifndef INPUT_STATIC_H
+#define INPUT_STATIC_H
 
 #include "../../node.h"
 
-class VariableNode: public node {
-public:
-    VariableNode(param* vn, GPMutatableParam* range);
-    ~VariableNode();
+namespace synthax{namespace node{namespace terminal{
+	class input_static : public node {
+	public:
+		input_static(param* vn, param* range);
+		~input_static();
 
-	// overrides
-    VariableNode* get_copy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+		// overrides
+		input_static* get_copy();
+		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
-private:
-    int variableNum;
-};
+	private:
+		int variableNum;
+	};
+}}}
 
 #endif
