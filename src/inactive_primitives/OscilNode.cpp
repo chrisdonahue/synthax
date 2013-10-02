@@ -15,7 +15,7 @@
     ========================
 */
 
-OscilNode::OscilNode(bool terminal, param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod) {
+OscilNode::OscilNode(bool terminal, param* vn, param* p, param* i, node* mod) {
     terminalOscil = terminal;
     assert(!(vn->isMutatable) && !(vn->isContinuous));
     variableNum = vn->get_dvalue();
@@ -47,9 +47,9 @@ OscilNode::~OscilNode() {
 
 OscilNode* OscilNode::get_copy() {
     if (terminalOscil)
-        return new OscilNode(terminalOscil, params[0]->get_copy(), mutatableParams[1]->getCopy(), NULL, NULL);
+        return new OscilNode(terminalOscil, params[0]->get_copy(), params[1]->get_copy(), NULL, NULL);
     else
-        return new OscilNode(terminalOscil, params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+        return new OscilNode(terminalOscil, params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void OscilNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

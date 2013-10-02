@@ -27,7 +27,7 @@ synthax::primitive::envelope::gain::~gain() {
 */
 
 synthax::primitive::envelope::gain* synthax::primitive::envelope::gain::get_copy() {
-    return new gain(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new gain(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void synthax::primitive::envelope::gain::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

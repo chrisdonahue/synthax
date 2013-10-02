@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::modulation::sine_phase_mod::sine_phase_mod(param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod) {
+synthax::primitive::modulation::sine_phase_mod::sine_phase_mod(param* vn, param* p, param* i, node* mod) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -33,7 +33,7 @@ synthax::primitive::modulation::sine_phase_mod::~sine_phase_mod() {
 */
 
 synthax::primitive::modulation::sine_phase_mod* synthax::primitive::modulation::sine_phase_mod::get_copy() {
-    return new sine_phase_mod(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new sine_phase_mod(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void synthax::primitive::modulation::sine_phase_mod::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

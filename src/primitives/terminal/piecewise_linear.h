@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace terminal{
 	class piecewise_linear : public synthax::primitive::super::piecewise_linear {
 	public:
-		piecewise_linear(param* splinetype, GPMutatableParam* numpoints, std::vector<GPMutatableParam*>* pointsOrParams);
+		piecewise_linear(param* splinetype, param* numpoints, std::vector<param*>* pointsOrParams);
 		~piecewise_linear();
 
 		// overrides

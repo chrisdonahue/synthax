@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace modulation{
 	class sin_amp_mod : public node {
 	public:
-		sin_amp_mod(param* vn, GPMutatableParam* p, GPMutatableParam* o, GPMutatableParam* a, node* mod);
+		sin_amp_mod(param* vn, param* p, param* o, param* a, node* mod);
 		~sin_amp_mod();
 
 		// overrides

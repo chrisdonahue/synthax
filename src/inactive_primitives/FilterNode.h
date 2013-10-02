@@ -16,7 +16,7 @@
 
 class FilterNode: public node {
 public:
-    FilterNode(unsigned t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, node* signal, GPNode* center, GPNode* bandwidth);
+    FilterNode(unsigned t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, param* cfmultmax, param* bwq, node* signal, GPNode* center, GPNode* bandwidth);
     ~FilterNode();
 
 	// overrides

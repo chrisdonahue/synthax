@@ -25,7 +25,7 @@ synthax::primitive::logic::mixer::~mixer() {
 */
 
 synthax::primitive::logic::mixer* synthax::primitive::logic::mixer::get_copy() {
-    return new mixer(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
+    return new mixer(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy(), descendants[2] == NULL ? NULL : descendants[2]->get_copy());
 }
 
 void synthax::primitive::logic::mixer::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

@@ -16,7 +16,7 @@
     ========================
 */
 
-FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, node* signal, GPNode* center) :
+FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, param* cfmultmax, param* bwq, node* signal, GPNode* center) :
     params()
 {
     type = t;
@@ -63,7 +63,7 @@ FilterNode::~FilterNode() {
 */
 
 FilterNode* FilterNode::get_copy() {
-    return new FilterNode(type, order, fadeParameterChanges, sampleRate, variableNum, params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), NULL);
+    return new FilterNode(type, order, fadeParameterChanges, sampleRate, variableNum, params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy(), NULL);
 }
 
 void FilterNode::prepare_to_play() {

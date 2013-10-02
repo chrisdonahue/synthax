@@ -417,7 +417,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
             params[2]->set_type("spline_amp_range");
             params[3]->set_type("spline_segment_length_range");
 
-            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<param*>();
             splinepoints->push_back(params[2]);
             splinepoints->push_back(params[3]);
 
@@ -434,7 +434,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
             params[1]->set_type("spline_num_points");
             params[1]->set_unmutatable();
 
-            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<param*>();
             unsigned currentParam = 2;
             while (currentParam + 2 < params.size()) {
                 params[currentParam]->set_type("spline_amp");
@@ -463,7 +463,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
             params[2]->set_type("spline_amp_range");
             params[3]->set_type("spline_segment_length_range");
 
-            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<param*>();
             splinepoints->push_back(params[2]);
             splinepoints->push_back(params[3]);
 
@@ -483,7 +483,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
             params[1]->set_type("spline_num_points");
             params[1]->set_unmutatable();
 
-            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<param*>();
             unsigned currentParam = 2;
             while (currentParam + 2 < params.size()) {
                 params[currentParam]->set_type("spline_amp");

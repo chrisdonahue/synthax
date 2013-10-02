@@ -25,7 +25,7 @@ synthax::primitive::function::~add() {
 */
 
 synthax::primitive::function::add* synthax::primitive::function::get_copy() {
-    add* ret = new add(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
+    add* ret = new add(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy());
     return ret;
 }
 

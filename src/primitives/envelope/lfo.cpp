@@ -26,7 +26,7 @@ synthax::primitive::envelope::lfo::~lfo() {
 */
 
 lfo* synthax::primitive::envelope::lfo::get_copy() {
-    return new lfo(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new lfo(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void synthax::primitive::envelope::lfo::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::primitive::envelope::adsr::adsr(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, node* signal)
+synthax::primitive::envelope::adsr::adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel, node* signal)
 {
     releaseFinished = false;
     framesInEnvelope = 0;
@@ -40,7 +40,7 @@ synthax::primitive::envelope::adsr::~adsr() {
 */
 
 synthax::primitive::envelope::adsr* synthax::primitive::envelope::adsr::get_copy() {
-    return new adsr(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), params[3]->getCopy(), params[4]->getCopy(), params[5]->getCopy(), params[6]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new adsr(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), params[4]->get_copy(), params[5]->get_copy(), params[6]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void synthax::primitive::envelope::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

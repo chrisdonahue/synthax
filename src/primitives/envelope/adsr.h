@@ -6,7 +6,7 @@
 namespace synthax{namespace primitive{namespace envelope{
 	class adsr : public synthax::primitive::super::adsr {
 	public:
-		adsr(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, node* signal);
+		adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel, node* signal);
 		~adsr();
 
 		// overrides

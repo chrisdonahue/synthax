@@ -25,7 +25,7 @@ synthax::primitive::logic::switcher::~switcher() {
 */
 
 synthax::primitive::logic::switcher* synthax::primitive::logic::switcher::get_copy() {
-    return new switcher(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), descendants[2] == NULL ? NULL : descendants[2]->getCopy());
+    return new switcher(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy(), descendants[2] == NULL ? NULL : descendants[2]->get_copy());
 }
 
 void synthax::primitive::logic::switcher::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::modulation::sin_amp_mod::sin_amp_mod(param* vn, GPMutatableParam* p, GPMutatableParam* o, GPMutatableParam* a, node* mod) {
+synthax::primitive::modulation::sin_amp_mod::sin_amp_mod(param* vn, param* p, param* o, param* a, node* mod) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -31,7 +31,7 @@ synthax::primitive::modulation::sin_amp_mod::~sin_amp_mod() {
 */
 
 synthax::primitive::modulation::sin_amp_mod* synthax::primitive::modulation::sin_amp_mod::get_copy() {
-    return new sin_amp_mod(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), params[3]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new sin_amp_mod(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
 void synthax::primitive::modulation::sin_amp_mod::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

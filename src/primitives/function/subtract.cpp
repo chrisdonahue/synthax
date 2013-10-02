@@ -25,7 +25,7 @@ synthax::primitive::function::subtract::~subtract() {
 */
 
 synthax::primitive::function::subtract* synthax::primitive::function::subtract::get_copy() {
-    subtract* ret = new subtract(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
+    subtract* ret = new subtract(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy());
     return ret;
 }
 

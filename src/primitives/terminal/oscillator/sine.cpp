@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::primitive::terminal::sine::sine(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
+synthax::primitive::terminal::sine::sine(param* vn, param* partial, param* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 

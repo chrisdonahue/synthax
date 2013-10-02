@@ -16,7 +16,7 @@
     ==============
 */
 
-DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, random* r, bool erc, param* z, GPMutatableParam* p, node* signal) :
+DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, random* r, bool erc, param* z, param* p, node* signal) :
     xcoefficients(), ycoefficients()
 {
     // allocate zero buffer
@@ -56,7 +56,7 @@ DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, random* r
     descendants.push_back(signal);
 }
 
-DifferenceEquationNode::DifferenceEquationNode(std::vector<param*>& xcoef, std::vector<GPMutatableParam*>& ycoef, node* signal) {
+DifferenceEquationNode::DifferenceEquationNode(std::vector<param*>& xcoef, std::vector<param*>& ycoef, node* signal) {
     numXCoefficients = xcoef.size();
     xcoefficients = xcoef;
     x = (float*) calloc(numXCoefficients, sizeof(float));

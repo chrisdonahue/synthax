@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::primitive::terminal::saw::saw(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
+synthax::primitive::terminal::saw::saw(param* vn, param* partial, param* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 

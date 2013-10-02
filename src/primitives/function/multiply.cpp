@@ -25,7 +25,7 @@ synthax::primitive::function::multiply::~multiply() {
 */
 
 synthax::primitive::function::multiply* synthax::primitive::function::multiply::get_copy() {
-    multiply* ret = new multiply(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy());
+    multiply* ret = new multiply(descendants[0] == NULL ? NULL : descendants[0]->get_copy(), descendants[1] == NULL ? NULL : descendants[1]->get_copy());
     return ret;
 }
 

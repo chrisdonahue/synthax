@@ -15,8 +15,8 @@
 
 class DifferenceEquationNode: public node {
 public:
-    DifferenceEquationNode(unsigned m, unsigned n, random* r, bool erc, param* z, GPMutatableParam* p, node* signal);
-    DifferenceEquationNode(std::vector<param*>& xcoef, std::vector<GPMutatableParam*>& ycoef, node* signal);
+    DifferenceEquationNode(unsigned m, unsigned n, random* r, bool erc, param* z, param* p, node* signal);
+    DifferenceEquationNode(std::vector<param*>& xcoef, std::vector<param*>& ycoef, node* signal);
     ~DifferenceEquationNode();
 
 	// overrides
