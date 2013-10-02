@@ -1,189 +1,186 @@
-/*
-  ==============================================================================
+#ifndef NODE_H
+#define NODE_H
 
-    GPNode.h
-    Created: 6 Feb 2013 11:06:00am
-    Author:  cdonahue
-
-  ==============================================================================
-*/
-
-#ifndef GPNODE_H
-#define GPNODE_H
+#include "../common/helpers.h"
+#include "../common/random.h"
+#include "param.h"
 
 #define _USE_MATH_DEFINES
-#include <cmath>
-#include <vector>
 #include <algorithm>
+#include <cmath>
 #include <limits>
-#include "GPMutatableParam.h"
-#include "../Common/GPHelpers.h"
 #include <sstream>
+#include <vector>
 
-class GPNode {
-public:
-    GPNode()
-        : parent(NULL), descendants(0), descendantBuffers(0),
-          depth(-1),
-          mutatableParams(0), minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
-          renderInfoSet(false), preparedToRender(false)
-    {
-    }
-    virtual ~GPNode() {
-        // if we prepared this subtree for rendering...
-        if (preparedToRender) {
-            unsigned numDescendantBuffers = arity == 0 ? 0 : arity - 1;
-            for (unsigned i = 0; i < numDescendantBuffers; i++) {
-                free(descendantBuffers[i]);
-            }
-        }
-        for (unsigned i = 0; i < arity; i++) {
-            delete descendants[i];
-        }
-        for (unsigned i = 0; i < mutatableParams.size(); i++) {
-            delete mutatableParams[i];
-        }
-    }
+namespace synthax {
+	class node {
+	public:
+		node()
+			: parent(NULL), descendants(0), descendant_buffers(0),
+			  depth(-1),
+			  params(0), minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()), minimum_true((-1) * std::numeric_limits<float>::infinity()), maximum_true(std::numeric_limits<float>::infinity()),
+			  render_info_set(false), prepared_to_render(false)
+		{
+		}
+		virtual ~node() {
+			// if we prepared this subtree for rendering...
+			if (prepared_to_render) {
+				unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
+				for (unsigned i = 0; i < numdescendant_buffers; i++) {
+					free(descendant_buffers[i]);
+				}
+			}
+			for (unsigned i = 0; i < arity; i++) {
+				delete descendants[i];
+			}
+			for (unsigned i = 0; i < params.size(); i++) {
+				delete params[i];
+			}
+		}
 
-    // PURE VIRTUAL METHODS THAT ALL SUBCLASSES WILL IMPLEMENT
-    // might want this to be a collection of nodes returned
-    // virtual GPNode* getPrimitive() = 0;
-    // virtual GPNode* fromString(std::string nodestring) = 0;
-    virtual GPNode* getCopy() = 0;
-	virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
+		// PURE VIRTUAL METHODS THAT ALL SUBCLASSES WILL IMPLEMENT
+		// might want this to be a collection of nodes returned
+		// virtual node* getPrimitive() = 0;
+		// virtual node* fromString(std::string nodestring) = 0;
+		virtual node* getCopy() = 0;
+		virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
 
-    // LINEAGE POINTERS
-    GPNode* parent;
-    std::vector<GPNode*> descendants;
-    std::vector<float*> descendantBuffers;
+		// LINEAGE POINTERS
+		node* parent;
+		std::vector<node*> descendants;
+		std::vector<float*> descendant_buffers;
 
-    // TREE STATE
-    int depth;
-    unsigned arity;
+		// TREE STATE
+		int depth;
+		unsigned arity;
 
-    // MUTATABLE PARAM RELATED
-    std::vector<GPMutatableParam*> mutatableParams;
-    float minimum;
-    float maximum;
+		// MUTATABLE PARAM RELATED
+		std::vector<param*> params;
+		float minimum;
+		float maximum;
+		float minimum_true;
+		float maximum_true;
 
-    // READY TO RENDER
-    bool renderInfoSet;
-    bool preparedToRender;
+		// READY TO RENDER
+		bool render_info_set;
+		bool prepared_to_render;
 
-    // OVERRIDABLE FUNCTIONS
-    virtual void ephemeralRandom(GPRandom* rng) {
-        for (unsigned i = 0; i < mutatableParams.size(); i++) {
-            mutatableParams[i]->ephemeralRandom(rng);
-        }
-        for (unsigned i = 0; i < arity; i++) {
-            descendants[i]->ephemeralRandom(rng);
-        }
-    }
+		// OVERRIDABLE FUNCTIONS
+		virtual void ephemeralRandom(random* rng) {
+			for (unsigned i = 0; i < params.size(); i++) {
+				params[i]->ephemeralRandom(rng);
+			}
+			for (unsigned i = 0; i < arity; i++) {
+				descendants[i]->ephemeralRandom(rng);
+			}
+		}
 
-    virtual void prepareToPlay() {
-    }
+		virtual void prepareToPlay() {
+		}
 
-    virtual void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
-        // clear out old render info if it exists
-        doneRendering();
+		virtual void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
+			// clear out old render info if it exists
+			doneRendering();
 
-        // allocate some new buffers in case blockSize changed
-        unsigned numDescendantBuffers = arity == 0 ? 0 : arity - 1;
-        descendantBuffers.resize(numDescendantBuffers, NULL);
-        for (unsigned i = 0; i < numDescendantBuffers; i++) {
-            descendantBuffers[i] = (float*) malloc(sizeof(float) * blockSize);
-        }
+			// allocate some new buffers in case blockSize changed
+			unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
+			descendant_buffers.resize(numdescendant_buffers, NULL);
+			for (unsigned i = 0; i < numdescendant_buffers; i++) {
+				descendant_buffers[i] = (float*) malloc(sizeof(float) * blockSize);
+			}
 
-        // recursively execute
-        for (unsigned i = 0; i < arity; i++) {
-            descendants[i]->setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
-        }
+			// recursively execute
+			for (unsigned i = 0; i < arity; i++) {
+				descendants[i]->setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+			}
 
-        renderInfoSet = true;
-    }
+			render_info_set = true;
+		}
 
-    virtual void doneRendering() {
-        if (renderInfoSet) {
-            unsigned numDescendantBuffers = arity == 0 ? 0 : arity - 1;
-            for (unsigned i = 0; i < numDescendantBuffers; i++) {
-                free(descendantBuffers[i]);
-            }
+		virtual void doneRendering() {
+			if (render_info_set) {
+				unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
+				for (unsigned i = 0; i < numdescendant_buffers; i++) {
+					free(descendant_buffers[i]);
+				}
 
-            for (unsigned i = 0; i < arity; i++) {
-                descendants[i]->doneRendering();
-            }
+				for (unsigned i = 0; i < arity; i++) {
+					descendants[i]->doneRendering();
+				}
             
-            renderInfoSet = false;
-            preparedToRender = false;
-        }
-    }
-
-    virtual void updateMutatedParams() {
-        assert(renderInfoSet == true);
-        for (unsigned i = 0; i < arity; i++) {
-            descendants[i]->updateMutatedParams();
-        }
-        preparedToRender = true;
-    }
-
-    // NON-OVERRIDABLE FUNCTIONS
-    // this trace method ensures that I only have assign descendant pointers correctly during genetic operations
-    void trace(std::vector<GPNode*>* allnodes, std::vector<GPMutatableParam*>* allmutatableparams, GPNode* p, int* treeHeight, int currentDepth) {
-        // assign parent
-        parent = p;
-
-        // assign depth
-        depth = currentDepth;
-
-        // add this node to the collection of all nodes
-        allnodes->push_back(this);
-        
-        // add this nodes mutatable params to the collection of all mutatable params
-        for (unsigned i = 0; i < mutatableParams.size(); i++) {
-            if (mutatableParams[i]->isMutatable())
-                allmutatableparams->push_back(mutatableParams[i]);
-        }
-        
-        // update tree height if necessary
-        if (currentDepth > *treeHeight) {
-            *treeHeight = currentDepth;
-        }
-
-        // trace the rest of the tree
-        for (unsigned i = 0; i < arity; i++) {
-            descendants[i]->trace(allnodes, allmutatableparams, this, treeHeight, currentDepth + 1);
-        }
-    };
-
-    std::string toString(unsigned precision) {
-        std::stringstream ss;
-        ss.precision(precision);
-        toString(ss);
-        return ss.str();
-    }
-
-    void toString(std::stringstream& ss) {
-        ss << "(" << symbol;
-        for (unsigned i = 0; i < mutatableParams.size(); i++) {
-            ss << " ";
-            mutatableParams[i]->toString(ss);
-        }
-        for (unsigned i = 0; i < descendants.size(); i++) {
-			GPNode* descendant = descendants[i];
-			// TODO: change to check for primitive
-			ss << " ";
-			if (descendant != NULL) {
-				descendants[i]->toString(ss);
+				render_info_set = false;
+				prepared_to_render = false;
 			}
-			else {
-				ss << "(null)";
-			}
-        }
-        ss << ")";
-    }
+		}
 
-protected:
-    std::string symbol;
-};
+		virtual void updateMutatedParams() {
+			assert(render_info_set == true);
+			for (unsigned i = 0; i < arity; i++) {
+				descendants[i]->updateMutatedParams();
+			}
+			prepared_to_render = true;
+		}
+
+		// NON-OVERRIDABLE FUNCTIONS
+		// this trace method ensures that I only have assign descendant pointers correctly during genetic operations
+		void trace(std::vector<node*>* allnodes, std::vector<param*>* allparams, node* p, int* treeHeight, int currentDepth) {
+			// assign parent
+			parent = p;
+
+			// assign depth
+			depth = currentDepth;
+
+			// add this node to the collection of all nodes
+			allnodes->push_back(this);
+        
+			// add this nodes mutatable params to the collection of all mutatable params
+			for (unsigned i = 0; i < params.size(); i++) {
+				if (params[i]->isMutatable())
+					allparams->push_back(params[i]);
+			}
+        
+			// update tree height if necessary
+			if (currentDepth > *treeHeight) {
+				*treeHeight = currentDepth;
+			}
+
+			// trace the rest of the tree
+			for (unsigned i = 0; i < arity; i++) {
+				descendants[i]->trace(allnodes, allparams, this, treeHeight, currentDepth + 1);
+			}
+		};
+
+		std::string toString(unsigned precision) {
+			std::stringstream ss;
+			ss.precision(precision);
+			toString(ss);
+			return ss.str();
+		}
+
+		void toString(std::stringstream& ss) {
+			ss << "(" << symbol;
+			for (unsigned i = 0; i < params.size(); i++) {
+				ss << " ";
+				params[i]->toString(ss);
+			}
+			for (unsigned i = 0; i < descendants.size(); i++) {
+				node* descendant = descendants[i];
+				// TODO: change to check for primitive
+				ss << " ";
+				if (descendant != NULL) {
+					descendants[i]->toString(ss);
+				}
+				else {
+					ss << "(null)";
+				}
+			}
+			ss << ")";
+		}
+
+	protected:
+		std::string symbol;
+	};
+}
+
 
 #endif
