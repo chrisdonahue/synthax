@@ -1,22 +1,22 @@
 #ifndef SPLINEENVELOPENODE_H
 #define SPLINEENVELOPENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class SplineEnvelopeNode: public GPNode {
+class SplineEnvelopeNode: public node {
 public:
-    SplineEnvelopeNode(GPMutatableParam* splinetype, GPMutatableParam* numpoints, std::vector<GPMutatableParam*>* pointsOrParams, GPNode* signal);
+    SplineEnvelopeNode(param* splinetype, GPMutatableParam* numpoints, std::vector<GPMutatableParam*>* pointsOrParams, node* signal);
     ~SplineEnvelopeNode();
 
 	// overrides
-    SplineEnvelopeNode* getCopy();
+    SplineEnvelopeNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-    void ephemeralRandom(GPRandom* rng);
-	void setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime);
-    void doneRendering();
-	void updateMutatedParams();
+    void ephemeral_random(random* rng);
+	void set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
+    void done_rendering();
+	void update_mutated_params();
 
 	// class specific
     void fillFromParams();

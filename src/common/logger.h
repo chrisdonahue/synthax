@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <vector>
 #include <stdio.h>
-#include "../Synth/GPNetwork.h"
+#include "../Synth/algorithm.h"
 
 struct GPLogParams {
     bool to_file;
@@ -69,9 +69,9 @@ class GPLogger {
 
         std::string get_seed_string();
 
-        std::string net_to_string_print(GPNetwork* net);
-        std::string net_to_string_save(GPNetwork* net);
-        std::string param_to_string_print(GPMutatableParam* param);
+        std::string net_to_string_print(algorithm* net);
+        std::string net_to_string_save(algorithm* net);
+        std::string param_to_string_print(param* param);
 
         std::ostream log;
         std::ostream verbose;

@@ -5,19 +5,19 @@
 
 class SinOscNode: public WaveTableNode {
 public:
-    SinOscNode(GPMutatableParam* vn, GPMutatableParam* partial, GPMutatableParam* phase);
+    SinOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase);
     ~SinOscNode();
 
-	// GPNode overrides
-    SinOscNode* getCopy();
-    void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime);
+	// node overrides
+    SinOscNode* get_copy();
+    void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
 	
 	// WaveTable overrides
 	void makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFreq, double topFreq);
     void defineHarmonics(int len, int numHarmonics, double* ar, double* ai);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 };

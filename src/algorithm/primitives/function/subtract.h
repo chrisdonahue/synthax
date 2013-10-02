@@ -5,15 +5,15 @@
 
 class SubtractNode: public FunctionNode {
 public:
-    SubtractNode(GPNode* zero, GPNode* one);
+    SubtractNode(node* zero, GPNode* one);
     ~SubtractNode();
 
 	// overrides
-    SubtractNode* getCopy();
+    SubtractNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 };

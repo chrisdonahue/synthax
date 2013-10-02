@@ -1,5 +1,5 @@
-#ifndef GPHELPERS_H
-#define GPHELPERS_H
+#ifndef GPhelpers_H
+#define GPhelpers_H
 
 #include <cmath>
 #include <string>

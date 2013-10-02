@@ -2,17 +2,17 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-SinOscNode::SinOscNode(GPMutatableParam* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
-    assert(vn->isUnmutatable() && vn->isDiscrete());
-    variableNum = vn->getDValue();
+SinOscNode::SinOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
+    assert(vn->is_unmutatable() && vn->is_discrete());
+    variableNum = vn->get_dvalue();
 
-    mutatableParams.push_back(vn);
-    mutatableParams.push_back(partial);
-    mutatableParams.push_back(phase);
+    params.push_back(vn);
+    params.push_back(partial);
+    params.push_back(phase);
 
     arity = 0;
     
@@ -27,31 +27,31 @@ SinOscNode::~SinOscNode() {
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-SinOscNode* SinOscNode::getCopy() {
-    return new SinOscNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy());
+SinOscNode* SinOscNode::get_copy() {
+    return new SinOscNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy());
 }
 
-void SinOscNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
-	WaveTableNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+void SinOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+	WaveTableNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void SinOscNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void SinOscNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    partial = mutatableParams[1]->getValue();
-    phase = mutatableParams[2]->getValue();
+    partial = params[1]->get_value();
+    phase = params[2]->get_value();
 	
     // minimum/maximum constant and declared in constructor
 }
 
 /*
     ===================
-    WAVETABLE OVERRIDES
+    WAVETABLE OVERRidES
     ===================
 */
 

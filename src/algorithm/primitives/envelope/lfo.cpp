@@ -2,13 +2,13 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-LFOEnvelopeNode::LFOEnvelopeNode(GPMutatableParam* rate, GPNode* mod)
+LFOEnvelopeNode::LFOEnvelopeNode(param* rate, node* mod)
 {
-    mutatableParams.push_back(rate);
+    params.push_back(rate);
 
     descendants.push_back(mod);
     arity = 1;
@@ -21,12 +21,12 @@ LFOEnvelopeNode::~LFOEnvelopeNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-LFOEnvelopeNode* LFOEnvelopeNode::getCopy() {
-    return new LFOEnvelopeNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+LFOEnvelopeNode* LFOEnvelopeNode::get_copy() {
+    return new LFOEnvelopeNode(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void LFOEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -37,11 +37,11 @@ void LFOEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsign
     }
 }
 
-void LFOEnvelopeNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void LFOEnvelopeNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    rate = mutatableParams[0]->getValue();
+    rate = params[0]->get_value();
     w = 2.0 * M_PI * rate;
 	
     // minimum/maximum calculation

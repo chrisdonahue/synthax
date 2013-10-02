@@ -2,23 +2,23 @@
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-void WaveTableNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
+void WaveTableNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	sampleRate = sr;
 	osc = new WaveTableOsc();
 	makeAddAllWaveTables((double) sr, 2, 99999, 20.0f, (double) 20.0f * 2.0 / sampleRate);
 	//makeAddAllWaveTables((double) sr, 2, 99999, 20.0f, (double) sr/2);
-	GPNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+	node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void WaveTableNode::doneRendering() {
-	if (preparedToRender) {
+void WaveTableNode::done_rendering() {
+	if (prepared_to_render) {
 		delete osc;
 	}
-	GPNode::doneRendering();
+	node::done_rendering();
 }
 
 void WaveTableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -41,13 +41,13 @@ void WaveTableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned
     }
 }
 
-void WaveTableNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void WaveTableNode::update_mutated_params() {
+    node::update_mutated_params();
 }
 
 /*
     =================
-    WAVETABLE HELPERS
+    WAVETABLE helpers
     =================
 */
 

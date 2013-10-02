@@ -1,21 +1,21 @@
 #ifndef ADSRTERMINALNODE_H
 #define ADSRTERMINALNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class ADSRTerminalNode: public GPNode {
+class ADSRTerminalNode: public node {
 public:
-    ADSRTerminalNode(GPMutatableParam* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel);
+    ADSRTerminalNode(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel);
     ~ADSRTerminalNode();
 
 	// overrides
-    ADSRTerminalNode* getCopy();
+    ADSRTerminalNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime);
-    void doneRendering();
-	void updateMutatedParams();
+	void set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
+    void done_rendering();
+	void update_mutated_params();
 
 	// class specific
     void fillFromParams();

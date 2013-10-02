@@ -2,12 +2,12 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-GainNode::GainNode(GPMutatableParam* v, GPNode* signal) {
-    mutatableParams.push_back(v);
+GainNode::GainNode(param* v, node* signal) {
+    params.push_back(v);
 
     arity = 1;
     descendants.push_back(signal);
@@ -22,12 +22,12 @@ GainNode::~GainNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-GainNode* GainNode::getCopy() {
-    return new GainNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+GainNode* GainNode::get_copy() {
+    return new GainNode(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void GainNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -43,18 +43,18 @@ void GainNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numS
     }
 }
 
-void GainNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
-    GPNode::setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
+void GainNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
     // TODO: maybe fill an array with value and use memcpy for terminals? will this be faster?
 }
 
-void GainNode::doneRendering() {
-    GPNode::doneRendering();
+void GainNode::done_rendering() {
+    node::done_rendering();
     // TODO: free if we do above TODO
 }
 
-void GainNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
-    value = mutatableParams[0]->getValue();
-    intervalMultiply(&minimum, &maximum, mutatableParams[0]->getMin(), mutatableParams[0]->getMax(), descendants[0]->minimum, descendants[0]->maximum);
+void GainNode::update_mutated_params() {
+    node::update_mutated_params();
+    value = params[0]->get_value();
+    intervalMultiply(&minimum, &maximum, params[0]->get_min(), mutatableParams[0]->get_max(), descendants[0]->minimum, descendants[0]->maximum);
 }

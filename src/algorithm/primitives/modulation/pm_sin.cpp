@@ -2,17 +2,17 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-PMNode::PMNode(GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* i, GPNode* mod) {
-    assert(vn->isUnmutatable() && vn->isDiscrete());
-    variableNum = vn->getDValue();
+PMNode::PMNode(param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod) {
+    assert(vn->is_unmutatable() && vn->is_discrete());
+    variableNum = vn->get_dvalue();
 
-    mutatableParams.push_back(vn);
-    mutatableParams.push_back(p);
-    mutatableParams.push_back(i);
+    params.push_back(vn);
+    params.push_back(p);
+    params.push_back(i);
 
     descendants.push_back(mod);
     arity = 1;
@@ -28,12 +28,12 @@ PMNode::~PMNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-PMNode* PMNode::getCopy() {
-    return new PMNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+PMNode* PMNode::get_copy() {
+    return new PMNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void PMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -44,15 +44,15 @@ void PMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSam
     }
 }
 
-void PMNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void PMNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    partial = mutatableParams[1]->getValue();
+    partial = params[1]->get_value();
     w = 2.0 * M_PI * partial;
 	
 	// update PM params
-    index = mutatableParams[2]->getCValue();
+    index = params[2]->get_cvalue();
     
     // minimum/maximum constant and declared in constructor
 }

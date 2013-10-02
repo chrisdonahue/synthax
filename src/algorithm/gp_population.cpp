@@ -2,11 +2,11 @@
 
 /*
    ============
-   CONSTRUCTION
+   construction
    ============
 */
 
-GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, GPRandom* rng, std::vector<GPNode*>* primitives) :
+GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, random* rng, std::vector<node*>* primitives) :
     logger(logger),
     params(params), rng(rng), availablePrimitives(primitives),
     allNetworks(), unevaluated(), evaluated(), currentGeneration(),
@@ -19,17 +19,17 @@ GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, GPRandom* rng, std::ve
 
     // init private evolution state
     populationSize = params->population_size;
-    nextNetworkID = 0;
+    nextNetworkid = 0;
     lowerFitnessIsBetter = params->lower_fitness_is_better;
     overallBestFitness = lowerFitnessIsBetter ? std::numeric_limits<double>::max() : 0;
     currentGenerationAlive = false;
 
     // categorize primitives
-    availableFunctions = new std::vector<GPNode*>();
-    availableTerminals = new std::vector<GPNode*>();
+    availableFunctions = new std::vector<node*>();
+    availableTerminals = new std::vector<node*>();
     for (unsigned i = 0; i < availablePrimitives->size(); i++) {
-		std::cerr << availablePrimitives->at(i)->toString(4);
-		std::string prim_string = availablePrimitives->at(i)->toString(4);
+		std::cerr << availablePrimitives->at(i)->to_string(4);
+		std::string prim_string = availablePrimitives->at(i)->to_string(4);
         if (availablePrimitives->at(i)->arity == 0) {
             availableTerminals->push_back(availablePrimitives->at(i));
         }
@@ -62,13 +62,13 @@ GPSynth::~GPSynth() {
     delete champ;
 }
 
-GPNode* GPSynth::fullRecursive(unsigned cd, unsigned d) {
+node* GPSynth::fullRecursive(unsigned cd, unsigned d) {
     if (cd == d) {
-        GPNode* term = availableTerminals->at(rng->random(availableTerminals->size()))->getCopy();
+        node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
         return term;
     }
     else {
-        GPNode* ret = availableFunctions->at(rng->random(availableFunctions->size()))->getCopy();
+        node* ret = availableFunctions->at(rng->random(availableFunctions->size()))->get_copy();
         for (unsigned i = 0; i < ret->arity; i++) {
             ret->descendants[i] = fullRecursive(cd + 1, d);
         }
@@ -76,22 +76,22 @@ GPNode* GPSynth::fullRecursive(unsigned cd, unsigned d) {
     }
 }
 
-GPNetwork* GPSynth::full(unsigned d) {
-    return new GPNetwork(fullRecursive(0, d), "full");
+algorithm* GPSynth::full(unsigned d) {
+    return new algorithm(fullRecursive(0, d), "full");
 }
 
-GPNode* GPSynth::growRecursive(unsigned cd, unsigned m) {
+node* GPSynth::growRecursive(unsigned cd, unsigned m) {
     if (cd == m) {
-        GPNode* term = availableTerminals->at(rng->random(availableTerminals->size()))->getCopy();
+        node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
         return term;
     }
     else {
-        GPNode* ret;
+        node* ret;
         if (cd == 0) {
-            ret = availableFunctions->at(rng->random(availableFunctions->size()))->getCopy();
+            ret = availableFunctions->at(rng->random(availableFunctions->size()))->get_copy();
         }
         else {
-            ret = availablePrimitives->at(rng->random(availablePrimitives->size()))->getCopy();
+            ret = availablePrimitives->at(rng->random(availablePrimitives->size()))->get_copy();
         }
         if (ret->arity == 0) {
             return ret;
@@ -103,15 +103,15 @@ GPNode* GPSynth::growRecursive(unsigned cd, unsigned m) {
     }
 }
 
-GPNetwork* GPSynth::grow(unsigned m) {
-    return new GPNetwork(growRecursive(0, m), "grow");
+algorithm* GPSynth::grow(unsigned m) {
+    return new algorithm(growRecursive(0, m), "grow");
 }
 
 void GPSynth::initPopulation() {
     logger->log << "Initializing population of size " << populationSize << std::flush;
 
 	// if maxInitialHeight is 0 we just want a single terminal
-    GPNetwork* newnet;
+    algorithm* newnet;
     unsigned maxInitialHeight = params->max_initial_height;
 	if (maxInitialHeight == 0) {
 		for (unsigned i = 0; i < populationSize; i++) {
@@ -134,26 +134,26 @@ void GPSynth::initPopulation() {
         for (unsigned j = 0; j < numFullPerPart; j++) {
             newnet = full(i + 2);
             if (params->erc)
-                newnet->ephemeralRandom(rng);
+                newnet->ephemeral_random(rng);
             addNetworkToPopulation(newnet);
         }
         for (unsigned j = 0; j < numGrowPerPart; j++) {
             newnet = grow(i + 2);
             if (params->erc)
-                newnet->ephemeralRandom(rng);
+                newnet->ephemeral_random(rng);
             addNetworkToPopulation(newnet);
         }
     }
     for (unsigned j = 0; j < additionalFull; j++) {
         newnet = full(maxInitialHeight);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         addNetworkToPopulation(newnet);
     }
     for (unsigned j = 0; j < additionalGrow; j++) {
         newnet = grow(maxInitialHeight);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         addNetworkToPopulation(newnet);
     }
     assert(unevaluated.size() == populationSize);
@@ -167,19 +167,19 @@ void GPSynth::initPopulation() {
    =================
 */
 
-GPNetwork* GPSynth::getIndividual() {
+algorithm* GPSynth::getIndividual() {
     // if no more networks remain advance population
     if (unevaluated.empty()) {
         nextGeneration();
     }
 
     // logic to deal with reproduced algorithms for efficiency
-    GPNetwork* ret = *(unevaluated.begin());
-    logger->verbose << "Testing algorithm " << ret->ID << " made by " << ret->origin << " with height " << ret->height << " and structure " << logger->net_to_string_print(ret) << std::flush;
+    algorithm* ret = *(unevaluated.begin());
+    logger->verbose << "Testing algorithm " << ret->id << " made by " << ret->origin << " with height " << ret->height << " and structure " << logger->net_to_string_print(ret) << std::flush;
     return ret;
 }
 
-void GPSynth::getIndividuals(std::vector<GPNetwork*>& networks) {
+void GPSynth::getIndividuals(std::vector<algorithm*>& networks) {
     // if no more networks remain advance population
     if (unevaluated.empty()) {
         nextGeneration();
@@ -194,23 +194,23 @@ void GPSynth::getIndividuals(std::vector<GPNetwork*>& networks) {
 	// fill 'er up! (you should assignFitness on all of these before asking for another block
 	// otherwise you will probably get the same networks)
 	unsigned i = 0;
-	for (std::set<GPNetwork*>::iterator iter = unevaluated.begin(); i < networks.size(); i++, iter++) {
+	for (std::set<algorithm*>::iterator iter = unevaluated.begin(); i < networks.size(); i++, iter++) {
 		networks[i] = *(iter);
 	}
 
-	// sort synth voices by ID
-	std::sort(networks.begin(), networks.end(), compareNetworksByID);
+	// sort synth voices by id
+	std::sort(networks.begin(), networks.end(), compare_algorithms_by_id);
 }
 
-GPNetwork* GPSynth::growNewIndividual(unsigned maxHeight) {
-	GPNetwork* nu = grow(maxHeight);
+algorithm* GPSynth::growNewIndividual(unsigned maxHeight) {
+	algorithm* nu = grow(maxHeight);
 	if (params->erc)
-		nu->ephemeralRandom(rng);
+		nu->ephemeral_random(rng);
 
 	return nu;
 }
 
-bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
+bool GPSynth::replaceIndividual(algorithm* old, algorithm* nu) {
 	// check if old is already evaluated
 	if (evaluated.find(old) != evaluated.end()) {
         logger->error << "Tried replacing population individual that had already been evaluated" << std::flush;
@@ -218,14 +218,14 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 	}
 
 	// check if old is still in population
-	unsigned oldGenerationID = old->ID % populationSize;
-	if (currentGeneration[oldGenerationID] != old) {
+	unsigned oldGenerationid = old->id % populationSize;
+	if (currentGeneration[oldGenerationid] != old) {
 		logger->error << "Tried replacing individual that is not in the current generation" << std::flush;
 		return false;
 	}
 
 	// check to make sure nu is the right height
-	nu->traceNetwork();
+	nu->trace();
 	if (nu->height > params->max_height) {
 		logger->error << "Tried replacing individual that is too tall for the population" << std::flush;
 		// TODO: change this
@@ -233,16 +233,16 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 	}
 
 	// otherwise lets go ahead and insert it into our population
-	nu->ID = old->ID;
+	nu->id = old->id;
 
 	// replace the old network in the current generation
-	currentGeneration[oldGenerationID] = nu;
+	currentGeneration[oldGenerationid] = nu;
 
 	// replace the old in evaluated/unevaluated
 	unevaluated.erase(old);
 	evaluated.erase(old);
     if (nu->fitness != -1) {
-        logger->log << "Replacement individual " << nu->ID << " made by " << nu->origin << " with height " << nu->height << " and structure " << logger->net_to_string_print(nu) << " was already evaluated and replaced algorithm " << old->ID << " ." << std::flush;
+        logger->log << "Replacement individual " << nu->id << " made by " << nu->origin << " with height " << nu->height << " and structure " << logger->net_to_string_print(nu) << " was already evaluated and replaced algorithm " << old->id << " ." << std::flush;
         
         assignFitness(nu, nu->fitness);
     }
@@ -252,7 +252,7 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 
 	// replace the old network in the string backups
     if (params->backup_all_networks) {
-		allNetworks[oldGenerationID] = nu->toString(params->backup_precision);
+		allNetworks[oldGenerationid] = nu->to_string(params->backup_precision);
 	}
 
 	// delete the old
@@ -262,15 +262,15 @@ bool GPSynth::replaceIndividual(GPNetwork* old, GPNetwork* nu) {
 	return true;
 }
 
-int GPSynth::assignFitness(GPNetwork* net, double fitness) {
+int GPSynth::assignFitness(algorithm* net, double fitness) {
     // assign network fitness and move it to evaluated
     net->fitness = fitness;
     unevaluated.erase(net);
     evaluated.insert(net);
-    rawFitnesses[net->ID % populationSize] = fitness;
+    rawFitnesses[net->id % populationSize] = fitness;
 
     // print if verbose
-    logger->verbose << "Algorithm " << net->ID << " was assigned fitness " << fitness << std::flush;
+    logger->verbose << "Algorithm " << net->id << " was assigned fitness " << fitness << std::flush;
 
     // calculate num remaining and print summary if generation is done
     int numStillNeedingEvaluation = populationSize - evaluated.size();
@@ -298,13 +298,13 @@ int GPSynth::prevGeneration() {
 	clearGenerationState();
 
 	// recreate the old networks
-	std::vector<GPNetwork*> lastGeneration(0);
+	std::vector<algorithm*> lastGeneration(0);
 	for (unsigned i = 0; i < populationSize; i++) {
-		// sort by ID in fillFromGeneration()
+		// sort by id in fillFromGeneration()
 		std::string oldnetstring = allNetworks[((currentGenerationNumber - 1) * populationSize) + i];
 		std::string error_string = "";
-		GPNode* oldnode = createNode(oldnetstring, &error_string);
-		GPNetwork* oldnetwork = new GPNetwork(oldnode, "restored_from_last_gen");
+		node* oldnode = createNode(oldnetstring, &error_string);
+		algorithm* oldnetwork = new algorithm(oldnode, "restored_from_last_gen");
 		lastGeneration.push_back(oldnetwork);
 	}
 	
@@ -316,7 +316,7 @@ int GPSynth::prevGeneration() {
 	//appendToTextFile("./debug.txt", "ALL NETWORKS AFTER DELETE: " + String(allNetworks.size()) + "\n");
 
 	// add old networks back to population
-	nextNetworkID -=  2 * populationSize;
+	nextNetworkid -=  2 * populationSize;
 	for (unsigned i = 0; i < populationSize; i++) {
 		addNetworkToPopulation(lastGeneration[i]);
 	}
@@ -335,13 +335,13 @@ void GPSynth::endGeneration() {
     assert(currentGenerationAlive);
 
     // parse assigned fitnesses
-    unsigned generationBestNetworkID = 0;
+    unsigned generationBestNetworkid = 0;
     double generationCumulativeFitness = 0;
-    for (std::set<GPNetwork*>::iterator i = evaluated.begin(); i != evaluated.end(); i++) {
+    for (std::set<algorithm*>::iterator i = evaluated.begin(); i != evaluated.end(); i++) {
         // find fitness
-        GPNetwork* evaluatedNet = (*i);
-        unsigned generationID = evaluatedNet->ID % populationSize;
-        double fitness = rawFitnesses[generationID];
+        algorithm* evaluatedNet = (*i);
+        unsigned generationid = evaluatedNet->id % populationSize;
+        double fitness = rawFitnesses[generationid];
 
         // report if fitness negative
         if (fitness < 0) {
@@ -351,7 +351,7 @@ void GPSynth::endGeneration() {
         // determine if we have a new generation champion
         bool newGenChamp = lowerFitnessIsBetter ? fitness < generationBestFitness : fitness > generationBestFitness;
         if (newGenChamp) {
-            generationBestNetworkID = generationID;
+            generationBestNetworkid = generationid;
             generationBestFitness = fitness;
         }
 
@@ -363,21 +363,21 @@ void GPSynth::endGeneration() {
     generationAverageFitness = generationCumulativeFitness / evaluated.size();
 
     // update generation champ
-    GPNetwork* best = currentGeneration[generationBestNetworkID];
+    algorithm* best = currentGeneration[generationBestNetworkid];
     delete generationChamp;
     generationChamp = best->getCopy(best->origin);
-    generationChamp->ID = best->ID;
+    generationChamp->id = best->id;
     generationChamp->fitness = generationBestFitness;
-    generationChamp->traceNetwork();
+    generationChamp->trace();
 
     // update overall champ
     bool newChamp = lowerFitnessIsBetter ? generationBestFitness < overallBestFitness : generationBestFitness > overallBestFitness;
 	if (newChamp) {
 		delete champ;
 		champ = best->getCopy(best->origin);
-		champ->ID = best->ID;
+		champ->id = best->id;
 		champ->fitness = generationBestFitness;
-		champ->traceNetwork();
+		champ->trace();
         overallBestFitness = generationBestFitness;
 	}
     
@@ -386,7 +386,7 @@ void GPSynth::endGeneration() {
 
 void GPSynth::printGenerationSummary() {
     // print generation summary
-    logger->log << "Generation " << currentGenerationNumber << " had average fitness " << generationAverageFitness << " and best fitness " << generationBestFitness << " attained by algorithm " << generationChamp->ID << " made by " << generationChamp->origin << " with height " << generationChamp->height << " and structure " << logger->net_to_string_print(generationChamp) << std::flush;
+    logger->log << "Generation " << currentGenerationNumber << " had average fitness " << generationAverageFitness << " and best fitness " << generationBestFitness << " attained by algorithm " << generationChamp->id << " made by " << generationChamp->origin << " with height " << generationChamp->height << " and structure " << logger->net_to_string_print(generationChamp) << std::flush;
 }
 
 void GPSynth::printEvolutionSummary() {
@@ -395,11 +395,11 @@ void GPSynth::printEvolutionSummary() {
     logger->log << "-------------------------------- SUMMARY --------------------------------" << std::flush;
     logger->log << "Evolution ran for " << numEvaluatedGenerations << " generations" << std::flush;
     if (champ != NULL) {
-        logger->log << "The best synthesis algorithm found was number " << champ->ID << " made by " << champ->origin << " with height " << champ->height << ", fitness " << champ->fitness << " and structure " << logger->net_to_string_print(champ) << std::flush;
+        logger->log << "The best synthesis algorithm found was number " << champ->id << " made by " << champ->origin << " with height " << champ->height << ", fitness " << champ->fitness << " and structure " << logger->net_to_string_print(champ) << std::flush;
     }
 }
 
-void GPSynth::getCurrentGeneration(std::vector<GPNetwork*>& networks) {
+void GPSynth::getCurrentGeneration(std::vector<algorithm*>& networks) {
     for (int i = 0; i < populationSize; i++) {
         networks.push_back(currentGeneration[i]);
     }
@@ -412,9 +412,9 @@ int GPSynth::nextGeneration() {
     assert(unevaluated.size() == 0);
 
     // CREATE TEMP CONTAINER FOR NEXT GENERATION
-    std::vector<GPNetwork*>* nextGeneration = new std::vector<GPNetwork*>();
+    std::vector<algorithm*>* nextGeneration = new std::vector<algorithm*>();
 
-    // CALCULATE NUMBER OF INDIVIDUALS BY EACH MUTATION TYPE
+    // CALCULATE NUMBER OF INDIVidUALS BY EACH MUTATION TYPE
     double proportionSum = 0;
     proportionSum += params->nm_proportion + params->mu_proportion + params->x_proportion + params->re_proportion + params->new_proportion;
 
@@ -432,21 +432,21 @@ int GPSynth::nextGeneration() {
     // NUMERIC MUTATION
     unsigned numForPossibleNumericMutation = params->nm_selection_percentile * populationSize;
     for (unsigned i = 0; i < numToNumericMutate; i++) {
-        GPNetwork* selected = selectFromEvaluated(params->nm_selection_type, numForPossibleNumericMutation);
-        GPNetwork* one = selected->getCopy("numeric mutation");
-        one->traceNetwork();
+        algorithm* selected = selectFromEvaluated(params->nm_selection_type, numForPossibleNumericMutation);
+        algorithm* one = selected->getCopy("numeric mutation");
+        one->trace();
         numericallyMutate(one);
         nextGeneration->push_back(one);
         //selected->fitness = newfitness;
-        //rawFitnesses[selected->ID % populationSize] = newfitness;
+        //rawFitnesses[selected->id % populationSize] = newfitness;
     }
 
     // MUTATION
     unsigned numForPossibleMutation = params->mu_selection_percentile * populationSize;
     for (unsigned i = 0; i < numToMutate; i++) {
-        GPNetwork* selected = selectFromEvaluated(params->mu_selection_type, numForPossibleMutation);
-        GPNetwork* one = selected->getCopy("mutation");
-        one->traceNetwork();
+        algorithm* selected = selectFromEvaluated(params->mu_selection_type, numForPossibleMutation);
+        algorithm* one = selected->getCopy("mutation");
+        one->trace();
         mutate(params->mu_type, one);
         nextGeneration->push_back(one);
         //selected->fitness = newfitness;
@@ -455,38 +455,38 @@ int GPSynth::nextGeneration() {
     // CROSSOVER
     unsigned numForPossibleCrossover = params->x_selection_percentile * populationSize;
     for (unsigned i = 0; i < numToCrossover;) {
-        GPNetwork* dad = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
-        GPNetwork* mom = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
-        GPNetwork* one = dad->getCopy("crossover");
-        int oneID = dad->ID;
+        algorithm* dad = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
+        algorithm* mom = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
+        algorithm* one = dad->getCopy("crossover");
+        int oneid = dad->id;
         double oneFitness = one->fitness;
-        one->traceNetwork();
-        GPNetwork* two = mom->getCopy("crossover");
-        int twoID = mom->ID;
+        one->trace();
+        algorithm* two = mom->getCopy("crossover");
+        int twoid = mom->id;
         double twoFitness = two->fitness;
-        two->traceNetwork();
+        two->trace();
 
-        GPNetwork* offspring = crossover(params->x_type, one, two);
+        algorithm* offspring = crossover(params->x_type, one, two);
 
         // standard GP with two offspring
         if (offspring == NULL) {
-            one->traceNetwork();
+            one->trace();
 			assert(one->height >= 0);
             if ((unsigned) one->height > params->max_height) {
                 delete one;
                 one = dad->getCopy("reproduction during crossover");
-                one->ID = oneID;
+                one->id = oneid;
                 one->fitness = oneFitness;
             }
             nextGeneration->push_back(one);
             i++;
             if (i < numToCrossover) {
-                two->traceNetwork();
+                two->trace();
 				assert(two->height >= 0);
                 if ((unsigned) two->height > params->max_height) {
                     delete two;
                     two = mom->getCopy("reproduction during crossover");
-                    two->ID = twoID;
+                    two->id = twoid;
                     two->fitness = twoFitness;
                 }
                 nextGeneration->push_back(two);
@@ -505,19 +505,19 @@ int GPSynth::nextGeneration() {
     // REPRODUCTION
     unsigned numForPossibleReproduction = params->re_selection_type;
     for (unsigned i = 0; i < numToReproduce; i++) {
-        GPNetwork* selected = selectFromEvaluated(params->re_selection_type, numForPossibleReproduction);
-        int oldID = selected->ID;
+        algorithm* selected = selectFromEvaluated(params->re_selection_type, numForPossibleReproduction);
+        int oldid = selected->id;
         double oldFitness = selected->fitness;
-        GPNetwork* one = selected->getCopy("reproduction");
-        one->ID = oldID;
+        algorithm* one = selected->getCopy("reproduction");
+        one->id = oldid;
         one->fitness = oldFitness;
         nextGeneration->push_back(one);
     }
 
     // CREATE
     for (unsigned i = 0; i < numToCreate; i++) {
-        GPNetwork* one = newIndividual(params->new_type);
-        one->traceNetwork();
+        algorithm* one = newIndividual(params->new_type);
+        one->trace();
         nextGeneration->push_back(one);
     }
 
@@ -590,24 +590,24 @@ void GPSynth::calculateGenerationNormalizedFitnesses() {
 
 /*
    =======
-   HELPERS
+   helpers
    =======
 */
 
-void GPSynth::addNetworkToPopulation(GPNetwork* net) {
-    int oldID = -1;
+void GPSynth::addNetworkToPopulation(algorithm* net) {
+    int oldid = -1;
     if (net->fitness != -1) {
-        oldID = net->ID;
+        oldid = net->id;
     }
-    net->ID = nextNetworkID++;
-    net->traceNetwork();
+    net->id = nextNetworkid++;
+    net->trace();
     assert(net->height >= 0 && (unsigned) net->height <= params->max_height);
     if (params->backup_all_networks)
-      allNetworks.push_back(net->toString(params->backup_precision));
-    currentGeneration.insert(std::make_pair(net->ID % populationSize, net));
+      allNetworks.push_back(net->to_string(params->backup_precision));
+    currentGeneration.insert(std::make_pair(net->id % populationSize, net));
     if (net->fitness != -1 && !params->re_reevaluate) {
 		// TODO: reorder sanity of this message
-        logger->verbose << "Testing algorithm " << net->ID << " made by " << net->origin << " with height " << net->height << " and structure " << logger->net_to_string_print(net) << " which was algorithm " << oldID << " from the previous generation." << std::flush;
+        logger->verbose << "Testing algorithm " << net->id << " made by " << net->origin << " with height " << net->height << " and structure " << logger->net_to_string_print(net) << " which was algorithm " << oldid << " from the previous generation." << std::flush;
         assignFitness(net, net->fitness);
     }
     else {
@@ -617,10 +617,10 @@ void GPSynth::addNetworkToPopulation(GPNetwork* net) {
 
 void GPSynth::clearGenerationState() {
     // delete all networks from last generation
-    for (std::set<GPNetwork*>::iterator i = unevaluated.begin(); i != unevaluated.end(); i++) {
+    for (std::set<algorithm*>::iterator i = unevaluated.begin(); i != unevaluated.end(); i++) {
         delete (*i);
     }
-    for (std::set<GPNetwork*>::iterator i = evaluated.begin(); i != evaluated.end(); i++) {
+    for (std::set<algorithm*>::iterator i = evaluated.begin(); i != evaluated.end(); i++) {
         delete (*i);
     }
     evaluated.clear();
@@ -638,7 +638,7 @@ void GPSynth::clearGenerationState() {
     rank.resize(populationSize, NULL);
 }
 
-GPNetwork* GPSynth::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
+algorithm* GPSynth::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
     //http://en.wikipedia.org/wiki/Selection_%28genetic_algorithm%29
     assert(rawFitnesses.size() == populationSize && normalizedFitnesses.size() == populationSize);
     if (selectionType == 0 && normalizedFitnesses[0] == -1) {
@@ -691,15 +691,15 @@ GPNetwork* GPSynth::selectFromEvaluated(unsigned selectionType, unsigned paramet
     =========
 */
 
-GPNetwork* GPSynth::crossover(unsigned crossoverType, GPNetwork* one, GPNetwork* two) {
+algorithm* GPSynth::crossover(unsigned crossoverType, algorithm* one, GPNetwork* two) {
     if (crossoverType == 0) {
         // standard GP crossover
-        GPNode* subtreeone = one->getRandomNetworkNode(rng);
-        GPNode* subtreeonecopy = subtreeone->getCopy();
-        GPNode* subtreetwo = two->getRandomNetworkNode(rng);
-        GPNode* subtreetwocopy = subtreetwo->getCopy();
-        one->replaceSubtree(subtreeone, subtreetwocopy);
-        two->replaceSubtree(subtreetwo, subtreeonecopy);
+        node* subtreeone = one->get_random_network_node(rng);
+        node* subtreeonecopy = subtreeone->get_copy();
+        node* subtreetwo = two->get_random_network_node(rng);
+        node* subtreetwocopy = subtreetwo->get_copy();
+        one->replace_subtree(subtreeone, subtreetwocopy);
+        two->replace_subtree(subtreetwo, subtreeonecopy);
         delete subtreeone;
         delete subtreetwo;
 
@@ -714,8 +714,8 @@ GPNetwork* GPSynth::crossover(unsigned crossoverType, GPNetwork* one, GPNetwork*
     else if (crossoverType == 3) {
         // AM crossover
         /*
-        GPNode* newroot = new FunctionNode(multiply, one->getRoot(), two->getRoot());
-        GPNetwork* newnet = new GPNetwork(newroot, "AM crossover");
+        node* newroot = new FunctionNode(multiply, one->get_root(), two->getRoot());
+        algorithm* newnet = new algorithm(newroot, "AM crossover");
         return newnet;
         */
         return NULL;
@@ -727,86 +727,86 @@ GPNetwork* GPSynth::crossover(unsigned crossoverType, GPNetwork* one, GPNetwork*
     return NULL;
 }
 
-void GPSynth::mutate(unsigned mutationType, GPNetwork* one) {
+void GPSynth::mutate(unsigned mutationType, algorithm* one) {
     if (mutationType == 0) {
         // pick old subtree
-        GPNode* forReplacement = one->getRandomNetworkNode(rng);
+        node* forReplacement = one->get_random_network_node(rng);
         assert(params->max_height - forReplacement->depth >= 0);
 
         // grow new replacement subtree
-        GPNode* replacement = growRecursive(0, params->max_height - forReplacement->depth);
+        node* replacement = growRecursive(0, params->max_height - forReplacement->depth);
         if (params->erc)
-            replacement->ephemeralRandom(rng);
+            replacement->ephemeral_random(rng);
 
         // replace and delete old
-        one->replaceSubtree(forReplacement, replacement);
+        one->replace_subtree(forReplacement, replacement);
         delete forReplacement;
     }
     else if (mutationType == 1) {
         // grow new node
-        GPNetwork* two = grow(params->max_initial_height);
+        algorithm* two = grow(params->max_initial_height);
         crossover(params->x_type, one, two);
         delete two;
     }
 }
 
-void GPSynth::numericallyMutate(GPNetwork* one) {
-    //std::cout << "BEFORE NUMERIC MUTATION " << one->toString(3) << std::endl;
+void GPSynth::numericallyMutate(algorithm* one) {
+    //std::cout << "BEFORE NUMERIC MUTATION " << one->to_string(3) << std::endl;
     double bestProportion = generationBestFitness / generationAverageFitness;
     double temperatureConstant = params->nm_temperature;
 
     //std::cout << bestProportion << ", " << temperatureConstant << std::endl;
 
-    std::vector<GPMutatableParam*>* network_params = one->getAllMutatableParams();
+    std::vector<param*>* network_params = one->get_all_mutatable_params();
     for (unsigned i = 0; i < network_params->size(); i++) {
-        GPMutatableParam* p = network_params->at(i);
-        if (p->isContinuous()) {
-            double value = p->getCValue();
-            double min = p->getCMin();
-            double max = p->getCMax();
+        param* p = network_params->at(i);
+        if (p->is_continuous()) {
+            double value = p->get_cvalue();
+            double min = p->get_cmin();
+            double max = p->get_cmax();
             double temperatureFactor = bestProportion * (max - min) * temperatureConstant;
             double rand = rng->random();
             double mutationAmount = (rand * temperatureFactor * 2) - temperatureFactor;
             //std::cout << "CONTINUOUS VALUE: " << value << ", MUTATION AMOUNT: " << mutationAmount << ", MIN: " << min << ", MAX: " << max << std::endl;
-            p->setCData(min, value + mutationAmount, max);
+            p->set_cdata(min, value + mutationAmount, max);
         }
         else {
-            int value = p->getDValue();
-            int min = p->getDMin();
-            int max = p->getDMax();
+            int value = p->get_dvalue();
+            int min = p->get_dmin();
+            int max = p->get_dmax();
             double temperatureFactor = bestProportion * (max - min) * temperatureConstant;
             double rand = rng->random();
             double mutationAmount = (rand * temperatureFactor * 2) - temperatureFactor;
             //std::cout << "DISCRETE VALUE: " << value << ", MUTATION AMOUNT: " << mutationAmount << ", MIN: " << min << ", MAX: " << max << std::endl;
-            p->setDData(min, (int) (value + mutationAmount), max);
+            p->set_ddata(min, (int) (value + mutationAmount), max);
         }
     }
-    //std::cout << "AFTER NUMERIC MUTATION " << one->toString(3) << std::endl;
+    //std::cout << "AFTER NUMERIC MUTATION " << one->to_string(3) << std::endl;
 }
 
-GPNetwork* GPSynth::newIndividual(unsigned new_type) {
+algorithm* GPSynth::newIndividual(unsigned new_type) {
     if (new_type == 0) {
-        GPNetwork* newnet = grow(params->max_initial_height);
+        algorithm* newnet = grow(params->max_initial_height);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         return newnet;
     }
     else if (new_type == 1) {
-        GPNetwork* newnet = grow(params->max_height);
+        algorithm* newnet = grow(params->max_height);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         return newnet;
     }
     else if (new_type == 2) {
-        GPNetwork* newnet = full(params->max_height);
+        algorithm* newnet = full(params->max_height);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         return newnet;
     }
     else if (new_type == 3) {
-        GPNetwork* newnet = full(params->max_height);
+        algorithm* newnet = full(params->max_height);
         if (params->erc)
-            newnet->ephemeralRandom(rng);
+            newnet->ephemeral_random(rng);
         return newnet;
     }
     return NULL;
@@ -818,10 +818,10 @@ GPNetwork* GPSynth::newIndividual(unsigned new_type) {
     ====================
 */
 
-bool compareFitnessesLower(GPNetwork* one, GPNetwork* two) {
+bool compareFitnessesLower(algorithm* one, algorithm* two) {
     return one->fitness < two->fitness;
 }
 
-bool compareFitnessesHigher(GPNetwork* one, GPNetwork* two) {
+bool compareFitnessesHigher(algorithm* one, algorithm* two) {
     return two->fitness < one->fitness;
 }

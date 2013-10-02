@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "../Common/GPLogger.h"
-#include "../Common/GPRandom.h"
-#include "GPNetwork.h"
+#include "../Common/random.h"
+#include "algorithm.h"
 
 struct GPSynthParams {
     // synth evolution parameters
@@ -53,34 +53,34 @@ struct GPSynthParams {
 
 class GPSynth {
 public:
-    // CONSTRUCTION
-    GPSynth(GPLogger* logger, GPSynthParams* params, GPRandom* rng, std::vector<GPNode*>* primitives);
+    // construction
+    GPSynth(GPLogger* logger, GPSynthParams* params, random* rng, std::vector<node*>* primitives);
     ~GPSynth();
 
     // EVOLUTION CONTROL
-    GPNetwork* getIndividual();
-    void getIndividuals(std::vector<GPNetwork*>& networks);
-    int assignFitness(GPNetwork* net, double fitness);
-	GPNetwork* growNewIndividual(unsigned maxHeight);
-	bool replaceIndividual(GPNetwork* old, GPNetwork* nu);
+    algorithm* getIndividual();
+    void getIndividuals(std::vector<algorithm*>& networks);
+    int assignFitness(algorithm* net, double fitness);
+	algorithm* growNewIndividual(unsigned maxHeight);
+	bool replaceIndividual(algorithm* old, algorithm* nu);
     int prevGeneration();
     void endGeneration();
     void printGenerationDelim();
     void printGenerationSummary();
     void printEvolutionSummary();
-    void getCurrentGeneration(std::vector<GPNetwork*>& networks);
+    void getCurrentGeneration(std::vector<algorithm*>& networks);
 
     // PUBLIC EVOLUTION STATE
     int currentGenerationNumber;
-    GPNetwork* generationChamp;
-    GPNetwork* champ;
+    algorithm* generationChamp;
+    algorithm* champ;
 
 private:
-    // CONSTRUCTION
-    GPNode* fullRecursive(unsigned cd, unsigned d);
-    GPNetwork* full(unsigned d);
-    GPNode* growRecursive(unsigned cd, unsigned m);
-    GPNetwork* grow(unsigned m);
+    // construction
+    node* fullRecursive(unsigned cd, unsigned d);
+    algorithm* full(unsigned d);
+    node* growRecursive(unsigned cd, unsigned m);
+    algorithm* grow(unsigned m);
     void initPopulation();
 
     // EVOLUTION CONTROL
@@ -88,23 +88,23 @@ private:
     void calculateGenerationRanks();
     void calculateGenerationNormalizedFitnesses();
 
-    // HELPERS
-    void addNetworkToPopulation(GPNetwork* net);
+    // helpers
+    void addNetworkToPopulation(algorithm* net);
     void clearGenerationState();
-    GPNetwork* selectFromEvaluated(unsigned selectionType, unsigned parameter);
+    algorithm* selectFromEvaluated(unsigned selectionType, unsigned parameter);
 
     // GENETIC OPERATIONS
-    GPNetwork* crossover(unsigned crossoverType, GPNetwork* one, GPNetwork* two);
-    void mutate(unsigned mutationType, GPNetwork* one);
-    void numericallyMutate(GPNetwork* one);
-    GPNetwork* newIndividual(unsigned new_type);
+    algorithm* crossover(unsigned crossoverType, algorithm* one, GPNetwork* two);
+    void mutate(unsigned mutationType, algorithm* one);
+    void numericallyMutate(algorithm* one);
+    algorithm* newIndividual(unsigned new_type);
 
     // PRIVATE EVOLUTION STATE
     GPLogger* logger;
     GPSynthParams* params;
-    GPRandom* rng;
+    random* rng;
     unsigned populationSize;
-    int nextNetworkID;
+    int nextNetworkid;
     bool lowerFitnessIsBetter;
     double overallBestFitness;
     double generationBestFitness;
@@ -117,24 +117,24 @@ private:
     std::vector<double*> continuousConvergenceVaryingTemperatures;
 
     // AVAILABLE CONTAINERS
-    std::vector<GPNode*>* availablePrimitives;
-    std::vector<GPNode*>* availableFunctions;
-    std::vector<GPNode*>* availableTerminals;
+    std::vector<node*>* availablePrimitives;
+    std::vector<node*>* availableFunctions;
+    std::vector<node*>* availableTerminals;
 
     // NETWORK CONTAINERS
     std::vector<std::string> allNetworks;
-    std::set<GPNetwork*> unevaluated;
-    std::set<GPNetwork*> evaluated;
-    std::map<int, GPNetwork*> currentGeneration;
+    std::set<algorithm*> unevaluated;
+    std::set<algorithm*> evaluated;
+    std::map<int, algorithm*> currentGeneration;
 
     // SELECTION CONTAINERS
     std::vector<double> rawFitnesses;
     std::vector<double> normalizedFitnesses;
-    std::vector<GPNetwork*> rank;
+    std::vector<algorithm*> rank;
 };
 
 // EXTERNAL COMPARATORS
-extern bool compareFitnessesLower(GPNetwork* one, GPNetwork* two);
-extern bool compareFitnessesHigher(GPNetwork* one, GPNetwork* two);
+extern bool compareFitnessesLower(algorithm* one, algorithm* two);
+extern bool compareFitnessesHigher(algorithm* one, algorithm* two);
 
 #endif

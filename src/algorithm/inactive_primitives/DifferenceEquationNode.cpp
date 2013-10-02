@@ -16,7 +16,7 @@
     ==============
 */
 
-DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, GPRandom* r, bool erc, GPMutatableParam* z, GPMutatableParam* p, GPNode* signal) :
+DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, random* r, bool erc, param* z, GPMutatableParam* p, node* signal) :
     xcoefficients(), ycoefficients()
 {
     // allocate zero buffer
@@ -31,23 +31,23 @@ DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, GPRandom*
 
     // make mutatable params for x coefficients
     for (unsigned i = 0; i < numXCoefficients; i++) {
-        GPMutatableParam* copy = z->getCopy();
+        param* copy = z->get_copy();
         if (erc)
-            copy->ephemeralRandom(r);
-        xcoefs[i] = copy->getCValue();
+            copy->ephemeral_random(r);
+        xcoefs[i] = copy->get_cvalue();
         xcoefficients.push_back(copy);
-        mutatableParams.push_back(copy);
+        params.push_back(copy);
     }
     delete z;
 
     // make mutatable params for y coefficients
     for (unsigned i = 0; i < numYCoefficients; i++) {
-        GPMutatableParam* copy = p->getCopy();
+        param* copy = p->get_copy();
         if (ephemeralRandomConstants)
-            copy->ephemeralRandom(rng);
-        ycoefs[i] = copy->getCValue();
+            copy->ephemeral_random(rng);
+        ycoefs[i] = copy->get_cvalue();
         ycoefficients.push_back(copy);
-        mutatableParams.push_back(copy);
+        params.push_back(copy);
     }
     delete p;
 
@@ -56,7 +56,7 @@ DifferenceEquationNode::DifferenceEquationNode(unsigned m, unsigned n, GPRandom*
     descendants.push_back(signal);
 }
 
-DifferenceEquationNode::DifferenceEquationNode(std::vector<GPMutatableParam*>& xcoef, std::vector<GPMutatableParam*>& ycoef, GPNode* signal) {
+DifferenceEquationNode::DifferenceEquationNode(std::vector<param*>& xcoef, std::vector<GPMutatableParam*>& ycoef, node* signal) {
     numXCoefficients = xcoef.size();
     xcoefficients = xcoef;
     x = (float*) calloc(numXCoefficients, sizeof(float));
@@ -66,11 +66,11 @@ DifferenceEquationNode::DifferenceEquationNode(std::vector<GPMutatableParam*>& x
     y = (float*) calloc(numYCoefficients, sizeof(float));
 
     for (unsigned i = 0; i < xcoefficients.size(); i++) {
-        mutatableParams.push_back(xcoefficients[i]);
+        params.push_back(xcoefficients[i]);
     }
 
     for (unsigned i = 0; i < ycoefficients.size(); i++) {
-        mutatableParams.push_back(ycoefficients[i]);
+        params.push_back(ycoefficients[i]);
     }
 
     descendants.push_back(signal);
@@ -83,16 +83,16 @@ DifferenceEquationNode::~DifferenceEquationNode() {
     free(y);
 }
 
-DifferenceEquationNode* DifferenceEquationNode::getCopy() {
-    std::vector<GPMutatableParam*> xcoefcopies(numXCoefficients);
+DifferenceEquationNode* DifferenceEquationNode::get_copy() {
+    std::vector<param*> xcoefcopies(numXCoefficients);
     for (unsigned i = 0; i < numXCoefficients; i++) {
-        xcoefcopies[i] = xcoefficients[i]->getCopy();
+        xcoefcopies[i] = xcoefficients[i]->get_copy();
     }
-    std::vector<GPMutatableParam*> ycoefcopies(numYCoefficients);
+    std::vector<param*> ycoefcopies(numYCoefficients);
     for (unsigned i = 0; i < numYCoefficients; i++) {
-        ycoefcopies[i] = ycoefficients[i]->getCopy();
+        ycoefcopies[i] = ycoefficients[i]->get_copy();
     }
-    return new DifferenceEquationNode(xcoefcopies, ycoefcopies, descendants[0]->getCopy();
+    return new DifferenceEquationNode(xcoefcopies, ycoefcopies, descendants[0]->get_copy();
 }
 
 void DifferenceEquationNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, double* min, double* max, unsigned n, float* buffer) {
@@ -124,7 +124,7 @@ void DifferenceEquationNode::evaluateBlock(unsigned fn, double* t, unsigned nv, 
 *max = max;
 }
 
-void DifferenceEquationNode::toString(std::stringstream& ss) {
+void DifferenceEquationNode::to_string(std::stringstream& ss) {
     ss << "(iirfilter z" << numXCoefficients << ":";
     for (unsigned i = 0; i < numXCoefficients; i++) {
         ss << " " << xcoefs[i];
@@ -133,25 +133,25 @@ void DifferenceEquationNode::toString(std::stringstream& ss) {
     for (unsigned i = 0; i < numYCoefficients; i++) {
         ss << " " << ycoefs[i];
     }
-    descendants[0]->toString(ss);
+    descendants[0]->to_string(ss);
     ss << ")";
 }
 
-void DifferenceEquationNode::updateMutatedParams() {
+void DifferenceEquationNode::update_mutated_params() {
     for (unsigned i = 0; i < numXCoefficients; i++) {
-        xcoefs[i] = xcoefficients[i]->getCValue();
+        xcoefs[i] = xcoefficients[i]->get_cvalue();
     }
     for (unsigned i = 0; i < numYCoefficients; i++) {
-        ycoefs[i] = ycoefficients[i]->getCValue();
+        ycoefs[i] = ycoefficients[i]->get_cvalue();
     }
 
-    descendants[0]->updateMutatedParams();
+    descendants[0]->update_mutated_params();
 }
 
 
-void DifferenceEquationNode::prepareToPlay() {
+void DifferenceEquationNode::prepare_to_play() {
 }
 
-void DifferenceEquationNode::setRenderInfo(float sr, unsigned blockSize, float maxTime) {
+void DifferenceEquationNode::set_render_info(float sr, unsigned block_size, float max_frame_start_time) {
 
 }

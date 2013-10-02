@@ -1,72 +1,67 @@
-/*
-  ==============================================================================
+#ifndef ALGORITHM_H
+#define ALGORITHM_H
 
-    GPNetwork.h
-    Created: 6 Feb 2013 11:05:02am
-    Author:  cdonahue
-
-  ==============================================================================
-*/
-
-#ifndef GPNETWORK_H
-#define GPNETWORK_H
+#include "../common/helpers.h"
+#include "../common/juce_file_io.h"
+#include "../common/parser.h"
+#include "../common/random.h"
+#include "node.h"
+#include "param.h"
+#include "primitives.h"
 
 #include <cmath>
 #include <iostream>
 #include <limits>
 #include <string>
 #include <string.h>
-#include "GPNode.h"
-#include "GPPrimitives.h"
-#include "../Common/GPParser.h"
-#include "../Common/GPHelpers.h"
-#include "../Common/JUCEFileIO.h"
 
-class GPNetwork {
-public:
-    // CONSTRUCTION
-    GPNetwork(GPNode* r, std::string o);
-    ~GPNetwork();
-    GPNetwork* getCopy(std::string neworigin);
+namespace synthax {
+    class algorithm {
+    public:
+        // construction
+        algorithm(node* r, std::string o);
+        ~algorithm();
+        algorithm* getCopy(std::string neworigin);
 
-    // EXAMINATION
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
-    std::string toString(unsigned precision);
-    GPNode* getRoot();
-    bool equals(GPNetwork* other, unsigned precision);
-    GPNode* getRandomNetworkNode(GPRandom* r);
-    std::vector<GPMutatableParam*>* getAllMutatableParams();
+        // examination
+        void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+        std::string to_string(unsigned precision);
+        node* get_root();
+        bool equals(algorithm* other, unsigned precision);
+        node* get_random_network_node(random* r);
+        std::vector<param*>* get_all_mutatable_params();
 
-    // HELPERS
-    void traceNetwork();
-    void prepareToRender(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime);
-    void updateMutatedParams();
-    void doneRendering();
-    void replaceSubtree(GPNode* one, GPNode* two);
-    void ephemeralRandom(GPRandom* r);
+        // helpers
+        void trace();
+        void prepare_to_render(float sr, unsigned block_size, unsigned max_num_frames, float max_frame_start_time);
+        void update_mutated_params();
+        void done_rendering();
+        void replace_subtree(node* one, GPNode* two);
+        void ephemeral_random(random* r);
 
-    // PUBLIC STATE
-    int ID;
-    std::string origin;
-    int height;
-    double fitness;
-    
-    // interval
-    float minimum;
-    float maximum;
+        // PUBLIC STATE
+        int id;
+        std::string origin;
+        int height;
+        double fitness;
+        
+        // interval
+        float minimum;
+        float maximum;
 
-    // render state
-    bool traced;
-    bool preparedToRender;
+        // render state
+        bool traced;
+        bool prepared_to_render;
 
-private:
-    // PRIVATE STATE
-    GPNode* root;
-    GPNode* renderRoot;
-    std::vector<GPNode*> allNodes;
-    std::vector<GPMutatableParam*> allMutatableParams;
-};
+    private:
+        // private state
+        node* root;
+        node* render_root;
+        std::vector<node*> all_nodes;
+        std::vector<param*> all_mutatable_params;
+    };
 
-extern bool compareNetworksByID(GPNetwork* one, GPNetwork* two);
+    extern bool compare_algorithms_by_id(algorithm* one, algorithm* two);
+}
 
 #endif

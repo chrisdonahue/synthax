@@ -2,13 +2,13 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-LFOTerminalNode::LFOTerminalNode(GPMutatableParam* rate)
+LFOTerminalNode::LFOTerminalNode(param* rate)
 {
-    mutatableParams.push_back(rate);
+    params.push_back(rate);
 
     arity = 0;
     minimum = -1;
@@ -22,12 +22,12 @@ LFOTerminalNode::~LFOTerminalNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-LFOTerminalNode* LFOTerminalNode::getCopy() {
-    return new LFOTerminalNode(mutatableParams[0]->getCopy());
+LFOTerminalNode* LFOTerminalNode::get_copy() {
+    return new LFOTerminalNode(params[0]->get_copy());
 }
 
 void LFOTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -37,11 +37,11 @@ void LFOTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsign
     }
 }
 
-void LFOTerminalNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void LFOTerminalNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    rate = mutatableParams[0]->getValue();
+    rate = params[0]->get_value();
     w = 2.0 * M_PI * rate;
 	
     // minimum/maximum constant and declared in constructor

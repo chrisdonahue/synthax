@@ -2,24 +2,24 @@
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-void WaveTableFreqNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
+void WaveTableFreqNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	sampleRate = sr;
     nyquistFreq = sampleRate / 2;
 	osc = new WaveTableOsc();
 	makeAddAllWaveTables((double) sr, 2, 99999, 20.0f, (double) 20.0f * 2.0 / sampleRate);
 	//makeAddAllWaveTables((double) sr, 2, 99999, 20.0f, (double) sr/2);
-	GPNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+	node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void WaveTableFreqNode::doneRendering() {
-	if (preparedToRender) {
+void WaveTableFreqNode::done_rendering() {
+	if (prepared_to_render) {
 		delete osc;
 	}
-	GPNode::doneRendering();
+	node::done_rendering();
 }
 
 void WaveTableFreqNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -43,11 +43,11 @@ void WaveTableFreqNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsi
     }
 }
 
-void WaveTableFreqNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void WaveTableFreqNode::update_mutated_params() {
+    node::update_mutated_params();
 
     // update angular frequency constant
-    phase = mutatableParams[1]->getValue();
+    phase = params[1]->get_value();
 
     // get min max from descendants
     continuous_map_range(descendants[0]->minimum, descendants[0]->maximum, 0.0f, nyquistFreq, &freq_m, &freq_b);
@@ -55,7 +55,7 @@ void WaveTableFreqNode::updateMutatedParams() {
 
 /*
     =================
-    WAVETABLE HELPERS
+    WAVETABLE helpers
     =================
 */
 

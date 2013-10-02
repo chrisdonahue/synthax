@@ -11,23 +11,23 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-OscilNode::OscilNode(bool terminal, GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* i, GPNode* mod) {
+OscilNode::OscilNode(bool terminal, param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod) {
     terminalOscil = terminal;
     assert(!(vn->isMutatable) && !(vn->isContinuous));
-    variableNum = vn->getDValue();
+    variableNum = vn->get_dvalue();
 
-    mutatableParams.push_back(vn);
-    mutatableParams.push_back(p);
+    params.push_back(vn);
+    params.push_back(p);
 
     if (terminalOscil) {
         arity = 0;
     }
     else {
-        mutatableParams.push_back(i);
+        params.push_back(i);
         descendants.push_back(mod);
         arity = 1;
     }
@@ -41,15 +41,15 @@ OscilNode::~OscilNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-OscilNode* OscilNode::getCopy() {
+OscilNode* OscilNode::get_copy() {
     if (terminalOscil)
-        return new OscilNode(terminalOscil, mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), NULL, NULL);
+        return new OscilNode(terminalOscil, params[0]->get_copy(), mutatableParams[1]->getCopy(), NULL, NULL);
     else
-        return new OscilNode(terminalOscil, mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+        return new OscilNode(terminalOscil, params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void OscilNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -68,38 +68,38 @@ void OscilNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned num
     }
 }
 
-void OscilNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void OscilNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    partial = mutatableParams[1]->getValue();
+    partial = params[1]->get_value();
     w = 2.0 * M_PI * partial;
 	
 	// update index of modulation and descendant if this is an FM oscillator
     if (!terminalOscil) {
-        index = mutatableParams[2]->getCValue();
+        index = params[2]->get_cvalue();
     }
     
     // minimum/maximum constant and declared in constructor
 }
 
-void OscilNode::toString(std::stringstream& ss) {
+void OscilNode::to_string(std::stringstream& ss) {
     if (terminalOscil) {
         ss << "(osc ";
-        mutatableParams[0]->toString(ss);
+        params[0]->to_string(ss);
         ss << " ";
-        mutatableParams[1]->toString(ss);
+        params[1]->to_string(ss);
         ss << ")";
     }
     else {
         ss << "(fm "; 
-        mutatableParams[0]->toString(ss);
+        params[0]->to_string(ss);
         ss << " ";
-        mutatableParams[1]->toString(ss);
+        params[1]->to_string(ss);
         ss << " ";
-        mutatableParams[2]->toString(ss);
+        params[2]->to_string(ss);
         ss << " ";
-        descendants[0]->toString(ss);
+        descendants[0]->to_string(ss);
         ss << ")";
     }
 }

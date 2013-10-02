@@ -2,12 +2,12 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-SquareFreqOscNode::SquareFreqOscNode(GPMutatableParam* phase, GPNode* freq) {
-    mutatableParams.push_back(phase);
+SquareFreqOscNode::SquareFreqOscNode(param* phase, node* freq) {
+    params.push_back(phase);
 
     descendants.push_back(freq);
     arity = 1;
@@ -23,21 +23,21 @@ SquareFreqOscNode::~SquareFreqOscNode() {
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-SquareFreqOscNode* SquareFreqOscNode::getCopy() {
-    return new SquareFreqOscNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+SquareFreqOscNode* SquareFreqOscNode::get_copy() {
+    return new SquareFreqOscNode(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void SquareFreqOscNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
-	WaveTableFreqNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+void SquareFreqOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+	WaveTableFreqNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
 /*
     ===================
-    WAVETABLE OVERRIDES
+    WAVETABLE OVERRidES
     ===================
 */
 

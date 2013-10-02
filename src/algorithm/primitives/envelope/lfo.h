@@ -1,19 +1,19 @@
 #ifndef LFOENVELOPENODE_H
 #define LFOENVELOPENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class LFOEnvelopeNode: public GPNode {
+class LFOEnvelopeNode: public node {
 public:
-    LFOEnvelopeNode(GPMutatableParam* rate, GPNode* mod);
+    LFOEnvelopeNode(param* rate, node* mod);
     ~LFOEnvelopeNode();
 
 	// overrides
-    LFOEnvelopeNode* getCopy();
+    LFOEnvelopeNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
     float rate;

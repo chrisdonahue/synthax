@@ -2,12 +2,12 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-TriangleFreqOscNode::TriangleFreqOscNode(GPMutatableParam* phase, GPNode* freq) {
-    mutatableParams.push_back(phase);
+TriangleFreqOscNode::TriangleFreqOscNode(param* phase, node* freq) {
+    params.push_back(phase);
 
     descendants.push_back(freq);
     arity = 1;
@@ -23,21 +23,21 @@ TriangleFreqOscNode::~TriangleFreqOscNode() {
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-TriangleFreqOscNode* TriangleFreqOscNode::getCopy() {
-    return new TriangleFreqOscNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+TriangleFreqOscNode* TriangleFreqOscNode::get_copy() {
+    return new TriangleFreqOscNode(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void TriangleFreqOscNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
-	WaveTableFreqNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+void TriangleFreqOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+	WaveTableFreqNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
 /*
     ===================
-    WAVETABLE OVERRIDES
+    WAVETABLE OVERRidES
     ===================
 */
 

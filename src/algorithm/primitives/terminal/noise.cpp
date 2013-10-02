@@ -2,7 +2,7 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
@@ -20,11 +20,11 @@ NoiseNode::~NoiseNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-NoiseNode* NoiseNode::getCopy() {
+NoiseNode* NoiseNode::get_copy() {
     return new NoiseNode();
 }
 
@@ -50,7 +50,7 @@ void NoiseNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned num
 */
 
 /*
-    http://musicdsp.org/showArchiveComment.php?ArchiveID=216
+    http://musicdsp.org/showArchiveComment.php?Archiveid=216
 */
 void NoiseNode::whitenoise(
     float* _fpDstBuffer, // Pointer to buffer

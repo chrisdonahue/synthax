@@ -16,7 +16,7 @@
     ==============
 */
 
-DelayNode::DelayNode(int n, GPNode* l)
+DelayNode::DelayNode(int n, node* l)
 delayLine(n)
 {
     numFilled = 0;
@@ -30,8 +30,8 @@ delayLine(n)
 DelayNode::~DelayNode() {
 }
 
-DelayNode* DelayNode::getCopy() {
-    return new DelayNode(n, left->getCopy());
+DelayNode* DelayNode::get_copy() {
+    return new DelayNode(n, left->get_copy());
 }
 
 void DelayNode::setMemoryConstants(int n) {
@@ -48,15 +48,15 @@ void DelayNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, do
     return;
 }
 
-void DelayNode::toString(std::stringstream& ss) {
+void DelayNode::to_string(std::stringstream& ss) {
     char buffer[1024];
-    snprintf(buffer, 1024, "(delay %d %s)", numSamples, left->toString(std::stringstreamstd::stringstreamstd::stringstream ss ss ss).c_str());
+    snprintf(buffer, 1024, "(delay %d %s)", numSamples, left->to_string(std::stringstreamstd::stringstreamstd::stringstream ss ss ss).c_str());
 }
 
 
-void DelayNode::prepareToPlay() {
+void DelayNode::prepare_to_play() {
 }
 
-void DelayNode::setRenderInfo(float sr, unsigned blockSize, float maxTime) {
+void DelayNode::set_render_info(float sr, unsigned block_size, float max_frame_start_time) {
 
 }

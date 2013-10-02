@@ -6,15 +6,15 @@
 
 class CosineNode: public FunctionNode {
 public:
-    CosineNode(GPNode* zero);
+    CosineNode(node* zero);
     ~CosineNode();
 
 	// overrides
-    CosineNode* getCopy();
+    CosineNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 };

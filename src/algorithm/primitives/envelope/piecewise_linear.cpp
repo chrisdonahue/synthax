@@ -2,31 +2,31 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
 // points should always have something in it
-SplineEnvelopeNode::SplineEnvelopeNode(GPMutatableParam* splinetype, GPMutatableParam* numsegments, std::vector<GPMutatableParam*>* pointsOrParams, GPNode* signal)
+SplineEnvelopeNode::SplineEnvelopeNode(param* splinetype, GPMutatableParam* numsegments, std::vector<GPMutatableParam*>* pointsOrParams, node* signal)
 {
-    assert(splinetype->isUnmutatable());
-    isPrimitive = (pointsOrParams->size() == 2 && numsegments->isMutatable());
-    assert(isPrimitive || numsegments->isUnmutatable());
+    assert(splinetype->is_unmutatable());
+    isPrimitive = (pointsOrParams->size() == 2 && numsegments->is_mutatable());
+    assert(isPrimitive || numsegments->is_unmutatable());
 
-    splineType = splinetype->getDValue();
+    splineType = splinetype->get_dvalue();
 
-    mutatableParams.push_back(splinetype);
-    mutatableParams.push_back(numsegments);
+    params.push_back(splinetype);
+    params.push_back(numsegments);
 
     if (isPrimitive) {
     }
     else {
-        numSegments = numsegments->getDValue();
+        numSegments = numsegments->get_dvalue();
         assert(pointsOrParams->size() == (numSegments * 2) + 1);
     }
 
     for (unsigned i = 0; i < pointsOrParams->size(); i++) {
-        mutatableParams.push_back(pointsOrParams->at(i));
+        params.push_back(pointsOrParams->at(i));
     }
     delete pointsOrParams;
 
@@ -37,56 +37,56 @@ SplineEnvelopeNode::SplineEnvelopeNode(GPMutatableParam* splinetype, GPMutatable
 }
 
 SplineEnvelopeNode::~SplineEnvelopeNode() {
-    doneRendering();
+    done_rendering();
 }
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-SplineEnvelopeNode* SplineEnvelopeNode::getCopy() {
+SplineEnvelopeNode* SplineEnvelopeNode::get_copy() {
     // make copies of spline points
-    std::vector<GPMutatableParam*>* paramCopies = new std::vector<GPMutatableParam*>(mutatableParams.size() - 2);
-    for (unsigned i = 2; i < mutatableParams.size(); i++) {
-        paramCopies->at(i - 2) = mutatableParams[i]->getCopy();
+    std::vector<param*>* paramCopies = new std::vector<GPMutatableParam*>(params.size() - 2);
+    for (unsigned i = 2; i < params.size(); i++) {
+        paramCopies->at(i - 2) = params[i]->get_copy();
     }
 
-    return new SplineEnvelopeNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new SplineEnvelopeNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void SplineEnvelopeNode::ephemeralRandom(GPRandom* rng) {
+void SplineEnvelopeNode::ephemeral_random(random* rng) {
     // if this is a primitive spline then generate its points
     if (isPrimitive) {
         // randomize the number of points and lock it
-        mutatableParams[1]->ephemeralRandom(rng);
-        numSegments = mutatableParams[1]->getDValue();
-        mutatableParams[1]->setUnmutatable();
+        params[1]->ephemeral_random(rng);
+        numSegments = params[1]->get_dvalue();
+        params[1]->set_unmutatable();
 
         // get copies
-        GPMutatableParam* ampRangeCopy = mutatableParams[2]->getCopy();
-        ampRangeCopy->setType("spline_amp");
-        GPMutatableParam* segmentLengthRangeCopy = mutatableParams[3]->getCopy();
-        segmentLengthRangeCopy->setType("spline_segment_length");
+        param* ampRangeCopy = params[2]->get_copy();
+        ampRangeCopy->set_type("spline_amp");
+        param* segmentLengthRangeCopy = params[3]->get_copy();
+        segmentLengthRangeCopy->set_type("spline_segment_length");
 
         // remove and delete range specifiers
-        delete mutatableParams[2];
-        delete mutatableParams[3];
-        mutatableParams.resize(2);
+        delete params[2];
+        delete params[3];
+        params.resize(2);
 
         // create the segments
         for (int i = 0; i < numSegments; i++) {
-            GPMutatableParam* newSplineAmp = ampRangeCopy->getCopy();
-            GPMutatableParam* newSplineSegmentLength = segmentLengthRangeCopy->getCopy();
-            mutatableParams.push_back(newSplineAmp);
-            mutatableParams.push_back(newSplineSegmentLength);
+            param* newSplineAmp = ampRangeCopy->get_copy();
+            param* newSplineSegmentLength = segmentLengthRangeCopy->get_copy();
+            params.push_back(newSplineAmp);
+            params.push_back(newSplineSegmentLength);
         }
 
         // create the final value
-        GPMutatableParam* newSplineAmpFinal = ampRangeCopy->getCopy();
-        newSplineAmpFinal->setType("spline_amp_final");
-        mutatableParams.push_back(newSplineAmpFinal);
+        param* newSplineAmpFinal = ampRangeCopy->get_copy();
+        newSplineAmpFinal->set_type("spline_amp_final");
+        params.push_back(newSplineAmpFinal);
 
         // delete copies
         delete ampRangeCopy;
@@ -96,24 +96,24 @@ void SplineEnvelopeNode::ephemeralRandom(GPRandom* rng) {
         isPrimitive = false;
     }
 
-    GPNode::ephemeralRandom(rng);
+    node::ephemeral_random(rng);
 }
 
-void SplineEnvelopeNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
+void SplineEnvelopeNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     assert(!isPrimitive);
-    doneRendering();
+    done_rendering();
     sampleRate = sr;
-    envelopeSize = maxNumFrames;
+    envelopeSize = max_frame_number;
     envelope = (float*) malloc(sizeof(float) * envelopeSize);
-    GPNode::setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
+    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void SplineEnvelopeNode::doneRendering() {
-    if (preparedToRender) {
+void SplineEnvelopeNode::done_rendering() {
+    if (prepared_to_render) {
         sampleRate = 0;
         free(envelope);
     }
-    GPNode::doneRendering();
+    node::done_rendering();
 }
 
 void SplineEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -124,19 +124,19 @@ void SplineEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, uns
     }
 }
 
-void SplineEnvelopeNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void SplineEnvelopeNode::update_mutated_params() {
+    node::update_mutated_params();
 
     assert(!isPrimitive);
 
     // get minimum and maximum value for spline envelope
-    float minSplineHeight = mutatableParams[2]->getCMin();
-    float maxSplineHeight = mutatableParams[2]->getCMax();
-    for (int i = 4; i < mutatableParams.size(); i += 2) {
-        if (mutatableParams[i]->getCMin() < minSplineHeight)
-            minSplineHeight = mutatableParams[i]->getCMin();
-        if (mutatableParams[i]->getCMax() > maxSplineHeight)
-            maxSplineHeight = mutatableParams[i]->getCMax();
+    float minSplineHeight = params[2]->get_cmin();
+    float maxSplineHeight = params[2]->get_cmax();
+    for (int i = 4; i < params.size(); i += 2) {
+        if (params[i]->get_cmin() < minSplineHeight)
+            minSplineHeight = params[i]->get_cmin();
+        if (params[i]->get_cmax() > maxSplineHeight)
+            maxSplineHeight = params[i]->get_cmax();
     }
     
     // update min/max of envelope spline
@@ -155,10 +155,10 @@ void SplineEnvelopeNode::fillFromParams() {
     if (splineType == 0) {
         unsigned currentFrame = 0;
         unsigned usedPoints = 0;
-        float currentLevel = mutatableParams[2]->getCValue();
+        float currentLevel = params[2]->get_cvalue();
         while (currentFrame < envelopeSize && usedPoints < numSegments) {
-            float transitionLength = mutatableParams[(usedPoints * 2) + 2 + 1]->getCValue();
-            float nextLevel = mutatableParams[(usedPoints * 2) + 2 + 2]->getCValue();
+            float transitionLength = params[(usedPoints * 2) + 2 + 1]->get_cvalue();
+            float nextLevel = params[(usedPoints * 2) + 2 + 2]->get_cvalue();
             unsigned currentTransitionFrame = 0;
             unsigned numTransitionFrames = (unsigned) (transitionLength * sampleRate);
             // may be infinite if numTransitionFrames is 0 but will never be used in that case
@@ -178,7 +178,7 @@ void SplineEnvelopeNode::fillFromParams() {
     }
     else {
         unsigned currentFrame = 0;
-        float currentLevel = mutatableParams[2]->getCValue();
+        float currentLevel = params[2]->get_cvalue();
         while (currentFrame < envelopeSize) {
             envelope[currentFrame] = currentLevel;
             currentFrame++;

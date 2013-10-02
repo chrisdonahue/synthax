@@ -11,22 +11,22 @@
 #ifndef FILTERNODE_H
 #define FILTERNODE_H
 
-#include "../GPNode.h"
+#include "../node.h"
 #include "../../Dependencies/YorkFilters/filterdesign.h"
 
-class FilterNode: public GPNode {
+class FilterNode: public node {
 public:
-    FilterNode(unsigned t, unsigned o, unsigned fpc, double sr, int vn, GPMutatableParam* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, GPNode* signal, GPNode* center, GPNode* bandwidth);
+    FilterNode(unsigned t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, node* signal, GPNode* center, GPNode* bandwidth);
     ~FilterNode();
 
 	// overrides
-    FilterNode* getCopy();
-	void prepareToPlay();
+    FilterNode* get_copy();
+	void prepare_to_play();
     void evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, double* min, double* max, unsigned n, float* buffer);
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
-	void setRenderInfo(float sr, unsigned blockSize, float maxTime);
-	void updateMutatedParams();
-    void toString(std::stringstream& ss);
+	void set_render_info(float sr, unsigned block_size, float max_frame_start_time);
+	void update_mutated_params();
+    void to_string(std::stringstream& ss);
 
 private:
     unsigned type;

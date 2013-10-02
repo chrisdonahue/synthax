@@ -1,15 +1,15 @@
 #ifndef VARIABLENODE_H
 #define VARIABLENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class VariableNode: public GPNode {
+class VariableNode: public node {
 public:
-    VariableNode(GPMutatableParam* vn, GPMutatableParam* range);
+    VariableNode(param* vn, GPMutatableParam* range);
     ~VariableNode();
 
 	// overrides
-    VariableNode* getCopy();
+    VariableNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
 private:

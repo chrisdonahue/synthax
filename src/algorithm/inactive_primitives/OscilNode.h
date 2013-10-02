@@ -10,20 +10,20 @@
 #ifndef OSCILNODE_H
 #define OSCILNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class OscilNode: public GPNode {
+class OscilNode: public node {
 public:
-    OscilNode(bool terminal, GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* i, GPNode* mod);
+    OscilNode(bool terminal, param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod);
     ~OscilNode();
 
 	// overrides
-    OscilNode* getCopy();
+    OscilNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
-    void toString(std::stringstream& ss);
+    void to_string(std::stringstream& ss);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
     enum Parameters {
 		SINGEN,

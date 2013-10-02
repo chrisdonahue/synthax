@@ -2,7 +2,7 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
@@ -17,11 +17,11 @@ SilenceNode::~SilenceNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-SilenceNode* SilenceNode::getCopy() {
+SilenceNode* SilenceNode::get_copy() {
     return new SilenceNode();
 }
 

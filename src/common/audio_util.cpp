@@ -288,7 +288,7 @@ void GPAudioUtil::applyEnvelope(unsigned n, float* buffer, const float* envelope
 	}
 }
 
-// FROM: http://musicdsp.org/showArchiveComment.php?ArchiveID=136 
+// FROM: http://musicdsp.org/showArchiveComment.php?Archiveid=136 
 void GPAudioUtil::followEnvelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double samplerate) {
     double attack_coef = exp(log(0.01)/( attack_in_ms * samplerate * 0.001));
     double release_coef = exp(log(0.01)/( release_in_ms * samplerate * 0.001));

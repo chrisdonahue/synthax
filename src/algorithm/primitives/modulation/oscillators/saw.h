@@ -5,12 +5,12 @@
 
 class SawFreqOscNode: public WaveTableFreqNode {
 public:
-    SawFreqOscNode(GPMutatableParam* phase, GPNode* freq);
+    SawFreqOscNode(param* phase, node* freq);
     ~SawFreqOscNode();
 
-	// GPNode overrides
-    SawFreqOscNode* getCopy();
-    void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime);
+	// node overrides
+    SawFreqOscNode* get_copy();
+    void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
 	
 	// WaveTable overrides
 	void makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFreq, double topFreq);

@@ -6,15 +6,15 @@
 
 class SineNode: public FunctionNode {
 public:
-    SineNode(GPNode* zero);
+    SineNode(node* zero);
     ~SineNode();
 
 	// overrides
-    SineNode* getCopy();
+    SineNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 };

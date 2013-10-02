@@ -1,19 +1,19 @@
 #ifndef MIXERNODE_H
 #define MIXERNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class MixerNode: public GPNode {
+class MixerNode: public node {
 public:
-    MixerNode(GPNode* mod, GPNode* sigone, GPNode* sigtwo);
+    MixerNode(node* mod, GPNode* sigone, GPNode* sigtwo);
     ~MixerNode();
 
 	// overrides
-    MixerNode* getCopy();
+    MixerNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 	float controlMin;

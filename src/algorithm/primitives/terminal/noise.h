@@ -1,23 +1,23 @@
 #ifndef NOISENODE_H
 #define NOISENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 #include <list>
 
-class NoiseNode: public GPNode {
+class NoiseNode: public node {
 public:
     NoiseNode();
     ~NoiseNode();
 
 	// overrides
-    NoiseNode* getCopy();
+    NoiseNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
 	// class specific
 	void whitenoise(float* _fpDstBuffer, unsigned int _uiBufferSize, float _fLevel );
 
 private:
-    GPRandom* rng;
+    random* rng;
     float g_fScale;
     int g_x1;
     int g_x2;

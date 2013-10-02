@@ -1,20 +1,20 @@
 /*
   ==============================================================================
 
-    GPRandom.cpp
+    random.cpp
     Created: 6 Feb 2013 7:19:11pm
     Author:  cdonahue
 
   ==============================================================================
 */
 
-#include "GPRandom.h"
+#include "random.h"
 
-GPRandom::GPRandom(unsigned s) :
+random::GPRandom(unsigned s) :
     seed(s), engine(seed), uni_real(0, 1), s(0)
 {}
 
-void GPRandom::normalizeDistribution(std::vector<double>* weights) {
+void random::normalizeDistribution(std::vector<double>* weights) {
     double sum = 0;
     for (std::vector<double>::iterator i = weights->begin(); i != weights->end(); i++) {
         sum += *i;
@@ -24,7 +24,7 @@ void GPRandom::normalizeDistribution(std::vector<double>* weights) {
     }
 }
 
-int GPRandom::sampleFromDistribution(std::vector<double>* weights) {
+int random::sampleFromDistribution(std::vector<double>* weights) {
     // sample from normalized distribution
     double rand = random();
     double sum = 0;
@@ -37,11 +37,11 @@ int GPRandom::sampleFromDistribution(std::vector<double>* weights) {
     return -1;
 }
 
-double GPRandom::random() {
+double random::random() {
     return uni_real(engine);
 }
 
-double GPRandom::gauss() {
+double random::gauss() {
     /*
         Copyright Tony Kirke from the Signal Processing Using C++ (SPUC) library
         GNU GPL don't distribute with this code!
@@ -63,12 +63,12 @@ double GPRandom::gauss() {
     }
 }
 
-double GPRandom::whitenoise() {
+double random::whitenoise() {
     return 0.0;
 }
 
 // m cannot be returned
-int GPRandom::random(int m) {
+int random::random(int m) {
     if (m <= 0) {
         return -1;
     }

@@ -30,10 +30,10 @@ std::vector<std::string> split(const std::string &s, const char* delims) {
     ====================
 */
 
-std::vector<GPMutatableParam*> parseMutatableParams(tokenizerFunctionArgs) {
-    std::vector<GPMutatableParam*> ret;
+std::vector<param*> parseMutatableParams(tokenizerFunctionArgs) {
+    std::vector<param*> ret;
     unsigned tokens_remaining = tokens.size() - (*currentIndex);
-    GPMutatableParam* current = NULL;
+    param* current = NULL;
 
     // if we have at least 4 tokens remaining
     while (tokens_remaining >= 4) {
@@ -59,7 +59,7 @@ std::vector<GPMutatableParam*> parseMutatableParams(tokenizerFunctionArgs) {
     return ret;
 }
 
-GPMutatableParam* createMutatableParam(tokenizerFunctionArgs, std::string type, bool ismutatable) {
+param* createMutatableParam(tokenizerFunctionArgs, std::string type, bool ismutatable) {
 	// make sure we're not out of tokens
     unsigned tokens_remaining = tokens.size() - (*currentIndex);
 	if (tokens_remaining < 4) {
@@ -82,7 +82,7 @@ GPMutatableParam* createMutatableParam(tokenizerFunctionArgs, std::string type, 
             ss << "invalid mutatable param: " << "{" << tag << " " << minstr << " " << valstr << " " << maxstr << "}";
 			throw std::runtime_error(ss.str().c_str());
         }
-        return new GPMutatableParam(type, ismutatable, val, min, max);
+        return new param(type, ismutatable, val, min, max);
     }
     // else if the param is discrete
     else if (tag.compare("d") == 0) {
@@ -94,7 +94,7 @@ GPMutatableParam* createMutatableParam(tokenizerFunctionArgs, std::string type, 
             ss << "invalid mutatable param: " << "{" << tag << " " << minstr << " " << valstr << " " << maxstr << "}";
 			throw std::runtime_error(ss.str().c_str());
         }
-        return new GPMutatableParam(type, ismutatable, val, min, max);
+        return new param(type, ismutatable, val, min, max);
     }
     // else this isn't a mutatable param
     else {
@@ -106,7 +106,7 @@ GPMutatableParam* createMutatableParam(tokenizerFunctionArgs, std::string type, 
 	returns true for a successful parse, false for an unsuccessful parse
 */
 
-void parseChild(tokenizerFunctionArgs, GPNode** child) {
+void parseChild(tokenizerFunctionArgs, node** child) {
 	// make sure we're not out of tokens
     unsigned tokens_remaining = tokens.size() - (*currentIndex);
 	if (tokens_remaining <= 0) {
@@ -127,7 +127,7 @@ void parseChild(tokenizerFunctionArgs, GPNode** child) {
 	}
 }
 
-GPNode* createNode(tokenizerFunctionArgs) {
+node* createNode(tokenizerFunctionArgs) {
     // check to make sure we have a type token
     unsigned tokens_remaining = tokens.size() - (*currentIndex);
     if (tokens_remaining <= 0) {
@@ -138,20 +138,20 @@ GPNode* createNode(tokenizerFunctionArgs) {
     std::string type = tokens[consume];
 
     // parse mutatable params list
-    std::vector<GPMutatableParam*> params = parseMutatableParams(tokenizerArgs);
+    std::vector<param*> params = parseMutatableParams(tokenizerArgs);
 
     // ADSR nodes
     if (type.compare("adsr") == 0) {
         if (params.size() != 7) {
 			throw std::runtime_error("incorrect number of mutatable params for adsr");
         }
-        params[0]->setType("adsr_terminal_delay");
-        params[1]->setType("adsr_terminal_attack");
-        params[2]->setType("adsr_terminal_attack_height");
-        params[3]->setType("adsr_terminal_decay");
-        params[4]->setType("adsr_terminal_sustain");
-        params[5]->setType("adsr_terminal_sustain_height");
-        params[6]->setType("adsr_terminal_release");
+        params[0]->set_type("adsr_terminal_delay");
+        params[1]->set_type("adsr_terminal_attack");
+        params[2]->set_type("adsr_terminal_attack_height");
+        params[3]->set_type("adsr_terminal_decay");
+        params[4]->set_type("adsr_terminal_sustain");
+        params[5]->set_type("adsr_terminal_sustain_height");
+        params[6]->set_type("adsr_terminal_release");
 
         return new ADSRTerminalNode(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
     }
@@ -159,15 +159,15 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 7) {
 			throw std::runtime_error("incorrect number of mutatable params for adsr*");
         }
-        params[0]->setType("adsr_envelope_delay");
-        params[1]->setType("adsr_envelope_attack");
-        params[2]->setType("adsr_envelope_attack_height");
-        params[3]->setType("adsr_envelope_decay");
-        params[4]->setType("adsr_envelope_sustain");
-        params[5]->setType("adsr_envelope_sustain_height");
-        params[6]->setType("adsr_envelope_release");
+        params[0]->set_type("adsr_envelope_delay");
+        params[1]->set_type("adsr_envelope_attack");
+        params[2]->set_type("adsr_envelope_attack_height");
+        params[3]->set_type("adsr_envelope_decay");
+        params[4]->set_type("adsr_envelope_sustain");
+        params[5]->set_type("adsr_envelope_sustain_height");
+        params[6]->set_type("adsr_envelope_release");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new ADSREnvelopeNode(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
@@ -184,7 +184,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for const");
         }
-        params[0]->setType("constant_value");
+        params[0]->set_type("constant_value");
 
         return new ConstantNode(false, params[0]);
     }
@@ -192,9 +192,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for gain");
         }
-        params[0]->setType("gain_value");
+        params[0]->set_type("gain_value");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new GainNode(params[0], signal);
@@ -205,10 +205,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for +");
         }
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
         
-		GPNode* signalone;
+		node* signalone;
 		parseChild(tokenizerArgs, &signalone);
 
         return new AddNode(signalzero, signalone);
@@ -218,10 +218,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for -");
         }
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
         
-		GPNode* signalone;
+		node* signalone;
 		parseChild(tokenizerArgs, &signalone);
 
         return new SubtractNode(signalzero, signalone);
@@ -231,10 +231,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for *"); 
         }
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
         
-		GPNode* signalone;
+		node* signalone;
 		parseChild(tokenizerArgs, &signalone);
 
         return new MultiplyNode(signalzero, signalone);
@@ -244,7 +244,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for sin");
         }
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
        
         return new SineNode(signalzero);
@@ -254,7 +254,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for cos");
         }
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
        
         return new CosineNode(signalzero);
@@ -264,7 +264,7 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for lfo");
         }
-        params[0]->setType("lfo_terminal_rate");
+        params[0]->set_type("lfo_terminal_rate");
 
         return new LFOTerminalNode(params[0]);
     }
@@ -272,9 +272,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for lfo*");
         }
-        params[0]->setType("lfo_envelope_rate");
+        params[0]->set_type("lfo_envelope_rate");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new LFOEnvelopeNode(params[0], signal);
@@ -285,13 +285,13 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for switch");
         }
 
-		GPNode* control;
+		node* control;
 		parseChild(tokenizerArgs, &control);
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
         
-		GPNode* signalone;
+		node* signalone;
 		parseChild(tokenizerArgs, &signalone);
 
         return new SwitchNode(control, signalzero, signalone);
@@ -301,13 +301,13 @@ GPNode* createNode(tokenizerFunctionArgs) {
 			throw std::runtime_error("incorrect number of mutatable params for mix");
         }
 
-		GPNode* control;
+		node* control;
 		parseChild(tokenizerArgs, &control);
 
-		GPNode* signalzero;
+		node* signalzero;
 		parseChild(tokenizerArgs, &signalzero);
         
-		GPNode* signalone;
+		node* signalone;
 		parseChild(tokenizerArgs, &signalone);
 
         return new MixerNode(control, signalzero, signalone);
@@ -325,13 +325,13 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 4) {
 			throw std::runtime_error("incorrect number of mutatable params for am");
         }
-        params[0]->setType("am_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("am_partial");
-        params[2]->setType("am_offset");
-        params[3]->setType("am_alpha");
+        params[0]->set_type("am_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("am_partial");
+        params[2]->set_type("am_offset");
+        params[3]->set_type("am_alpha");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new AMNode(params[0], params[1], params[2], params[3], signal);
@@ -340,12 +340,12 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 3) {
 			throw std::runtime_error("incorrect number of mutatable params for pm");
         }
-        params[0]->setType("pm_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("pm_partial");
-        params[2]->setType("pm_index");
+        params[0]->set_type("pm_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("pm_partial");
+        params[2]->set_type("pm_index");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new PMNode(params[0], params[1], params[2], signal);
@@ -355,9 +355,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for sinfreqosc");
         }
-        params[0]->setType("sinfreqosc_phase");
+        params[0]->set_type("sinfreqosc_phase");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new SinFreqOscNode(params[0], signal);
@@ -366,9 +366,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for sawfreqosc");
         }
-        params[0]->setType("sawfreqosc_phase");
+        params[0]->set_type("sawfreqosc_phase");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new SawFreqOscNode(params[0], signal);
@@ -377,9 +377,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for squarefrecosc");
         }
-        params[0]->setType("squarefreqosc_phase");
+        params[0]->set_type("squarefreqosc_phase");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new SquareFreqOscNode(params[0], signal);
@@ -388,9 +388,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 1) {
 			throw std::runtime_error("incorrect number of mutatable params for trianglefreqosc");
         }
-        params[0]->setType("trianglefreqosc_phase");
+        params[0]->set_type("trianglefreqosc_phase");
 
-		GPNode* signal;
+		node* signal;
 		parseChild(tokenizerArgs, &signal);
 
         return new TriangleFreqOscNode(params[0], signal);
@@ -411,13 +411,13 @@ GPNode* createNode(tokenizerFunctionArgs) {
             if (params.size() != 4) {
 				throw std::runtime_error("incorrect number of mutatable params for spline primitive");
             }
-            params[0]->setType("spline_type");
-            params[0]->setUnmutatable();
-            params[1]->setType("spline_num_points");
-            params[2]->setType("spline_amp_range");
-            params[3]->setType("spline_segment_length_range");
+            params[0]->set_type("spline_type");
+            params[0]->set_unmutatable();
+            params[1]->set_type("spline_num_points");
+            params[2]->set_type("spline_amp_range");
+            params[3]->set_type("spline_segment_length_range");
 
-            std::vector<GPMutatableParam*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
             splinepoints->push_back(params[2]);
             splinepoints->push_back(params[3]);
 
@@ -429,22 +429,22 @@ GPNode* createNode(tokenizerFunctionArgs) {
             if (params.size() < 3) {
 				throw std::runtime_error("incorrect number of mutatable params for spline");
             }
-            params[0]->setType("spline_type");
-            params[0]->setUnmutatable();
-            params[1]->setType("spline_num_points");
-            params[1]->setUnmutatable();
+            params[0]->set_type("spline_type");
+            params[0]->set_unmutatable();
+            params[1]->set_type("spline_num_points");
+            params[1]->set_unmutatable();
 
-            std::vector<GPMutatableParam*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
             unsigned currentParam = 2;
             while (currentParam + 2 < params.size()) {
-                params[currentParam]->setType("spline_amp");
+                params[currentParam]->set_type("spline_amp");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
-                params[currentParam]->setType("spline_segment_length");
+                params[currentParam]->set_type("spline_segment_length");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
             }
-            params[currentParam]->setType("spline_amp_final");
+            params[currentParam]->set_type("spline_amp_final");
             splinepoints->push_back(params[currentParam]);
 
             return new SplineTerminalNode(params[0], params[1], splinepoints);
@@ -457,17 +457,17 @@ GPNode* createNode(tokenizerFunctionArgs) {
             if (params.size() != 4) {
 				throw std::runtime_error("incorrect number of mutatable params for spline* primitive");
             }
-            params[0]->setType("spline_type");
-            params[0]->setUnmutatable();
-            params[1]->setType("spline_num_points");
-            params[2]->setType("spline_amp_range");
-            params[3]->setType("spline_segment_length_range");
+            params[0]->set_type("spline_type");
+            params[0]->set_unmutatable();
+            params[1]->set_type("spline_num_points");
+            params[2]->set_type("spline_amp_range");
+            params[3]->set_type("spline_segment_length_range");
 
-            std::vector<GPMutatableParam*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
             splinepoints->push_back(params[2]);
             splinepoints->push_back(params[3]);
 
-            GPNode* signal;
+            node* signal;
             parseChild(tokenizerArgs, &signal);
 
             return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
@@ -478,25 +478,25 @@ GPNode* createNode(tokenizerFunctionArgs) {
             if (params.size() < 3) {
 				throw std::runtime_error("incorrect number of mutatable params for spline*");
             }
-            params[0]->setType("spline_type");
-            params[0]->setUnmutatable();
-            params[1]->setType("spline_num_points");
-            params[1]->setUnmutatable();
+            params[0]->set_type("spline_type");
+            params[0]->set_unmutatable();
+            params[1]->set_type("spline_num_points");
+            params[1]->set_unmutatable();
 
-            std::vector<GPMutatableParam*>* splinepoints = new std::vector<GPMutatableParam*>();
+            std::vector<param*>* splinepoints = new std::vector<GPMutatableParam*>();
             unsigned currentParam = 2;
             while (currentParam + 2 < params.size()) {
-                params[currentParam]->setType("spline_amp");
+                params[currentParam]->set_type("spline_amp");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
-                params[currentParam]->setType("spline_segment_length");
+                params[currentParam]->set_type("spline_segment_length");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
             }
-            params[currentParam]->setType("spline_amp_final");
+            params[currentParam]->set_type("spline_amp_final");
             splinepoints->push_back(params[currentParam]);
 
-            GPNode* signal;
+            node* signal;
             parseChild(tokenizerArgs, &signal);
 
             return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
@@ -515,10 +515,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 2) {
             throw std::runtime_error("incorrect number of mutatable params for var");
         }
-        params[0]->setType("var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("var_range");
-        params[1]->setUnmutatable();
+        params[0]->set_type("var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("var_range");
+        params[1]->set_unmutatable();
 
         return new VariableNode(params[0], params[1]);
     }
@@ -527,10 +527,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 3) {
             throw std::runtime_error("incorrect number of mutatable params for sinosc");
         }
-        params[0]->setType("sinosc_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("sinosc_partial");
-        params[2]->setType("sinosc_phase");
+        params[0]->set_type("sinosc_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("sinosc_partial");
+        params[2]->set_type("sinosc_phase");
 
         return new SinOscNode(params[0], params[1], params[2]);
     }
@@ -538,10 +538,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 3) {
             throw std::runtime_error("incorrect number of mutatable params for sawosc");
         }
-        params[0]->setType("sawosc_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("sawosc_partial");
-        params[2]->setType("sawosc_phase");
+        params[0]->set_type("sawosc_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("sawosc_partial");
+        params[2]->set_type("sawosc_phase");
 
         return new SawOscNode(params[0], params[1], params[2]);
     }
@@ -549,10 +549,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 3) {
             throw std::runtime_error("incorrect number of mutatable params for squareosc");
         }
-        params[0]->setType("squareosc_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("squareosc_partial");
-        params[2]->setType("squareosc_phase");
+        params[0]->set_type("squareosc_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("squareosc_partial");
+        params[2]->set_type("squareosc_phase");
 
         return new SquareOscNode(params[0], params[1], params[2]);
     }
@@ -560,10 +560,10 @@ GPNode* createNode(tokenizerFunctionArgs) {
         if (params.size() != 3) {
 			throw std::runtime_error("incorrect number of mutatable params for triangleosc");
         }
-        params[0]->setType("triangleosc_var_num");
-        params[0]->setUnmutatable();
-        params[1]->setType("triangleosc_partial");
-        params[2]->setType("triangleosc_phase");
+        params[0]->set_type("triangleosc_var_num");
+        params[0]->set_unmutatable();
+        params[1]->set_type("triangleosc_partial");
+        params[2]->set_type("triangleosc_phase");
 
         return new TriangleOscNode(params[0], params[1], params[2]);
     }
@@ -585,9 +585,9 @@ GPNode* createNode(tokenizerFunctionArgs) {
     ===========
 */
 
-GPNode* createNode(const std::string node_string, std::string* error_string) {
+node* createNode(const std::string node_string, std::string* error_string) {
     // init return values
-	GPNode* ret = NULL;
+	node* ret = NULL;
 	*error_string = "";
 
     // split input into tokens
@@ -608,9 +608,9 @@ GPNode* createNode(const std::string node_string, std::string* error_string) {
 	return ret;
 }
 
-GPMutatableParam* createMutatableParam(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
+param* createMutatableParam(std::string param_string, std::string type, bool ismutatable, std::string* error_string) {
     // init return values
-	GPMutatableParam* ret = NULL;
+	param* ret = NULL;
 	*error_string = "";
 
 	// split input into tokens

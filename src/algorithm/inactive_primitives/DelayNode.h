@@ -11,19 +11,19 @@
 #ifndef DELAYNODE_H
 #define DELAYNODE_H
 
-#include "../GPNode.h"
+#include "../node.h"
 #include <list>
 
-class DelayNode: public GPNode {
+class DelayNode: public node {
 public:
-    DelayNode(int n, GPNode* l, GPNode* r);
+    DelayNode(int n, node* l, GPNode* r);
     ~DelayNode();
-    DelayNode* getCopy();
+    DelayNode* get_copy();
 
     void setMemoryConstant(int n);
     double evaluate(double* t, double* v);
     void evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, double* min, double* max, unsigned n, float* buffer);
-    void toString(std::stringstream& ss);
+    void to_string(std::stringstream& ss);
     void mutate(GPParams* e);
 
 private:

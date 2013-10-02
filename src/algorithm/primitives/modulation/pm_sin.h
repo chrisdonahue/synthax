@@ -1,19 +1,19 @@
 #ifndef PMNODE_H
 #define PMNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class PMNode: public GPNode {
+class PMNode: public node {
 public:
-    PMNode(GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* i, GPNode* mod);
+    PMNode(param* vn, GPMutatableParam* p, GPMutatableParam* i, node* mod);
     ~PMNode();
 
 	// overrides
-    PMNode* getCopy();
+    PMNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
     int variableNum;

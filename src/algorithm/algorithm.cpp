@@ -1,139 +1,129 @@
-/*
-  ==============================================================================
-
-    GPNetwork.cpp
-    Created: 6 Feb 2013 11:05:02am
-    Author:  cdonahue
-
-  ==============================================================================
-*/
-
-#include "GPNetwork.h"
+#include "algorithm.h"
 
 /*
     ============
-    CONSTRUCTION
+    construction
     ============
 */
 
-GPNetwork::GPNetwork(GPNode* r, std::string o) :
-    ID(-1), origin(o), height(-1), fitness(-1),
+algorithm::algorithm(node* r, std::string o) :
+    id(-1), origin(o), height(-1), fitness(-1),
     minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
-    traced(false), preparedToRender(false),
-    renderRoot(new SilenceNode()), root(r), allNodes(0), allMutatableParams(0)
+    traced(false), prepared_to_render(false),
+    render_root(new SilenceNode()), root(r), all_nodes(0), all_mutatable_params(0)
 {
 }
 
-GPNetwork::~GPNetwork() {
-    if (!preparedToRender) {
+algorithm::~algorithm() {
+    if (!prepared_to_render) {
         delete root;
     }
-    delete renderRoot;
+    delete render_root;
 }
 
-GPNetwork* GPNetwork::getCopy(std::string neworigin) {
-    GPNetwork* copy = new GPNetwork(root->getCopy(), neworigin);
+algorithm* algorithm::getCopy(std::string neworigin) {
+    algorithm* copy = new algorithm(root->get_copy(), neworigin);
     return copy;
 }
 
 /*
     ===========
-    EXAMINATION
+    examination
     ===========
 */
 
-void GPNetwork::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
-    renderRoot->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+void algorithm::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+    render_root->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
 }
 
 
-std::string GPNetwork::toString(unsigned precision) {
+std::string algorithm::to_string(unsigned precision) {
     std::stringstream ss;
     ss.precision(precision);
-    root->toString(ss);
+    root->to_string(ss);
     return ss.str();
 }
 
-GPNode* GPNetwork::getRoot() {
+node* algorithm::get_root() {
     return root;
 }
 
-bool GPNetwork::equals(GPNetwork* other, unsigned precision) {
-    return toString(precision).compare(other->toString(precision)) == 0;
+bool algorithm::equals(algorithm* other, unsigned precision) {
+    return to_string(precision).compare(other->toString(precision)) == 0;
 }
 
-GPNode* GPNetwork::getRandomNetworkNode(GPRandom* r) {
+node* algorithm::get_random_network_node(random* r) {
     assert(traced = true);
-    return allNodes[r->random(allNodes.size())];
+    return all_nodes[r->random(allNodes.size())];
 }
 
-std::vector<GPMutatableParam*>* GPNetwork::getAllMutatableParams() {
+std::vector<param*>* algorithm::get_all_mutatable_params() {
     assert(traced = true);
-    return &allMutatableParams;
+    return &all_mutatable_params;
 }
 
 /*
     =======
-    HELPERS
+    helpers
     =======
 */
 
-void GPNetwork::traceNetwork() {
-    allNodes.clear();
-    allMutatableParams.clear();
-    root->trace(&allNodes, &allMutatableParams, NULL, &height, 0);
+void algorithm::trace() {
+    all_nodes.clear();
+    all_mutatable_params.clear();
+    root->trace(&all_nodes, &all_mutatable_params, NULL, &height, 0);
     traced = true;
 }
 
-// renderRoot = silence and root = realroot whenever preparedToRender is false
-// renderRoot = realroot and root = realroot whenever preparedToRender is true
-void GPNetwork::prepareToRender(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
-    doneRendering();
-    if (!preparedToRender) {
-        delete renderRoot;
+// render_root = silence and root = realroot whenever prepared_to_render is false
+// render_root = realroot and root = realroot whenever prepared_to_render is true
+void algorithm::prepare_to_render(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+    done_rendering();
+    if (!prepared_to_render) {
+        delete render_root;
     }
-    root->setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
-    renderRoot = root;
-    preparedToRender = true;
-    updateMutatedParams();
+    root->set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
+    render_root = root;
+    prepared_to_render = true;
+    update_mutated_params();
 }
 
 // only changed the params
-void GPNetwork::updateMutatedParams() {
-    assert(preparedToRender);
-    root->updateMutatedParams();
+void algorithm::update_mutated_params() {
+    assert(prepared_to_render);
+    root->update_mutated_params();
     minimum = root->minimum;
     maximum = root->maximum;
 }
 
-void GPNetwork::doneRendering() {
-    if (preparedToRender) {
-        root->doneRendering();
+void algorithm::done_rendering() {
+    if (prepared_to_render) {
+        root->done_rendering();
         minimum = (-1) * std::numeric_limits<float>::infinity();
         maximum = std::numeric_limits<float>::infinity();
-        renderRoot = new SilenceNode();
-        preparedToRender = false;
+        render_root = new SilenceNode();
+        prepared_to_render = false;
     }
 }
 
 /*
-    This method replaces the subtree rooted at node old with node new's
+    this method replaces the subtree rooted at node old with node new's
 */
-void GPNetwork::replaceSubtree(GPNode* old, GPNode* nu) {
+void algorithm::replace_subtree(node* old, GPNode* nu) {
     // handle root case
     if (old == root) {
         root = nu;
     }
     else {
         // replace parent-child links
-        bool replacedLink = false;
+        bool replaced_link = false;
         for (unsigned i = 0; i < old->parent->arity; i++) {
             if (old->parent->descendants[i] == old) {
                 old->parent->descendants[i] = nu;
-                replacedLink = true;
+                replaced_link = true;
             }
         }
-        if (!replacedLink)
+        if (!replaced_link)
             std::cerr << "Bad parent-child links detected during subtree replacement." << std::endl;
     }
     /*
@@ -144,11 +134,11 @@ void GPNetwork::replaceSubtree(GPNode* old, GPNode* nu) {
     traced = false;
 }
 
-void GPNetwork::ephemeralRandom(GPRandom* r) {
-    root->ephemeralRandom(r);
+void algorithm::ephemeral_random(random* r) {
+    root->ephemeral_random(r);
 }
 
 // method to compare networks by identification
-bool compareNetworksByID(GPNetwork* one, GPNetwork* two) {
-	return one->ID < two->ID;
+bool compare_algorithms_by_id(algorithm* one, algorithm* two) {
+	return one->id < two->id;
 }

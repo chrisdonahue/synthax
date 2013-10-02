@@ -15,6 +15,7 @@
 namespace synthax {
 	class node {
 	public:
+        // constructors
 		node()
 			: parent(NULL), descendants(0), descendant_buffers(0),
 			  depth(-1),
@@ -38,66 +39,43 @@ namespace synthax {
 			}
 		}
 
-		// PURE VIRTUAL METHODS THAT ALL SUBCLASSES WILL IMPLEMENT
-		// might want this to be a collection of nodes returned
-		// virtual node* getPrimitive() = 0;
-		// virtual node* fromString(std::string nodestring) = 0;
-		virtual node* getCopy() = 0;
+		// pure virtual methods required to be implemented in subclasses
+		virtual node* get_copy() = 0;
 		virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
 
-		// LINEAGE POINTERS
-		node* parent;
-		std::vector<node*> descendants;
-		std::vector<float*> descendant_buffers;
-
-		// TREE STATE
-		int depth;
-		unsigned arity;
-
-		// MUTATABLE PARAM RELATED
-		std::vector<param*> params;
-		float minimum;
-		float maximum;
-		float minimum_true;
-		float maximum_true;
-
-		// READY TO RENDER
-		bool render_info_set;
-		bool prepared_to_render;
-
-		// OVERRIDABLE FUNCTIONS
-		virtual void ephemeralRandom(random* rng) {
+		// virtual methods optionally implemented in subclasses
+		virtual void ephemeral_random(random* rng) {
 			for (unsigned i = 0; i < params.size(); i++) {
-				params[i]->ephemeralRandom(rng);
+				params[i]->ephemeral_random(rng);
 			}
 			for (unsigned i = 0; i < arity; i++) {
-				descendants[i]->ephemeralRandom(rng);
+				descendants[i]->ephemeral_random(rng);
 			}
 		}
 
-		virtual void prepareToPlay() {
+		virtual void prepare_to_play() {
 		}
 
-		virtual void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
+		virtual void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 			// clear out old render info if it exists
-			doneRendering();
+			done_rendering();
 
-			// allocate some new buffers in case blockSize changed
+			// allocate some new buffers in case block_size changed
 			unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
 			descendant_buffers.resize(numdescendant_buffers, NULL);
 			for (unsigned i = 0; i < numdescendant_buffers; i++) {
-				descendant_buffers[i] = (float*) malloc(sizeof(float) * blockSize);
+				descendant_buffers[i] = (float*) malloc(sizeof(float) * block_size);
 			}
 
 			// recursively execute
 			for (unsigned i = 0; i < arity; i++) {
-				descendants[i]->setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+				descendants[i]->set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 			}
 
 			render_info_set = true;
 		}
 
-		virtual void doneRendering() {
+		virtual void done_rendering() {
 			if (render_info_set) {
 				unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
 				for (unsigned i = 0; i < numdescendant_buffers; i++) {
@@ -105,7 +83,7 @@ namespace synthax {
 				}
 
 				for (unsigned i = 0; i < arity; i++) {
-					descendants[i]->doneRendering();
+					descendants[i]->done_rendering();
 				}
             
 				render_info_set = false;
@@ -113,62 +91,62 @@ namespace synthax {
 			}
 		}
 
-		virtual void updateMutatedParams() {
+		virtual void update_mutated_params() {
 			assert(render_info_set == true);
 			for (unsigned i = 0; i < arity; i++) {
-				descendants[i]->updateMutatedParams();
+				descendants[i]->update_mutated_params();
 			}
 			prepared_to_render = true;
 		}
 
-		// NON-OVERRIDABLE FUNCTIONS
+		// methods that won't be implemented in subclasses
 		// this trace method ensures that I only have assign descendant pointers correctly during genetic operations
-		void trace(std::vector<node*>* allnodes, std::vector<param*>* allparams, node* p, int* treeHeight, int currentDepth) {
+		void trace(std::vector<node*>* all_nodes, std::vector<param*>* all_params, node* p, int* tree_height, int current_depth) {
 			// assign parent
 			parent = p;
 
 			// assign depth
-			depth = currentDepth;
+			depth = current_depth;
 
 			// add this node to the collection of all nodes
-			allnodes->push_back(this);
+			all_nodes->push_back(this);
         
 			// add this nodes mutatable params to the collection of all mutatable params
 			for (unsigned i = 0; i < params.size(); i++) {
-				if (params[i]->isMutatable())
-					allparams->push_back(params[i]);
+				if (params[i]->is_mutatable())
+					all_params->push_back(params[i]);
 			}
         
 			// update tree height if necessary
-			if (currentDepth > *treeHeight) {
-				*treeHeight = currentDepth;
+			if (current_depth > *tree_height) {
+				*tree_height = current_depth;
 			}
 
 			// trace the rest of the tree
 			for (unsigned i = 0; i < arity; i++) {
-				descendants[i]->trace(allnodes, allparams, this, treeHeight, currentDepth + 1);
+				descendants[i]->trace(all_nodes, all_params, this, tree_height, current_depth + 1);
 			}
 		};
 
-		std::string toString(unsigned precision) {
+		std::string to_string(unsigned precision) {
 			std::stringstream ss;
 			ss.precision(precision);
-			toString(ss);
+			to_string(ss);
 			return ss.str();
 		}
 
-		void toString(std::stringstream& ss) {
+		void to_string(std::stringstream& ss) {
 			ss << "(" << symbol;
 			for (unsigned i = 0; i < params.size(); i++) {
 				ss << " ";
-				params[i]->toString(ss);
+				params[i]->to_string(ss);
 			}
 			for (unsigned i = 0; i < descendants.size(); i++) {
 				node* descendant = descendants[i];
 				// TODO: change to check for primitive
 				ss << " ";
 				if (descendant != NULL) {
-					descendants[i]->toString(ss);
+					descendants[i]->to_string(ss);
 				}
 				else {
 					ss << "(null)";
@@ -176,6 +154,26 @@ namespace synthax {
 			}
 			ss << ")";
 		}
+
+		// lineage
+		node* parent;
+		std::vector<node*> descendants;
+		std::vector<float*> descendant_buffers;
+
+		// tree state
+		int depth;
+		unsigned arity;
+
+		// parameter-related
+		std::vector<param*> params;
+		float minimum;
+		float maximum;
+		float minimum_true;
+		float maximum_true;
+
+		// indicators
+		bool render_info_set;
+		bool prepared_to_render;
 
 	protected:
 		std::string symbol;

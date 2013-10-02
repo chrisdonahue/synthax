@@ -1,19 +1,19 @@
 #ifndef LFOTERMINALNODE_H
 #define LFOTERMINALNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class LFOTerminalNode: public GPNode {
+class LFOTerminalNode: public node {
 public:
-    LFOTerminalNode(GPMutatableParam* rate);
+    LFOTerminalNode(param* rate);
     ~LFOTerminalNode();
 
 	// overrides
-    LFOTerminalNode* getCopy();
+    LFOTerminalNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
     float rate;

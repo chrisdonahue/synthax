@@ -105,16 +105,16 @@ std::string GPLogger::get_seed_string() {
     return seed_string;
 }
 
-std::string GPLogger::net_to_string_print(GPNetwork* net) {
-    return net->toString(params->print_net_precision);
+std::string GPLogger::net_to_string_print(algorithm* net) {
+    return net->to_string(params->print_net_precision);
 }
 
-std::string GPLogger::net_to_string_save(GPNetwork* net) {
-    return net->toString(params->save_net_precision);
+std::string GPLogger::net_to_string_save(algorithm* net) {
+    return net->to_string(params->save_net_precision);
 }
 
-std::string GPLogger::param_to_string_print(GPMutatableParam* param) {
-    return param->toString(params->print_net_precision);
+std::string GPLogger::param_to_string_print(param* param) {
+    return param->to_string(params->print_net_precision);
 }
 
 #ifndef _WIN32
@@ -133,7 +133,7 @@ std::string GPLogger::get_system_info() {
     FILE *gitid = popen("git rev-parse HEAD", "r");
     char gitbuffer[200];
     while (fgets(gitbuffer, sizeof(gitbuffer) - 1, gitid) != NULL) {
-        stream << "Git commit ID: " << gitbuffer;
+        stream << "Git commit id: " << gitbuffer;
     }
     pclose(gitid);
 

@@ -2,15 +2,15 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-ConstantNode::ConstantNode(bool pi, GPMutatableParam* v) {
+ConstantNode::ConstantNode(bool pi, param* v) {
     isPi = pi;
     
     if (!isPi) {
-        mutatableParams.push_back(v);
+        params.push_back(v);
     }
 
     arity = 0;
@@ -25,12 +25,12 @@ ConstantNode::~ConstantNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-ConstantNode* ConstantNode::getCopy() {
-    return new ConstantNode(isPi, isPi ? NULL : mutatableParams[0]->getCopy());
+ConstantNode* ConstantNode::get_copy() {
+    return new ConstantNode(isPi, isPi ? NULL : params[0]->get_copy());
 }
 
 void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -46,26 +46,26 @@ void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned 
     }
 }
 
-void ConstantNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
-    GPNode::setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
+void ConstantNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
     // TODO: maybe fill an array with value and use memcpy for terminals? will this be faster?
 }
 
-void ConstantNode::doneRendering() {
-    GPNode::doneRendering();
+void ConstantNode::done_rendering() {
+    node::done_rendering();
     // TODO: free if we do above TODO
 }
 
-void ConstantNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void ConstantNode::update_mutated_params() {
+    node::update_mutated_params();
     if (isPi) {
         value = M_PI;
         minimum = M_PI - 1;
         maximum = M_PI + 1;
     }
     else {
-        value = mutatableParams[0]->getValue();
-        minimum = mutatableParams[0]->getMin();
-        maximum = mutatableParams[0]->getMax();
+        value = params[0]->get_value();
+        minimum = params[0]->get_min();
+        maximum = params[0]->get_max();
     }
 }

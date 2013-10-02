@@ -2,11 +2,11 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-CosineNode::CosineNode(GPNode* zero) {
+CosineNode::CosineNode(node* zero) {
     arity = 1;
 
     descendants.push_back(zero);
@@ -19,12 +19,12 @@ CosineNode::~CosineNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-CosineNode* CosineNode::getCopy() {
-    CosineNode* ret = new CosineNode(descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+CosineNode* CosineNode::get_copy() {
+    CosineNode* ret = new CosineNode(descendants[0] == NULL ? NULL : descendants[0]->get_copy());
     return ret;
 }
 
@@ -35,8 +35,8 @@ void CosineNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned nu
     }
 }
 
-void CosineNode::updateMutatedParams() {
-    FunctionNode::updateMutatedParams();
+void CosineNode::update_mutated_params() {
+    FunctionNode::update_mutated_params();
     minimum = -1.0;
     maximum = 1.0;
 }

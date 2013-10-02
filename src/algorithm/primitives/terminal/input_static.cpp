@@ -2,19 +2,19 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-VariableNode::VariableNode(GPMutatableParam* vn, GPMutatableParam* range) {
-    assert(vn->isUnmutatable());
-    variableNum = vn->getDValue();
-    mutatableParams.push_back(vn);
+VariableNode::VariableNode(param* vn, GPMutatableParam* range) {
+    assert(vn->is_unmutatable());
+    variableNum = vn->get_dvalue();
+    params.push_back(vn);
 
-    assert(range->isUnmutatable());
-    minimum = range->getMin();
-    maximum = range->getMax();
-    mutatableParams.push_back(range);
+    assert(range->is_unmutatable());
+    minimum = range->get_min();
+    maximum = range->get_max();
+    params.push_back(range);
 
     arity = 0;
 
@@ -26,12 +26,12 @@ VariableNode::~VariableNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-VariableNode* VariableNode::getCopy() {
-    return new VariableNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy());
+VariableNode* VariableNode::get_copy() {
+    return new VariableNode(params[0]->get_copy(), mutatableParams[1]->getCopy());
 }
 
 void VariableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

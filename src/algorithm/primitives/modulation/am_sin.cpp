@@ -2,18 +2,18 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-AMNode::AMNode(GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* o, GPMutatableParam* a, GPNode* mod) {
-    assert(vn->isUnmutatable() && vn->isDiscrete());
-    variableNum = vn->getDValue();
+AMNode::AMNode(param* vn, GPMutatableParam* p, GPMutatableParam* o, GPMutatableParam* a, node* mod) {
+    assert(vn->is_unmutatable() && vn->is_discrete());
+    variableNum = vn->get_dvalue();
 
-    mutatableParams.push_back(vn);
-    mutatableParams.push_back(p);
-    mutatableParams.push_back(o);
-    mutatableParams.push_back(a);
+    params.push_back(vn);
+    params.push_back(p);
+    params.push_back(o);
+    params.push_back(a);
 
     descendants.push_back(mod);
     arity = 1;
@@ -26,12 +26,12 @@ AMNode::~AMNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-AMNode* AMNode::getCopy() {
-    return new AMNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+AMNode* AMNode::get_copy() {
+    return new AMNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void AMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
@@ -41,16 +41,16 @@ void AMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSam
     }
 }
 
-void AMNode::updateMutatedParams() {
-    GPNode::updateMutatedParams();
+void AMNode::update_mutated_params() {
+    node::update_mutated_params();
 
 	// update angular frequency constant
-    partial = mutatableParams[1]->getValue();
+    partial = params[1]->get_value();
     w = 2.0 * M_PI * partial;
 	
 	// update AM params
-    offset = mutatableParams[2]->getCValue();
-    alpha = mutatableParams[3]->getCValue();
+    offset = params[2]->get_cvalue();
+    alpha = params[3]->get_cvalue();
     
     // minimum/maximum constant and declared in constructor
     intervalMultiply(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, alpha, alpha);

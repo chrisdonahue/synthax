@@ -2,12 +2,12 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-SinFreqOscNode::SinFreqOscNode(GPMutatableParam* phase, GPNode* freq) {
-    mutatableParams.push_back(phase);
+SinFreqOscNode::SinFreqOscNode(param* phase, node* freq) {
+    params.push_back(phase);
 
     descendants.push_back(freq);
     arity = 1;
@@ -23,21 +23,21 @@ SinFreqOscNode::~SinFreqOscNode() {
 
 /*
     ================
-    GPNODE OVERRIDES
+    GPNODE OVERRidES
     ================
 */
 
-SinFreqOscNode* SinFreqOscNode::getCopy() {
-    return new SinFreqOscNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+SinFreqOscNode* SinFreqOscNode::get_copy() {
+    return new SinFreqOscNode(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void SinFreqOscNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime) {
-	WaveTableFreqNode::setRenderInfo(sr, blockSize, maxFrameNumber, maxTime);
+void SinFreqOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+	WaveTableFreqNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
 /*
     ===================
-    WAVETABLE OVERRIDES
+    WAVETABLE OVERRidES
     ===================
 */
 

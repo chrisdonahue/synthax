@@ -1,21 +1,21 @@
 #ifndef ADSRENVELOPENODE_H
 #define ADSRENVELOPENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class ADSREnvelopeNode: public GPNode {
+class ADSREnvelopeNode: public node {
 public:
-    ADSREnvelopeNode(GPMutatableParam* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, GPNode* signal);
+    ADSREnvelopeNode(param* del, GPMutatableParam* atk, GPMutatableParam* atkh, GPMutatableParam* dec, GPMutatableParam* sus, GPMutatableParam* sush, GPMutatableParam* rel, node* signal);
     ~ADSREnvelopeNode();
 
 	// overrides
-    ADSREnvelopeNode* getCopy();
+    ADSREnvelopeNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime);
-    void doneRendering();
-	void updateMutatedParams();
+	void set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
+    void done_rendering();
+	void update_mutated_params();
 
 	// class specific
     void fillFromParams();

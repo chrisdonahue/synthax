@@ -5,15 +5,15 @@
 
 class AddNode: public FunctionNode {
 public:
-    AddNode(GPNode* zero, GPNode* one);
+    AddNode(node* zero, GPNode* one);
     ~AddNode();
 
 	// overrides
-    AddNode* getCopy();
+    AddNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void updateMutatedParams();
+	void update_mutated_params();
 
 private:
 };

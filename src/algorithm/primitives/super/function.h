@@ -1,12 +1,12 @@
 #ifndef FUNCTIONNODE_H
 #define FUNCTIONNODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class FunctionNode: public GPNode {
+class FunctionNode: public node {
 public:
     // subclass overrides
-    virtual FunctionNode* getCopy() = 0;
+    virtual FunctionNode* get_copy() = 0;
 	virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
 };
 

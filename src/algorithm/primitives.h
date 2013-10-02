@@ -1,57 +1,46 @@
-/*
-  ==============================================================================
+#ifndef GppRImITIVES_H
+#define GppRImITIVES_H
 
-    GPPrimitives.h
-    Author:  cdonahue
+// effect includes
 
-  ==============================================================================
-*/
+// envelope includes
+#include "primitives/envelope/adsr.h"
+#include "primitives/envelope/gain.h"
+#include "primitives/envelope/lfo.h"
+#include "primitives/envelope/piecewise_linear.h"
 
-#ifndef GPPRIMITIVES_H
-#define GPPRIMITIVES_H
+// function includes
+#include "primitives/function/function.h"
+#include "primitives/function/add.h"
+#include "primitives/function/subtract.h"
+#include "primitives/function/multiply.h"
+#include "primitives/function/sine.h"
+#include "primitives/function/cosine.h"
 
-// Effect includes
+// logic includes
+#include "primitives/logic/mixer.h"
+#include "primitives/logic/switch.h"
 
-// Envelope includes
-#include "Nodes/Envelope/ADSREnvelopeNode.h"
-#include "Nodes/Envelope/GainNode.h"
-#include "Nodes/Envelope/LFOEnvelopeNode.h"
-#include "Nodes/Envelope/SplineEnvelopeNode.h"
+// modulation includes
+#include "primitives/modulation/am.h"
+#include "primitives/modulation/pm.h"
+#include "primitives/modulation/oscillator/sin.h"
+#include "primitives/modulation/oscillator/saw.h"
+#include "primitives/modulation/oscillator/square.h"
+#include "primitives/modulation/oscillator/triangle.h"
 
-// Function includes
-#include "Nodes/Function/FunctionNode.h"
-#include "Nodes/Function/AddNode.h"
-#include "Nodes/Function/SubtractNode.h"
-#include "Nodes/Function/MultiplyNode.h"
-#include "Nodes/Function/SineNode.h"
-#include "Nodes/Function/CosineNode.h"
-
-// Logic includes
-#include "Nodes/Logic/MixerNode.h"
-#include "Nodes/Logic/SwitchNode.h"
-
-// Modulation includes
-#include "Nodes/Modulation/AMNode.h"
-#include "Nodes/Modulation/PMNode.h"
-//#include "Nodes/Modulation/FMNode.h"
-#include "Nodes/Modulation/FreqOscillator/SinFreqOscNode.h"
-#include "Nodes/Modulation/FreqOscillator/SawFreqOscNode.h"
-#include "Nodes/Modulation/FreqOscillator/SquareFreqOscNode.h"
-#include "Nodes/Modulation/FreqOscillator/TriangleFreqOscNode.h"
-
-// Terminal includes
-#include "Nodes/Terminal/Oscillator/SinOscNode.h"
-#include "Nodes/Terminal/Oscillator/SawOscNode.h"
-#include "Nodes/Terminal/Oscillator/SquareOscNode.h"
-#include "Nodes/Terminal/Oscillator/TriangleOscNode.h"
-#include "Nodes/Terminal/ADSRTerminalNode.h"
-#include "Nodes/Terminal/ConstantNode.h"
-#include "Nodes/Terminal/LFOTerminalNode.h"
-#include "Nodes/Terminal/NoiseNode.h"
-#include "Nodes/Terminal/SilenceNode.h"
-#include "Nodes/Terminal/SplineTerminalNode.h"
-#include "Nodes/Terminal/TimeNode.h"
-#include "Nodes/Terminal/VariableNode.h"
-#include "Nodes/Terminal/WaveTableNode.h"
+// terminal includes
+#include "primitives/terminal/oscillator/sin.h"
+#include "primitives/terminal/oscillator/saw.h"
+#include "primitives/terminal/oscillator/square.h"
+#include "primitives/terminal/oscillator/triangle.h"
+#include "primitives/terminal/adsr.h"
+#include "primitives/terminal/constant.h"
+#include "primitives/terminal/lfo.h"
+#include "primitives/terminal/noise.h"
+#include "primitives/terminal/silence.h"
+#include "primitives/terminal/piecewise_linear.h"
+#include "primitives/terminal/time.h"
+#include "primitives/terminal/input_static.h"
 
 #endif

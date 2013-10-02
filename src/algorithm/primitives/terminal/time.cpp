@@ -2,7 +2,7 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
@@ -17,20 +17,20 @@ TimeNode::~TimeNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-TimeNode* TimeNode::getCopy() {
+TimeNode* TimeNode::get_copy() {
     return new TimeNode();
 }
 
-void TimeNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
-    maximum = maxTime;
-    GPNode::setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
+void TimeNode::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+    maximum = max_frame_start_time;
+    node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void TimeNode::doneRendering() {
+void TimeNode::done_rendering() {
     if (renderInfoSet) {
         maximum = 0.0;
     }

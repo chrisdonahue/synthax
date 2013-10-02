@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    GPRandom.h
+    random.h
     Created: 6 Feb 2013 7:19:11pm
     Author:  cdonahue
 
@@ -16,9 +16,9 @@
 #include <vector>
 #include "boost/random.hpp"
 
-class GPRandom {
+class random {
 public:
-    GPRandom(unsigned s);
+    random(unsigned s);
 
     void normalizeDistribution(std::vector<double>* weights);
     int sampleFromDistribution(std::vector<double>* weights);

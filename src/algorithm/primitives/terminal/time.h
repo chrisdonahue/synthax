@@ -1,20 +1,20 @@
 #ifndef TIMENODE_H
 #define TIMENODE_H
 
-#include "../../GPNode.h"
+#include "../../node.h"
 
-class TimeNode: public GPNode {
+class TimeNode: public node {
 public:
     TimeNode();
     ~TimeNode();
 
 	// overrides
-    TimeNode* getCopy();
+    TimeNode* get_copy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
     // optional overrides
-	void setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime);
-	void doneRendering();
+	void set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
+	void done_rendering();
 
 private:
 };

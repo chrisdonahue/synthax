@@ -12,11 +12,11 @@
 
 /*
     ========================
-    CONSTRUCTION/DESTRUCTION
+    construction/DESTRUCTION
     ========================
 */
 
-FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, GPMutatableParam* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, GPNode* signal, GPNode* center) :
+FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, param* cfmultmin, GPMutatableParam* cfmultmax, GPMutatableParam* bwq, node* signal, GPNode* center) :
     params()
 {
     type = t;
@@ -27,9 +27,9 @@ FilterNode::FilterNode(char* t, unsigned o, unsigned fpc, double sr, int vn, GPM
 
     variableNum = vn;
 
-    mutatableParams.push_back(cfmultmin);
-    mutatableParams.push_back(cfmultmax);
-    mutatableParams.push_back(bwq);
+    params.push_back(cfmultmin);
+    params.push_back(cfmultmax);
+    params.push_back(bwq);
 
 
     if (strcmp(t, "lp") == 0) {
@@ -58,15 +58,15 @@ FilterNode::~FilterNode() {
 
 /*
     =========
-    OVERRIDES
+    OVERRidES
     =========
 */
 
-FilterNode* FilterNode::getCopy() {
-    return new FilterNode(type, order, fadeParameterChanges, sampleRate, variableNum, mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), NULL);
+FilterNode* FilterNode::get_copy() {
+    return new FilterNode(type, order, fadeParameterChanges, sampleRate, variableNum, params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy(), descendants[1] == NULL ? NULL : descendants[1]->getCopy(), NULL);
 }
 
-void FilterNode::prepareToPlay() {
+void FilterNode::prepare_to_play() {
 
 }
 
@@ -117,7 +117,7 @@ void FilterNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, d
     if (params[2] < 1.0 || params[2] >= params[0] / 2) {
 	std::cout << "[" << cfmin << ", " << cfmax << "] -> [" << centerFrequencyMultiplierMin << ", " << centerFrequencyMultiplierMax << "]" << std::endl;
 	std::stringstream ss;
-	descendants[1]->toString(ss);
+	descendants[1]->to_string(ss);
 	std::cout << ss.str() << std::endl;
         std::cout << params[2] << ", " << cfbuffer[n-1] << ", " << cfm << ", "<< cfb << std::endl;
     }
@@ -125,7 +125,7 @@ void FilterNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, d
         std::cout << "WOW RANGE IS CLOSE" << std::endl;
 	std::cout << "[" << cfmin << ", " << cfmax << "] -> [" << centerFrequencyMultiplierMin << ", " << centerFrequencyMultiplierMax << "]" << std::endl;
 	std::stringstream ss;
-	descendants[1]->toString(ss);
+	descendants[1]->to_string(ss);
 	std::cout << ss.str() << std::endl;
         std::cout << params[2] << ", " << cfbuffer[n-1] << ", " << cfm << ", "<< cfb << std::endl;
         std::cout << "------------" << std::endl;
@@ -146,7 +146,7 @@ void FilterNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, d
         if (buffer[i] < -1.0 || buffer[i] > 1.0) {
             std::cout << "[" << cfmin << ", " << cfmax << "] -> [" << centerFrequencyMultiplierMin << ", " << centerFrequencyMultiplierMax << "]" << std::endl;
             std::stringstream ss;
-            descendants[1]->toString(true, ss);
+            descendants[1]->to_string(true, ss);
             std::cout << ss.str() << std::endl;
             std::cout << params[2] << ", " << params[3] << ", " << cfbuffer[n-1] << ", " << cfm << ", "<< cfb << std::endl;
             std::cout << "FILTER IS MESSED UP" << std::endl;
@@ -159,7 +159,7 @@ void FilterNode::evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, d
     free(cfbuffer);
 }
 
-void FilterNode::setRenderInfo(float sr, unsigned blockSize, float maxTime) {
+void FilterNode::set_render_info(float sr, unsigned block_size, float max_frame_start_time) {
 
 }
 
@@ -167,26 +167,26 @@ void FilterNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned nu
 
 }
 
-void FilterNode::updateMutatedParams() {
+void FilterNode::update_mutated_params() {
     fillFromParams();
 
     // call on descendants
-    descendants[0]->updateMutatedParams();
-    descendants[1]->updateMutatedParams();
+    descendants[0]->update_mutated_params();
+    descendants[1]->update_mutated_params();
 }
 
-void FilterNode::toString(std::stringstream& ss) {
+void FilterNode::to_string(std::stringstream& ss) {
     ss << "(" << type;
     ss << " [";
-    mutatableParams[0]->toString(printRange, ss);
+    params[0]->to_string(printRange, ss);
     ss <<  ", ";
-    mutatableParams[1]->toString(printRange, ss);
+    params[1]->to_string(printRange, ss);
     ss << "] ";
-    mutatableParams[2]->toString(printRange, ss);
+    params[2]->to_string(printRange, ss);
     ss << " ";
-    descendants[0]->toString(printRange, ss);
+    descendants[0]->to_string(printRange, ss);
     ss << " ";
-    descendants[1]->toString(printRange, ss);
+    descendants[1]->to_string(printRange, ss);
     ss << ")";
 }
 
@@ -198,11 +198,11 @@ void FilterNode::toString(std::stringstream& ss) {
 
 void FilterNode::fillFromParams() {
     // update mutated params
-    centerFrequencyMultiplierMin = mutatableParams[0]->getValue();
-    centerFrequencyMultiplierMax = mutatableParams[1]->getValue();
+    centerFrequencyMultiplierMin = params[0]->get_value();
+    centerFrequencyMultiplierMax = params[1]->get_value();
     if (centerFrequencyMultiplierMax < centerFrequencyMultiplierMin) {
         centerFrequencyMultiplierMin = centerFrequencyMultiplierMax;
         centerFrequencyMultiplierMax = centerFrequencyMultiplierMin;
     }
-    bandwidthQuality = mutatableParams[2]->getValue();
+    bandwidthQuality = params[2]->get_value();
 }
