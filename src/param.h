@@ -264,9 +264,9 @@ namespace synthax {
 		// randomize
 		void ephemeral_random(random* rng) {
 			if (continuous && mutatable)
-				cvalue = ((float) rng->random() * (cmaximum - cminimum)) + cminimum;
+				cvalue = ((float) rng->crandom() * (cmaximum - cminimum)) + cminimum;
 			else if (!continuous && mutatable)
-				dvalue = (rng->random((dmaximum - dminimum) + 1)) + dminimum;
+				dvalue = (rng->drandom((dmaximum - dminimum) + 1)) + dminimum;
 		}
 
 	private:

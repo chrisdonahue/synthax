@@ -6,7 +6,7 @@
     ============
 */
 
-algorithm::algorithm(node* r, std::string o) :
+synthax::algorithm::algorithm(node* r, std::string o) :
     id(-1), origin(o), height(-1), fitness(-1),
     minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
     traced(false), prepared_to_render(false),
@@ -14,14 +14,14 @@ algorithm::algorithm(node* r, std::string o) :
 {
 }
 
-algorithm::~algorithm() {
+synthax::algorithm::~algorithm() {
     if (!prepared_to_render) {
         delete root;
     }
     delete render_root;
 }
 
-algorithm* algorithm::getCopy(std::string neworigin) {
+synthax::algorithm::algorithm* synthax::algorithm::getCopy(std::string neworigin) {
     algorithm* copy = new algorithm(root->get_copy(), neworigin);
     return copy;
 }
@@ -32,32 +32,32 @@ algorithm* algorithm::getCopy(std::string neworigin) {
     ===========
 */
 
-void algorithm::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::algorithm::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     render_root->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
 }
 
 
-std::string algorithm::to_string(unsigned precision) {
+std::string synthax::algorithm::to_string(unsigned precision) {
     std::stringstream ss;
     ss.precision(precision);
     root->to_string(ss);
     return ss.str();
 }
 
-node* algorithm::get_root() {
+node* synthax::algorithm::get_root() {
     return root;
 }
 
-bool algorithm::equals(algorithm* other, unsigned precision) {
+bool synthax::algorithm::equals(algorithm* other, unsigned precision) {
     return to_string(precision).compare(other->toString(precision)) == 0;
 }
 
-node* algorithm::get_random_network_node(random* r) {
+node* synthax::algorithm::get_random_network_node(random* r) {
     assert(traced = true);
     return all_nodes[r->random(allNodes.size())];
 }
 
-std::vector<param*>* algorithm::get_all_mutatable_params() {
+std::vector<param*>* synthax::algorithm::get_all_mutatable_params() {
     assert(traced = true);
     return &all_mutatable_params;
 }
@@ -68,7 +68,7 @@ std::vector<param*>* algorithm::get_all_mutatable_params() {
     =======
 */
 
-void algorithm::trace() {
+void synthax::algorithm::trace() {
     all_nodes.clear();
     all_mutatable_params.clear();
     root->trace(&all_nodes, &all_mutatable_params, NULL, &height, 0);
@@ -77,7 +77,7 @@ void algorithm::trace() {
 
 // render_root = silence and root = realroot whenever prepared_to_render is false
 // render_root = realroot and root = realroot whenever prepared_to_render is true
-void algorithm::prepare_to_render(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::algorithm::prepare_to_render(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     done_rendering();
     if (!prepared_to_render) {
         delete render_root;
@@ -89,14 +89,14 @@ void algorithm::prepare_to_render(float sr, unsigned block_size, unsigned max_fr
 }
 
 // only changed the params
-void algorithm::update_mutated_params() {
+void synthax::algorithm::update_mutated_params() {
     assert(prepared_to_render);
     root->update_mutated_params();
     minimum = root->minimum;
     maximum = root->maximum;
 }
 
-void algorithm::done_rendering() {
+void synthax::algorithm::done_rendering() {
     if (prepared_to_render) {
         root->done_rendering();
         minimum = (-1) * std::numeric_limits<float>::infinity();
@@ -109,7 +109,7 @@ void algorithm::done_rendering() {
 /*
     this method replaces the subtree rooted at node old with node new's
 */
-void algorithm::replace_subtree(node* old, GPNode* nu) {
+void synthax::algorithm::replace_subtree(node* old, GPNode* nu) {
     // handle root case
     if (old == root) {
         root = nu;
@@ -134,7 +134,7 @@ void algorithm::replace_subtree(node* old, GPNode* nu) {
     traced = false;
 }
 
-void algorithm::ephemeral_random(random* r) {
+void synthax::algorithm::ephemeral_random(random* r) {
     root->ephemeral_random(r);
 }
 

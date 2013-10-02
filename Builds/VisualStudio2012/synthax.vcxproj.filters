@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="synthax">
@@ -156,7 +157,10 @@
     <ClCompile Include="..\..\src\primitives\logic\switcher.cpp">
       <Filter>synthax\primitives\logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\primitives\modulation\am_sin.cpp">
+    <ClCompile Include="..\..\src\primitives\modulation\sine_amp_mod.cpp">
+      <Filter>synthax\primitives\modulation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\primitives\modulation\sine_phase_mod.cpp">
       <Filter>synthax\primitives\modulation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\primitives\modulation\oscillator\saw.cpp">
@@ -171,16 +175,10 @@
     <ClCompile Include="..\..\src\primitives\modulation\oscillator\triangle.cpp">
       <Filter>synthax\primitives\modulation\oscillator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\primitives\modulation\pm_sin.cpp">
-      <Filter>synthax\primitives\modulation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\primitives\modulation\wave_table.cpp">
       <Filter>synthax\primitives\modulation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\primitives\super\adsr.cpp">
-      <Filter>synthax\primitives\super</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\primitives\super\function.cpp">
       <Filter>synthax\primitives\super</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\primitives\super\lfo.cpp">
@@ -438,6 +436,21 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
@@ -518,7 +531,10 @@
     <ClInclude Include="..\..\src\primitives\logic\switcher.h">
       <Filter>synthax\primitives\logic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\primitives\modulation\am_sin.h">
+    <ClInclude Include="..\..\src\primitives\modulation\sine_amp_mod.h">
+      <Filter>synthax\primitives\modulation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\primitives\modulation\sine_phase_mod.h">
       <Filter>synthax\primitives\modulation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\modulation\oscillator\saw.h">
@@ -533,16 +549,10 @@
     <ClInclude Include="..\..\src\primitives\modulation\oscillator\triangle.h">
       <Filter>synthax\primitives\modulation\oscillator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\primitives\modulation\pm_sin.h">
-      <Filter>synthax\primitives\modulation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\primitives\modulation\wave_table.h">
       <Filter>synthax\primitives\modulation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\super\adsr.h">
-      <Filter>synthax\primitives\super</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\primitives\super\function.h">
       <Filter>synthax\primitives\super</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\super\lfo.h">

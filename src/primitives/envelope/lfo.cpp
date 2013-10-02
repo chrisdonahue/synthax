@@ -25,7 +25,7 @@ synthax::primitive::envelope::lfo::~lfo() {
     =========
 */
 
-lfo* synthax::primitive::envelope::lfo::get_copy() {
+synthax::primitive::envelope::lfo* synthax::primitive::envelope::lfo::get_copy() {
     return new lfo(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 

@@ -1,8 +1,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../algorithm/node.h"
-#include "../algorithm/primitives.h"
+#include "node.h"
+#include "primitives.h"
 
 #include <exception>
 #include <string>

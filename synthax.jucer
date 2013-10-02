@@ -60,8 +60,13 @@
         <FILE id="TZJLaN" name="switcher.h" compile="0" resource="0" file="src/primitives/logic/switcher.h"/>
       </GROUP>
       <GROUP id="{14AC94D1-F2F9-ABA6-2F92-AEFF6F544728}" name="modulation">
-        <FILE id="sExAKA" name="am_sin.cpp" compile="1" resource="0" file="src/primitives/modulation/am_sin.cpp"/>
-        <FILE id="o0XeAm" name="am_sin.h" compile="0" resource="0" file="src/primitives/modulation/am_sin.h"/>
+        <FILE id="CMwDUE" name="sine_amp_mod.cpp" compile="1" resource="0"
+              file="src/primitives/modulation/sine_amp_mod.cpp"/>
+        <FILE id="rMGCwp" name="sine_amp_mod.h" compile="0" resource="0" file="src/primitives/modulation/sine_amp_mod.h"/>
+        <FILE id="UeuMtx" name="sine_phase_mod.cpp" compile="1" resource="0"
+              file="src/primitives/modulation/sine_phase_mod.cpp"/>
+        <FILE id="LHMKur" name="sine_phase_mod.h" compile="0" resource="0"
+              file="src/primitives/modulation/sine_phase_mod.h"/>
         <GROUP id="{C5FE136D-172E-F90F-D7C6-46AFBF190EEB}" name="oscillator">
           <FILE id="a1LxZl" name="saw.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/saw.cpp"/>
           <FILE id="stTsam" name="saw.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/saw.h"/>
@@ -72,16 +77,12 @@
           <FILE id="RKnGgU" name="triangle.cpp" compile="1" resource="0" file="src/primitives/modulation/oscillator/triangle.cpp"/>
           <FILE id="O3x0Dr" name="triangle.h" compile="0" resource="0" file="src/primitives/modulation/oscillator/triangle.h"/>
         </GROUP>
-        <FILE id="dWvb0T" name="pm_sin.cpp" compile="1" resource="0" file="src/primitives/modulation/pm_sin.cpp"/>
-        <FILE id="hKVM0L" name="pm_sin.h" compile="0" resource="0" file="src/primitives/modulation/pm_sin.h"/>
         <FILE id="Czddhc" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/modulation/wave_table.cpp"/>
         <FILE id="GDPsWJ" name="wave_table.h" compile="0" resource="0" file="src/primitives/modulation/wave_table.h"/>
       </GROUP>
       <GROUP id="{773E5E5D-B99F-B67C-0C66-BD91553EFFEF}" name="super">
         <FILE id="G5zJZU" name="adsr.cpp" compile="1" resource="0" file="src/primitives/super/adsr.cpp"/>
         <FILE id="j7tURC" name="adsr.h" compile="0" resource="0" file="src/primitives/super/adsr.h"/>
-        <FILE id="Oq16Il" name="function.cpp" compile="1" resource="0" file="src/primitives/super/function.cpp"/>
-        <FILE id="VC6kNX" name="function.h" compile="0" resource="0" file="src/primitives/super/function.h"/>
         <FILE id="N2BI0K" name="lfo.cpp" compile="1" resource="0" file="src/primitives/super/lfo.cpp"/>
         <FILE id="Ts99SU" name="lfo.h" compile="0" resource="0" file="src/primitives/super/lfo.h"/>
         <FILE id="yRoLqp" name="piecewise_linear.cpp" compile="1" resource="0"

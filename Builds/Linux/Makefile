@@ -66,15 +66,14 @@ OBJECTS := \
   $(OBJDIR)/subtract_8c390ba8.o \
   $(OBJDIR)/mixer_99b9d5.o \
   $(OBJDIR)/switcher_7d022e1f.o \
-  $(OBJDIR)/am_sin_d4477bf5.o \
+  $(OBJDIR)/sine_amp_mod_2ed81fc5.o \
+  $(OBJDIR)/sine_phase_mod_33978a3c.o \
   $(OBJDIR)/saw_f6196e2a.o \
   $(OBJDIR)/sine_67d95836.o \
   $(OBJDIR)/square_f09e7dc6.o \
   $(OBJDIR)/triangle_a02d7431.o \
-  $(OBJDIR)/pm_sin_24951cc6.o \
   $(OBJDIR)/wave_table_57477db8.o \
   $(OBJDIR)/adsr_1f66e983.o \
-  $(OBJDIR)/function_e73de99.o \
   $(OBJDIR)/lfo_b555e6de.o \
   $(OBJDIR)/piecewise_linear_11add133.o \
   $(OBJDIR)/wave_table_9b64d2c9.o \
@@ -202,9 +201,14 @@ $(OBJDIR)/switcher_7d022e1f.o: ../../src/primitives/logic/switcher.cpp
 	@echo "Compiling switcher.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/am_sin_d4477bf5.o: ../../src/primitives/modulation/am_sin.cpp
+$(OBJDIR)/sine_amp_mod_2ed81fc5.o: ../../src/primitives/modulation/sine_amp_mod.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling am_sin.cpp"
+	@echo "Compiling sine_amp_mod.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sine_phase_mod_33978a3c.o: ../../src/primitives/modulation/sine_phase_mod.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sine_phase_mod.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/saw_f6196e2a.o: ../../src/primitives/modulation/oscillator/saw.cpp
@@ -227,11 +231,6 @@ $(OBJDIR)/triangle_a02d7431.o: ../../src/primitives/modulation/oscillator/triang
 	@echo "Compiling triangle.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/pm_sin_24951cc6.o: ../../src/primitives/modulation/pm_sin.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling pm_sin.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/wave_table_57477db8.o: ../../src/primitives/modulation/wave_table.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_table.cpp"
@@ -240,11 +239,6 @@ $(OBJDIR)/wave_table_57477db8.o: ../../src/primitives/modulation/wave_table.cpp
 $(OBJDIR)/adsr_1f66e983.o: ../../src/primitives/super/adsr.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling adsr.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/function_e73de99.o: ../../src/primitives/super/function.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling function.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/lfo_b555e6de.o: ../../src/primitives/super/lfo.cpp

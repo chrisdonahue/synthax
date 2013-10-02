@@ -9,7 +9,7 @@ namespace synthax{namespace primitive{namespace super{
 		// optional overrides
 		void update_mutated_params();
 
-	private:
+	protected:
 		float rate;
 		double w;
 	};
