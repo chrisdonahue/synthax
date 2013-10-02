@@ -4,8 +4,8 @@
 #include "../../node.h"
 #include "../super/lfo.h"
 
-namespace synthax{namespace node{namespace terminal{
-	class lfo : public synthax::node::super::lfo {
+namespace synthax{namespace primitive{namespace terminal{
+	class lfo : public synthax::primitive::super::lfo {
 	public:
 		lfo(param* rate);
 		~lfo();

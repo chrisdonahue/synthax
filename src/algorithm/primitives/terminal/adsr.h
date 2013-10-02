@@ -4,8 +4,8 @@
 #include "../../node.h"
 #include "../super/adsr.h"
 
-namespace synthax{namespace node{namespace terminal{
-	class adsr : public synthax::node::super::adsr {
+namespace synthax{namespace primitive{namespace terminal{
+	class adsr : public synthax::primitive::super::adsr {
 	public:
 		// construction
 		adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel);

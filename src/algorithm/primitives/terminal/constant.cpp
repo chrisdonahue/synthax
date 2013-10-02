@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::node::terminal::constant::constant(bool pi, param* v) {
+synthax::primitive::terminal::constant::constant(bool pi, param* v) {
     isPi = pi;
     
     if (!isPi) {
@@ -20,7 +20,7 @@ synthax::node::terminal::constant::constant(bool pi, param* v) {
     symbol = "const";
 }
 
-synthax::node::terminal::constant::~constant() {
+synthax::primitive::terminal::constant::~constant() {
 }
 
 /*
@@ -29,11 +29,11 @@ synthax::node::terminal::constant::~constant() {
     =========
 */
 
-synthax::node::terminal::constant* synthax::node::terminal::constant::get_copy() {
+synthax::primitive::terminal::constant* synthax::primitive::terminal::constant::get_copy() {
     return new constant(isPi, isPi ? NULL : params[0]->get_copy());
 }
 
-void synthax::node::terminal::constant::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::constant::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;
@@ -46,17 +46,17 @@ void synthax::node::terminal::constant::evaluateBlockPerformance(unsigned firstF
     }
 }
 
-void synthax::node::terminal::constant::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::primitive::terminal::constant::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
     // TODO: maybe fill an array with value and use memcpy for terminals? will this be faster?
 }
 
-void synthax::node::terminal::constant::done_rendering() {
+void synthax::primitive::terminal::constant::done_rendering() {
     node::done_rendering();
     // TODO: free if we do above TODO
 }
 
-void synthax::node::terminal::constant::update_mutated_params() {
+void synthax::primitive::terminal::constant::update_mutated_params() {
     node::update_mutated_params();
     if (isPi) {
         value = M_PI;

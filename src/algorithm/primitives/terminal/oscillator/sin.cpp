@@ -1,4 +1,4 @@
-#include "TriangleOscNode.h"
+#include "SinOscNode.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-TriangleOscNode::TriangleOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
+SinOscNode::SinOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -19,10 +19,10 @@ TriangleOscNode::TriangleOscNode(param* vn, GPMutatableParam* partial, GPMutatab
     minimum = -1;
     maximum = 1;
 
-    symbol = "triangleosc";
+    symbol = "sinosc";
 }
 
-TriangleOscNode::~TriangleOscNode() {
+SinOscNode::~SinOscNode() {
 }
 
 /*
@@ -31,15 +31,15 @@ TriangleOscNode::~TriangleOscNode() {
     ================
 */
 
-TriangleOscNode* TriangleOscNode::get_copy() {
-    return new TriangleOscNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy());
+SinOscNode* SinOscNode::get_copy() {
+    return new SinOscNode(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy());
 }
 
-void TriangleOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void SinOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	WaveTableNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void TriangleOscNode::update_mutated_params() {
+void SinOscNode::update_mutated_params() {
     node::update_mutated_params();
 
 	// update angular frequency constant
@@ -55,7 +55,7 @@ void TriangleOscNode::update_mutated_params() {
     ===================
 */
 
-void TriangleOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
+void SinOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
     // calc number of harmonics where the highest harmonic baseFreq and lowest alias an octave higher would meet
     double baseFreq = baseFrequency;
     int maxHarms = sampleRate / (3.0 * baseFreq) + 0.5;
@@ -90,7 +90,7 @@ void TriangleOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp,
     free(ar);
 }
 
-void TriangleOscNode::defineHarmonics(int len, int numHarmonics, double* ar, double* ai) {
+void SinOscNode::defineHarmonics(int len, int numHarmonics, double* ar, double* ai) {
     if (numHarmonics > (len >> 1))
         numHarmonics = (len >> 1);
     
@@ -100,11 +100,13 @@ void TriangleOscNode::defineHarmonics(int len, int numHarmonics, double* ar, dou
         ar[idx] = 0;
     }
 
-	// triangle
-	float sign = 1;
-	for (int idx = 1, jdx = len - 1; idx <= numHarmonics; idx++, jdx--) {
-		double temp = idx & 0x01 ? 1.0 / (idx * idx) * (sign = -sign) : 0.0;
-		ar[idx] = -temp;
-		ar[jdx] = temp;
-	}
+    // sin
+    ar[1] = 1.0f;
+    ar[len - 1] = -1.0f;
+
+    /*
+    for (int idx = 0; idx < len; idx++) {
+        std::cout << "idx: " << idx << ", ar[idx]: " << ar[idx] << ", ai[idx]: " << ai[idx] << std::endl;
+    }
+    */
 }

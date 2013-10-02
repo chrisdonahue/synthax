@@ -56,5 +56,5 @@ void synthax::primitive::envelope::gain::done_rendering() {
 void synthax::primitive::envelope::gain::update_mutated_params() {
     node::update_mutated_params();
     value = params[0]->get_value();
-    synthax::helpers::intervalMultiply(&minimum, &maximum, params[0]->get_min(), mutatableParams[0]->get_max(), descendants[0]->minimum, descendants[0]->maximum);
+    synthax::helpers::intervalMultiply(&minimum, &maximum, params[0]->get_min(), params[0]->get_max(), descendants[0]->minimum, descendants[0]->maximum);
 }

@@ -5,7 +5,7 @@
 #include <list>
 
 
-namespace synthax{namespace node{namespace terminal{
+namespace synthax{namespace primitive{namespace terminal{
 	class noise : public node {
 	public:
 		noise();

@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace node{namespace terminal{
+namespace synthax{namespace primitive{namespace terminal{
 	class constant : public node {
 	public:
 		constant(bool pi, param* v);

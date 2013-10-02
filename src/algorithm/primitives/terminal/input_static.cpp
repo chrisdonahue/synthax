@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::node::terminal::input_static::input_static(param* vn, param* range) {
+synthax::primitive::terminal::input_static::input_static(param* vn, param* range) {
     assert(vn->is_unmutatable());
     variableNum = vn->get_dvalue();
     params.push_back(vn);
@@ -21,7 +21,7 @@ synthax::node::terminal::input_static::input_static(param* vn, param* range) {
     symbol = "var";
 }
 
-synthax::node::terminal::input_static::~input_static() {
+synthax::primitive::terminal::input_static::~input_static() {
 }
 
 /*
@@ -30,11 +30,11 @@ synthax::node::terminal::input_static::~input_static() {
     =========
 */
 
-synthax::node::terminal::input_static* synthax::node::terminal::input_static::get_copy() {
+synthax::primitive::terminal::input_static* synthax::primitive::terminal::input_static::get_copy() {
     return new input_static(params[0]->get_copy(), params[1]->get_copy());
 }
 
-void synthax::node::terminal::input_static::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::input_static::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     firstFrameNumber;
     sampleTimes;
     numConstantVariables;

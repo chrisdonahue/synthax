@@ -3,8 +3,8 @@
 
 #include "../super/piecewise_linear.h"
 
-namespace synthax{namespace node{namespace terminal{
-	class piecewise_linear : public synthax::node::super::piecewise_linear {
+namespace synthax{namespace primitive{namespace terminal{
+	class piecewise_linear : public synthax::primitive::super::piecewise_linear {
 	public:
 		piecewise_linear(param* splinetype, GPMutatableParam* numpoints, std::vector<GPMutatableParam*>* pointsOrParams);
 		~piecewise_linear();

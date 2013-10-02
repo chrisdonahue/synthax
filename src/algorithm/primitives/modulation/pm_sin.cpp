@@ -33,7 +33,7 @@ PMNode::~PMNode() {
 */
 
 PMNode* PMNode::get_copy() {
-    return new PMNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new PMNode(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void PMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

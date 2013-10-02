@@ -4,7 +4,7 @@
 #include "../../node.h"
 #include "../../../Dependencies/WaveTableOsc/WaveTableOsc.h"
 
-namespace synthax{namespace node{namespace terminal{
+namespace synthax{namespace primitive{namespace terminal{
 	class wave_table : public node {
 	public:
 		// overrides

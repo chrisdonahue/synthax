@@ -31,7 +31,7 @@ AMNode::~AMNode() {
 */
 
 AMNode* AMNode::get_copy() {
-    return new AMNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new AMNode(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), params[3]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void AMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

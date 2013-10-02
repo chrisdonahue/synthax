@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace node{namespace terminal{
+namespace synthax{namespace primitive{namespace terminal{
 	class time: public node {
 	public:
 		time();

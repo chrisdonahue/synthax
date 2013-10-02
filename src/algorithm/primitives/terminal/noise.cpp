@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::node::terminal::noise::noise() {  
+synthax::primitive::terminal::noise::noise() {  
     arity = 0;
     
     minimum = -1;
@@ -15,7 +15,7 @@ synthax::node::terminal::noise::noise() {
     symbol = "whitenoise";
 }
 
-synthax::node::terminal::noise::~noise() {
+synthax::primitive::terminal::noise::~noise() {
 }
 
 /*
@@ -24,11 +24,11 @@ synthax::node::terminal::noise::~noise() {
     =========
 */
 
-synthax::node::terminal::noise* synthax::node::terminal::noise::get_copy() {
+synthax::primitive::terminal::noise* synthax::primitive::terminal::noise::get_copy() {
     return new noise();
 }
 
-void synthax::node::terminal::noise::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::noise::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	firstFrameNumber;
 	sampleTimes;
     numConstantVariables;
@@ -52,7 +52,7 @@ void synthax::node::terminal::noise::evaluateBlockPerformance(unsigned firstFram
 /*
     http://musicdsp.org/showArchiveComment.php?Archiveid=216
 */
-void synthax::node::terminal::noise::whitenoise(
+void synthax::primitive::terminal::noise::whitenoise(
     float* _fpDstBuffer, // Pointer to buffer
     unsigned int _uiBufferSize, // Size of buffer
     float _fLevel ) // Noiselevel (0.0 ... 1.0)

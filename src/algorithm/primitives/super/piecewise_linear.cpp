@@ -1,6 +1,6 @@
 #include "piecewise_linear.h"
 
-void synthax::node::super::piecewise_linear::ephemeral_random(random* rng) {
+void synthax::primitive::super::piecewise_linear::ephemeral_random(random* rng) {
     // if this is a primitive spline then generate its points
     if (isPrimitive) {
         // randomize the number of points and lock it
@@ -43,7 +43,7 @@ void synthax::node::super::piecewise_linear::ephemeral_random(random* rng) {
     node::ephemeral_random(rng);
 }
 
-void synthax::node::super::piecewise_linear::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::primitive::super::piecewise_linear::set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     assert(!isPrimitive);
     done_rendering();
     sampleRate = sr;
@@ -52,7 +52,7 @@ void synthax::node::super::piecewise_linear::set_render_info(float sr, unsigned 
     node::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void synthax::node::super::piecewise_linear::done_rendering() {
+void synthax::primitive::super::piecewise_linear::done_rendering() {
     if (prepared_to_render) {
         sampleRate = 0;
         free(envelope);
@@ -60,7 +60,7 @@ void synthax::node::super::piecewise_linear::done_rendering() {
     node::done_rendering();
 }
 
-void synthax::node::super::piecewise_linear::update_mutated_params() {
+void synthax::primitive::super::piecewise_linear::update_mutated_params() {
     node::update_mutated_params();
 
     assert(!isPrimitive);
@@ -88,7 +88,7 @@ void synthax::node::super::piecewise_linear::update_mutated_params() {
     ==============
 */
 
-void synthax::node::super::piecewise_linear::fillFromParams() {
+void synthax::primitive::super::piecewise_linear::fillFromParams() {
     if (splineType == 0) {
         unsigned currentFrame = 0;
         unsigned usedPoints = 0;

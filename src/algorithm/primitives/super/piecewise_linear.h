@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace node{namespace super{
+namespace synthax{namespace primitive{namespace super{
 	class piecewise_linear : public node {
 	public:
 		// optional overrides

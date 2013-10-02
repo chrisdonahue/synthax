@@ -53,7 +53,7 @@ synthax::primitive::envelope::piecewise_linear* synthax::primitive::envelope::pi
         paramCopies->at(i - 2) = params[i]->get_copy();
     }
 
-    return new piecewise_linear(params[0]->get_copy(), mutatableParams[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new piecewise_linear(params[0]->get_copy(), params[1]->getCopy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void synthax::primitive::envelope::piecewise_linear::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

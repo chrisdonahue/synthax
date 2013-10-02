@@ -6,7 +6,7 @@
     =========
 */
 
-void synthax::node::terminal::wave_table::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::primitive::terminal::wave_table::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	sampleRate = sample_rate;
 	osc = new WaveTableOsc();
 	makeAddAllWaveTables((double) sample_rate, 2, 99999, 20.0f, (double) 20.0f * 2.0 / sampleRate);
@@ -14,14 +14,14 @@ void synthax::node::terminal::wave_table::set_render_info(float sample_rate, uns
 	node::set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
 }
 
-void synthax::node::terminal::wave_table::done_rendering() {
+void synthax::primitive::terminal::wave_table::done_rendering() {
 	if (prepared_to_render) {
 		delete osc;
 	}
 	node::done_rendering();
 }
 
-void synthax::node::terminal::wave_table::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::wave_table::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	// use unused variables
 	sampleTimes;
 	numConstantVariables;
@@ -41,7 +41,7 @@ void synthax::node::terminal::wave_table::evaluateBlockPerformance(unsigned firs
     }
 }
 
-void synthax::node::terminal::wave_table::update_mutated_params() {
+void synthax::primitive::terminal::wave_table::update_mutated_params() {
     node::update_mutated_params();
 }
 
@@ -51,7 +51,7 @@ void synthax::node::terminal::wave_table::update_mutated_params() {
     =================
 */
 
-void synthax::node::terminal::wave_table::fft(int N, double *ar, double *ai)
+void synthax::primitive::terminal::wave_table::fft(int N, double *ar, double *ai)
 {    
     int i, j, k, L;            /* indexes */
     int M, TEMP, LE, LE1, ip;  /* M = log N */
@@ -114,7 +114,7 @@ void synthax::node::terminal::wave_table::fft(int N, double *ar, double *ai)
     }
 }
 
-float synthax::node::terminal::wave_table::makeAddWaveTable(int len, double* ar, double* ai, double scale, double topFreq) {
+float synthax::primitive::terminal::wave_table::makeAddWaveTable(int len, double* ar, double* ai, double scale, double topFreq) {
     fft(len, ar, ai);
     
     if (scale == 0.0) {

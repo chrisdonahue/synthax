@@ -6,13 +6,13 @@
     ============
 */
 
-synthax::node::terminal::silence::silence() {
+synthax::primitive::terminal::silence::silence() {
     arity = 0;
 
     symbol = "silence";
 }
 
-synthax::node::terminal::silence::~silence() {
+synthax::primitive::terminal::silence::~silence() {
 }
 
 /*
@@ -21,11 +21,11 @@ synthax::node::terminal::silence::~silence() {
     =========
 */
 
-synthax::node::terminal::silence* synthax::node::terminal::silence::get_copy() {
+synthax::primitive::terminal::silence* synthax::primitive::terminal::silence::get_copy() {
     return new silence();
 }
 
-void synthax::node::terminal::silence::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::silence::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;

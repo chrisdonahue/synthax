@@ -1,4 +1,4 @@
-#include "SawOscNode.h"
+#include "SquareOscNode.h"
 
 /*
     ========================
@@ -6,7 +6,7 @@
     ========================
 */
 
-SawOscNode::SawOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
+SquareOscNode::SquareOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* phase) {
     assert(vn->is_unmutatable() && vn->is_discrete());
     variableNum = vn->get_dvalue();
 
@@ -19,10 +19,10 @@ SawOscNode::SawOscNode(param* vn, GPMutatableParam* partial, GPMutatableParam* p
     minimum = -1;
     maximum = 1;
 
-    symbol = "sawosc";
+    symbol = "squareosc";
 }
 
-SawOscNode::~SawOscNode() {
+SquareOscNode::~SquareOscNode() {
 }
 
 /*
@@ -31,15 +31,15 @@ SawOscNode::~SawOscNode() {
     ================
 */
 
-SawOscNode* SawOscNode::get_copy() {
-    return new SawOscNode(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy());
+SquareOscNode* SquareOscNode::get_copy() {
+    return new SquareOscNode(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy());
 }
 
-void SawOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void SquareOscNode::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	WaveTableNode::set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
 }
 
-void SawOscNode::update_mutated_params() {
+void SquareOscNode::update_mutated_params() {
     node::update_mutated_params();
 
 	// update angular frequency constant
@@ -55,7 +55,7 @@ void SawOscNode::update_mutated_params() {
     ===================
 */
 
-void SawOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
+void SquareOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
     // calc number of harmonics where the highest harmonic baseFreq and lowest alias an octave higher would meet
     double baseFreq = baseFrequency;
     int maxHarms = sampleRate / (3.0 * baseFreq) + 0.5;
@@ -90,7 +90,7 @@ void SawOscNode::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsi
     free(ar);
 }
 
-void SawOscNode::defineHarmonics(int len, int numHarmonics, double* ar, double* ai) {
+void SquareOscNode::defineHarmonics(int len, int numHarmonics, double* ar, double* ai) {
     if (numHarmonics > (len >> 1))
         numHarmonics = (len >> 1);
     
@@ -100,10 +100,10 @@ void SawOscNode::defineHarmonics(int len, int numHarmonics, double* ar, double* 
         ar[idx] = 0;
     }
 
-    // sawtooth
-    for (int idx = 1, jdx = len - 1; idx <= numHarmonics; idx++, jdx--) {
-        double temp = -1.0 / idx;
-        ar[idx] = -temp;
-        ar[jdx] = temp;
-    }
+	// square
+	for (int idx = 1, jdx = len - 1; idx <= numHarmonics; idx++, jdx--) {
+		double temp = idx & 0x01 ? 1.0 / idx : 0.0;
+		ar[idx] = -temp;
+		ar[jdx] = temp;
+	}
 }

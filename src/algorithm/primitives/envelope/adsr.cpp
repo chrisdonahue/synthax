@@ -40,7 +40,7 @@ synthax::primitive::envelope::adsr::~adsr() {
 */
 
 synthax::primitive::envelope::adsr* synthax::primitive::envelope::adsr::get_copy() {
-    return new adsr(params[0]->get_copy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), mutatableParams[4]->getCopy(), mutatableParams[5]->getCopy(), mutatableParams[6]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
+    return new adsr(params[0]->get_copy(), params[1]->getCopy(), params[2]->getCopy(), params[3]->getCopy(), params[4]->getCopy(), params[5]->getCopy(), params[6]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
 void synthax::primitive::envelope::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

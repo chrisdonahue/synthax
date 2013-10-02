@@ -6,7 +6,7 @@
     ============
 */
 
-synthax::node::terminal::adsr::adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel)
+synthax::primitive::terminal::adsr::adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel)
 {
     releaseFinished = false;
     framesInEnvelope = 0;
@@ -26,7 +26,7 @@ synthax::node::terminal::adsr::adsr(param* del, param* atk, param* atkh, param* 
     symbol = "adsr";
 }
 
-synthax::node::terminal::adsr::~adsr() {
+synthax::primitive::terminal::adsr::~adsr() {
     if (prepared_to_render) {
         free(envelope);
     }
@@ -38,11 +38,11 @@ synthax::node::terminal::adsr::~adsr() {
     =========
 */
 
-synthax::node::terminal::adsr* synthax::node::terminal::adsr::get_copy() {
+synthax::primitive::terminal::adsr* synthax::primitive::terminal::adsr::get_copy() {
     return new adsr(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), params[4]->get_copy(), params[5]->get_copy(), params[6]->get_copy());
 }
 
-void synthax::node::terminal::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::terminal::adsr::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     // if frame number is within the envelope
     if (firstFrameNumber < framesInEnvelope)
         releaseFinished = false;

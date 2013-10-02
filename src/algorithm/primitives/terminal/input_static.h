@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace node{namespace terminal{
+namespace synthax{namespace primitive{namespace terminal{
 	class input_static : public node {
 	public:
 		input_static(param* vn, param* range);
