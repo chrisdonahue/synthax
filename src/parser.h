@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "node.h"
+#include "param.h"
 #include "primitives.h"
 
 #include <exception>

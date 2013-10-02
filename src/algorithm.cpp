@@ -10,7 +10,7 @@ synthax::algorithm::algorithm(node* r, std::string o) :
     id(-1), origin(o), height(-1), fitness(-1),
     minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
     traced(false), prepared_to_render(false),
-    render_root(new SilenceNode()), root(r), all_nodes(0), all_mutatable_params(0)
+    render_root(new primitive::terminal::silence()), root(r), all_nodes(0), all_mutatable_params(0)
 {
 }
 
@@ -21,7 +21,7 @@ synthax::algorithm::~algorithm() {
     delete render_root;
 }
 
-synthax::algorithm::algorithm* synthax::algorithm::getCopy(std::string neworigin) {
+synthax::algorithm* synthax::algorithm::get_copy(std::string neworigin) {
     algorithm* copy = new algorithm(root->get_copy(), neworigin);
     return copy;
 }
@@ -44,20 +44,20 @@ std::string synthax::algorithm::to_string(unsigned precision) {
     return ss.str();
 }
 
-node* synthax::algorithm::get_root() {
+synthax::node* synthax::algorithm::get_root() {
     return root;
 }
 
 bool synthax::algorithm::equals(algorithm* other, unsigned precision) {
-    return to_string(precision).compare(other->toString(precision)) == 0;
+    return to_string(precision).compare(other->to_string(precision)) == 0;
 }
 
-node* synthax::algorithm::get_random_network_node(random* r) {
+synthax::node* synthax::algorithm::get_random_network_node(random* r) {
     assert(traced = true);
-    return all_nodes[r->random(allNodes.size())];
+    return all_nodes[r->drandom(all_nodes.size())];
 }
 
-std::vector<param*>* synthax::algorithm::get_all_mutatable_params() {
+std::vector<synthax::param*>* synthax::algorithm::get_all_mutatable_params() {
     assert(traced = true);
     return &all_mutatable_params;
 }
@@ -77,12 +77,12 @@ void synthax::algorithm::trace() {
 
 // render_root = silence and root = realroot whenever prepared_to_render is false
 // render_root = realroot and root = realroot whenever prepared_to_render is true
-void synthax::algorithm::prepare_to_render(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::algorithm::prepare_to_render(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     done_rendering();
     if (!prepared_to_render) {
         delete render_root;
     }
-    root->set_render_info(sr, block_size, max_frame_number, max_frame_start_time);
+    root->set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
     render_root = root;
     prepared_to_render = true;
     update_mutated_params();
@@ -101,7 +101,7 @@ void synthax::algorithm::done_rendering() {
         root->done_rendering();
         minimum = (-1) * std::numeric_limits<float>::infinity();
         maximum = std::numeric_limits<float>::infinity();
-        render_root = new SilenceNode();
+        render_root = new primitive::terminal::silence();
         prepared_to_render = false;
     }
 }
@@ -139,6 +139,6 @@ void synthax::algorithm::ephemeral_random(random* r) {
 }
 
 // method to compare networks by identification
-bool compare_algorithms_by_id(algorithm* one, algorithm* two) {
+bool synthax::compare_algorithms_by_id(algorithm* one, algorithm* two) {
 	return one->id < two->id;
 }

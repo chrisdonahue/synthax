@@ -57,7 +57,7 @@ namespace synthax {
 	class gp_population {
 	public:
 		// construction
-		gp_population(logger* logger, gp_population_params* params, random* rng, std::vector<node*>* primitives);
+		gp_population(aux::logger* logger, gp_population_params* params, random* rng, std::vector<node*>* primitives);
 		~gp_population();
 
 		// EVOLUTION CONTROL
@@ -97,13 +97,13 @@ namespace synthax {
 		algorithm* selectFromEvaluated(unsigned selectionType, unsigned parameter);
 
 		// GENETIC OPERATIONS
-		algorithm* crossover(unsigned crossoverType, algorithm* one, GPNetwork* two);
+		algorithm* crossover(unsigned crossoverType, algorithm* one, algorithm* two);
 		void mutate(unsigned mutationType, algorithm* one);
 		void numericallyMutate(algorithm* one);
 		algorithm* newIndividual(unsigned new_type);
 
 		// PRIVATE EVOLUTION STATE
-		logger* logger;
+		aux::logger* logger;
 		gp_population_params* params;
 		random* rng;
 		unsigned populationSize;

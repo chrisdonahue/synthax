@@ -21,7 +21,7 @@ namespace synthax {
         // construction
         algorithm(node* r, std::string o);
         ~algorithm();
-        algorithm* getCopy(std::string neworigin);
+        algorithm* get_copy(std::string neworigin);
 
         // examination
         void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
@@ -33,7 +33,7 @@ namespace synthax {
 
         // helpers
         void trace();
-        void prepare_to_render(float sr, unsigned block_size, unsigned max_num_frames, float max_frame_start_time);
+        void prepare_to_render(float sample_rate, unsigned block_size, unsigned max_num_frames, float max_frame_start_time);
         void update_mutated_params();
         void done_rendering();
         void replace_subtree(node* one, node* two);

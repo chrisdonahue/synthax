@@ -153,7 +153,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
         params[5]->set_type("adsr_terminal_sustain_height");
         params[6]->set_type("adsr_terminal_release");
 
-        return new ADSRTerminalNode(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+        return new synthax::primitive::terminal::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
     }
     else if (type.compare("adsr*") == 0) {
         if (params.size() != 7) {
@@ -170,7 +170,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new ADSREnvelopeNode(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
+        return new synthax::primitive::envelope::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
     }
     // constant nodes
     else if (type.compare("pi") == 0) {
@@ -178,7 +178,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 			throw std::runtime_error("incorrect number of mutatable params for pi");
         }
 
-        return new ConstantNode(true, NULL);
+        return new synthax::primitive::terminal::constant(true, NULL);
     }
     else if (type.compare("const") == 0) {
         if (params.size() != 1) {
@@ -186,7 +186,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
         }
         params[0]->set_type("constant_value");
 
-        return new ConstantNode(false, params[0]);
+        return new synthax::primitive::terminal::constant(false, params[0]);
     }
     else if (type.compare("gain") == 0) {
         if (params.size() != 1) {
@@ -197,7 +197,7 @@ node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new GainNode(params[0], signal);
+        return new synthax::primitive::envelope::gain(params[0], signal);
     }
     // function nodes
     else if (type.compare("+") == 0) {

@@ -6,7 +6,7 @@
    ============
 */
 
-synthax::gp_population::gp_population(logger* logger, gp_population_params* params, random* rng, std::vector<node*>* primitives) :
+synthax::gp_population::gp_population(aux::logger* logger, gp_population_params* params, random* rng, std::vector<node*>* primitives) :
     logger(logger),
     params(params), rng(rng), availablePrimitives(primitives),
     allNetworks(), unevaluated(), evaluated(), currentGeneration(),
@@ -62,13 +62,13 @@ synthax::gp_population::~gp_population() {
     delete champ;
 }
 
-node* synthax::gp_population::fullRecursive(unsigned cd, unsigned d) {
+synthax::node* synthax::gp_population::fullRecursive(unsigned cd, unsigned d) {
     if (cd == d) {
-        node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
+        node* term = availableTerminals->at(rng->drandom(availableTerminals->size()))->get_copy();
         return term;
     }
     else {
-        node* ret = availableFunctions->at(rng->random(availableFunctions->size()))->get_copy();
+        node* ret = availableFunctions->at(rng->drandom(availableFunctions->size()))->get_copy();
         for (unsigned i = 0; i < ret->arity; i++) {
             ret->descendants[i] = fullRecursive(cd + 1, d);
         }
@@ -76,22 +76,22 @@ node* synthax::gp_population::fullRecursive(unsigned cd, unsigned d) {
     }
 }
 
-algorithm* synthax::gp_population::full(unsigned d) {
+synthax::algorithm* synthax::gp_population::full(unsigned d) {
     return new algorithm(fullRecursive(0, d), "full");
 }
 
-node* synthax::gp_population::growRecursive(unsigned cd, unsigned m) {
+synthax::node* synthax::gp_population::growRecursive(unsigned cd, unsigned m) {
     if (cd == m) {
-        node* term = availableTerminals->at(rng->random(availableTerminals->size()))->get_copy();
+        node* term = availableTerminals->at(rng->drandom(availableTerminals->size()))->get_copy();
         return term;
     }
     else {
         node* ret;
         if (cd == 0) {
-            ret = availableFunctions->at(rng->random(availableFunctions->size()))->get_copy();
+            ret = availableFunctions->at(rng->drandom(availableFunctions->size()))->get_copy();
         }
         else {
-            ret = availablePrimitives->at(rng->random(availablePrimitives->size()))->get_copy();
+            ret = availablePrimitives->at(rng->drandom(availablePrimitives->size()))->get_copy();
         }
         if (ret->arity == 0) {
             return ret;
@@ -103,7 +103,7 @@ node* synthax::gp_population::growRecursive(unsigned cd, unsigned m) {
     }
 }
 
-algorithm* synthax::gp_population::grow(unsigned m) {
+synthax::algorithm* synthax::gp_population::grow(unsigned m) {
     return new algorithm(growRecursive(0, m), "grow");
 }
 
@@ -167,7 +167,7 @@ void synthax::gp_population::initPopulation() {
    =================
 */
 
-algorithm* synthax::gp_population::getIndividual() {
+synthax::algorithm* synthax::gp_population::getIndividual() {
     // if no more networks remain advance population
     if (unevaluated.empty()) {
         nextGeneration();
@@ -202,7 +202,7 @@ void synthax::gp_population::getIndividuals(std::vector<algorithm*>& networks) {
 	std::sort(networks.begin(), networks.end(), compare_algorithms_by_id);
 }
 
-algorithm* synthax::gp_population::growNewIndividual(unsigned maxHeight) {
+synthax::algorithm* synthax::gp_population::growNewIndividual(unsigned maxHeight) {
 	algorithm* nu = grow(maxHeight);
 	if (params->erc)
 		nu->ephemeral_random(rng);
@@ -303,7 +303,7 @@ int synthax::gp_population::prevGeneration() {
 		// sort by id in fillFromGeneration()
 		std::string oldnetstring = allNetworks[((currentGenerationNumber - 1) * populationSize) + i];
 		std::string error_string = "";
-		node* oldnode = createNode(oldnetstring, &error_string);
+		node* oldnode = parser::create_node(oldnetstring, &error_string);
 		algorithm* oldnetwork = new algorithm(oldnode, "restored_from_last_gen");
 		lastGeneration.push_back(oldnetwork);
 	}
@@ -365,7 +365,7 @@ void synthax::gp_population::endGeneration() {
     // update generation champ
     algorithm* best = currentGeneration[generationBestNetworkid];
     delete generationChamp;
-    generationChamp = best->getCopy(best->origin);
+    generationChamp = best->get_copy(best->origin);
     generationChamp->id = best->id;
     generationChamp->fitness = generationBestFitness;
     generationChamp->trace();
@@ -374,7 +374,7 @@ void synthax::gp_population::endGeneration() {
     bool newChamp = lowerFitnessIsBetter ? generationBestFitness < overallBestFitness : generationBestFitness > overallBestFitness;
 	if (newChamp) {
 		delete champ;
-		champ = best->getCopy(best->origin);
+		champ = best->get_copy(best->origin);
 		champ->id = best->id;
 		champ->fitness = generationBestFitness;
 		champ->trace();
@@ -433,7 +433,7 @@ int synthax::gp_population::nextGeneration() {
     unsigned numForPossibleNumericMutation = params->nm_selection_percentile * populationSize;
     for (unsigned i = 0; i < numToNumericMutate; i++) {
         algorithm* selected = selectFromEvaluated(params->nm_selection_type, numForPossibleNumericMutation);
-        algorithm* one = selected->getCopy("numeric mutation");
+        algorithm* one = selected->get_copy("numeric mutation");
         one->trace();
         numericallyMutate(one);
         nextGeneration->push_back(one);
@@ -445,7 +445,7 @@ int synthax::gp_population::nextGeneration() {
     unsigned numForPossibleMutation = params->mu_selection_percentile * populationSize;
     for (unsigned i = 0; i < numToMutate; i++) {
         algorithm* selected = selectFromEvaluated(params->mu_selection_type, numForPossibleMutation);
-        algorithm* one = selected->getCopy("mutation");
+        algorithm* one = selected->get_copy("mutation");
         one->trace();
         mutate(params->mu_type, one);
         nextGeneration->push_back(one);
@@ -457,11 +457,11 @@ int synthax::gp_population::nextGeneration() {
     for (unsigned i = 0; i < numToCrossover;) {
         algorithm* dad = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
         algorithm* mom = selectFromEvaluated(params->x_selection_type, numForPossibleCrossover);
-        algorithm* one = dad->getCopy("crossover");
+        algorithm* one = dad->get_copy("crossover");
         int oneid = dad->id;
         double oneFitness = one->fitness;
         one->trace();
-        algorithm* two = mom->getCopy("crossover");
+        algorithm* two = mom->get_copy("crossover");
         int twoid = mom->id;
         double twoFitness = two->fitness;
         two->trace();
@@ -474,7 +474,7 @@ int synthax::gp_population::nextGeneration() {
 			assert(one->height >= 0);
             if ((unsigned) one->height > params->max_height) {
                 delete one;
-                one = dad->getCopy("reproduction during crossover");
+                one = dad->get_copy("reproduction during crossover");
                 one->id = oneid;
                 one->fitness = oneFitness;
             }
@@ -485,7 +485,7 @@ int synthax::gp_population::nextGeneration() {
 				assert(two->height >= 0);
                 if ((unsigned) two->height > params->max_height) {
                     delete two;
-                    two = mom->getCopy("reproduction during crossover");
+                    two = mom->get_copy("reproduction during crossover");
                     two->id = twoid;
                     two->fitness = twoFitness;
                 }
@@ -508,7 +508,7 @@ int synthax::gp_population::nextGeneration() {
         algorithm* selected = selectFromEvaluated(params->re_selection_type, numForPossibleReproduction);
         int oldid = selected->id;
         double oldFitness = selected->fitness;
-        algorithm* one = selected->getCopy("reproduction");
+        algorithm* one = selected->get_copy("reproduction");
         one->id = oldid;
         one->fitness = oldFitness;
         nextGeneration->push_back(one);
@@ -638,7 +638,7 @@ void synthax::gp_population::clearGenerationState() {
     rank.resize(populationSize, NULL);
 }
 
-algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
+synthax::algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, unsigned parameter) {
     //http://en.wikipedia.org/wiki/Selection_%28genetic_algorithm%29
     assert(rawFitnesses.size() == populationSize && normalizedFitnesses.size() == populationSize);
     if (selectionType == 0 && normalizedFitnesses[0] == -1) {
@@ -659,7 +659,7 @@ algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, u
             return rank[0];
         }
         else {
-            return rank[rng->random(parameter)];
+            return rank[rng->drandom(parameter)];
         }
     }
     else if (selectionType == 2) {
@@ -680,7 +680,7 @@ algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, u
     }
     else if (selectionType == 6) {
         // fitness-unaware random selection
-        return currentGeneration[(int) (rng->random() * evaluated.size())];
+        return currentGeneration[(int) (rng->crandom() * evaluated.size())];
     }
     return NULL;
 }
@@ -691,7 +691,7 @@ algorithm* synthax::gp_population::selectFromEvaluated(unsigned selectionType, u
     =========
 */
 
-algorithm* synthax::gp_population::crossover(unsigned crossoverType, algorithm* one, GPNetwork* two) {
+synthax::algorithm* synthax::gp_population::crossover(unsigned crossoverType, algorithm* one, algorithm* two) {
     if (crossoverType == 0) {
         // standard GP crossover
         node* subtreeone = one->get_random_network_node(rng);
@@ -765,7 +765,7 @@ void synthax::gp_population::numericallyMutate(algorithm* one) {
             double min = p->get_cmin();
             double max = p->get_cmax();
             double temperatureFactor = bestProportion * (max - min) * temperatureConstant;
-            double rand = rng->random();
+            double rand = rng->crandom();
             double mutationAmount = (rand * temperatureFactor * 2) - temperatureFactor;
             //std::cout << "CONTINUOUS VALUE: " << value << ", MUTATION AMOUNT: " << mutationAmount << ", MIN: " << min << ", MAX: " << max << std::endl;
             p->set_cdata(min, value + mutationAmount, max);
@@ -775,7 +775,7 @@ void synthax::gp_population::numericallyMutate(algorithm* one) {
             int min = p->get_dmin();
             int max = p->get_dmax();
             double temperatureFactor = bestProportion * (max - min) * temperatureConstant;
-            double rand = rng->random();
+            double rand = rng->crandom();
             double mutationAmount = (rand * temperatureFactor * 2) - temperatureFactor;
             //std::cout << "DISCRETE VALUE: " << value << ", MUTATION AMOUNT: " << mutationAmount << ", MIN: " << min << ", MAX: " << max << std::endl;
             p->set_ddata(min, (int) (value + mutationAmount), max);
@@ -784,7 +784,7 @@ void synthax::gp_population::numericallyMutate(algorithm* one) {
     //std::cout << "AFTER NUMERIC MUTATION " << one->to_string(3) << std::endl;
 }
 
-algorithm* synthax::gp_population::newIndividual(unsigned new_type) {
+synthax::algorithm* synthax::gp_population::newIndividual(unsigned new_type) {
     if (new_type == 0) {
         algorithm* newnet = grow(params->max_initial_height);
         if (params->erc)
@@ -818,10 +818,10 @@ algorithm* synthax::gp_population::newIndividual(unsigned new_type) {
     ====================
 */
 
-bool compareFitnessesLower(algorithm* one, algorithm* two) {
+bool synthax::compareFitnessesLower(algorithm* one, algorithm* two) {
     return one->fitness < two->fitness;
 }
 
-bool compareFitnessesHigher(algorithm* one, algorithm* two) {
+bool synthax::compareFitnessesHigher(algorithm* one, algorithm* two) {
     return two->fitness < one->fitness;
 }

@@ -53,6 +53,6 @@ void synthax::primitive::modulation::sine_amp_mod::update_mutated_params() {
     alpha = params[3]->get_cvalue();
     
     // minimum/maximum constant and declared in constructor
-    intervalMultiply(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, alpha, alpha);
-    intervalAdd(&minimum, &maximum, minimum, maximum, offset, offset);
+    synthax::helpers::intervalMultiply(&minimum, &maximum, descendants[0]->minimum, descendants[0]->maximum, alpha, alpha);
+    synthax::helpers::intervalAdd(&minimum, &maximum, minimum, maximum, offset, offset);
 }
