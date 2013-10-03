@@ -4,12 +4,16 @@
 #include "../../node.h"
 
 namespace synthax{namespace primitive{namespace super{
-	class adsr: public node {
+	class adsr : public node {
 	public:
-		// optional overrides
-		void set_render_info(float sr, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
+		// node class overrides
+		void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
 		void done_rendering();
 		void update_mutated_params();
+
+		// forced subclass overrides
+		virtual adsr* get_copy() = 0;
+		virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
 
 		// class specific
 		void fillFromParams();

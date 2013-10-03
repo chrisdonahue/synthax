@@ -32,7 +32,7 @@ synthax::primitive::terminal::piecewise_linear::piecewise_linear(param* splinety
 
     arity = 0;
 
-    symbol = "spline";
+    symbol = "env_lin";
 }
 
 synthax::primitive::terminal::piecewise_linear::~piecewise_linear() {

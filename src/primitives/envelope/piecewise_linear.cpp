@@ -33,7 +33,7 @@ synthax::primitive::envelope::piecewise_linear::piecewise_linear(param* splinety
     arity = 1;
     descendants.push_back(signal);
 
-    symbol = "spline*";
+    symbol = "env_lin*";
 }
 
 synthax::primitive::envelope::piecewise_linear::~piecewise_linear() {

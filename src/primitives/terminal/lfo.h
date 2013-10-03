@@ -5,7 +5,7 @@
 #include "../super/lfo.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class lfo : public synthax::primitive::super::lfo {
+	class lfo : public super::lfo {
 	public:
 		lfo(param* rate);
 		~lfo();

@@ -14,6 +14,8 @@
 #define __APPHEADERFILE_E2EOHP__
 
 #include "AppConfig.h"
+#include "modules/juce_audio_basics/juce_audio_basics.h"
+#include "modules/juce_audio_formats/juce_audio_formats.h"
 #include "modules/juce_core/juce_core.h"
 #include "BinaryData.h"
 

@@ -26,3 +26,18 @@ void synthax::primitive::modulation::wave_table::evaluateBlockPerformance(unsign
         osc->updatePhase(); 
     }
 }
+
+void synthax::primitive::modulation::wave_table::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+	node::set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
+	freq_nyquist = sample_rate / 2;
+}
+
+void synthax::primitive::modulation::wave_table::update_mutated_params() {
+    node::update_mutated_params();
+
+    // update angular frequency constant
+    phase = params[1]->get_value();
+
+    // get min max from descendants
+    synthax::helpers::continuous_map_range(descendants[0]->minimum, descendants[0]->maximum, 0.0f, freq_nyquist, &freq_m, &freq_b);
+}

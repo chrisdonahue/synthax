@@ -438,102 +438,92 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         return new primitive::terminal::silence();
     }
     // spline node (already created)
-    else if (type.compare("spline") == 0) {
+    else if (type.compare("env_lin") == 0) {
         // if this is a primitive spline that we want to randomize
-        if (params.size() % 2 == 0) {
+        if (params.size() % 2 == 1) {
             // make sure we have the right number of arguments
-            if (params.size() != 4) {
-				throw std::runtime_error("incorrect number of mutatable params for spline primitive");
+            if (params.size() != 3) {
+				throw std::runtime_error("incorrect number of mutatable params for env_lin primitive");
             }
-            params[0]->set_type("spline_type");
-            params[0]->set_unmutatable();
-            params[1]->set_type("spline_num_points");
-            params[2]->set_type("spline_amp_range");
-            params[3]->set_type("spline_segment_length_range");
+            params[0]->set_type("env_lin_num_points");
+            params[1]->set_type("env_lin_amp_range");
+            params[2]->set_type("env_lin_segment_length_range");
 
             std::vector<param*>* splinepoints = new std::vector<param*>();
             splinepoints->push_back(params[2]);
-            splinepoints->push_back(params[3]);
 
-            return new SplineTerminalNode(params[0], params[1], splinepoints);
+            return new primitive::terminal::piecewise_linear(params[0], params[1], splinepoints);
         }
         // else interpret this is a previously instantiated spline
         else {
             // make sure we at least have a type, numPoints and final length
-            if (params.size() < 3) {
-				throw std::runtime_error("incorrect number of mutatable params for spline");
+            if (params.size() < 2) {
+				throw std::runtime_error("incorrect number of mutatable params for env_lin");
             }
-            params[0]->set_type("spline_type");
+            params[0]->set_type("env_lin_num_points");
             params[0]->set_unmutatable();
-            params[1]->set_type("spline_num_points");
-            params[1]->set_unmutatable();
 
             std::vector<param*>* splinepoints = new std::vector<param*>();
-            unsigned currentParam = 2;
+            unsigned currentParam = 1;
             while (currentParam + 2 < params.size()) {
-                params[currentParam]->set_type("spline_amp");
+                params[currentParam]->set_type("env_lin_amp");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
-                params[currentParam]->set_type("spline_segment_length");
+                params[currentParam]->set_type("env_lin_segment_length");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
             }
-            params[currentParam]->set_type("spline_amp_final");
+            params[currentParam]->set_type("env_lin_amp_final");
             splinepoints->push_back(params[currentParam]);
 
-            return new SplineTerminalNode(params[0], params[1], splinepoints);
+            return new primitive::terminal::piecewise_linear(params[0], params[1], splinepoints);
         }
     }
-    else if (type.compare("spline*") == 0) {
+    else if (type.compare("env_lin*") == 0) {
         // if this is a primitive spline that we want to randomize
-        if (params.size() % 2 == 0) {
+        if (params.size() % 2 == 1) {
             // make sure we have the right number of arguments
-            if (params.size() != 4) {
-				throw std::runtime_error("incorrect number of mutatable params for spline* primitive");
+            if (params.size() != 2) {
+				throw std::runtime_error("incorrect number of mutatable params for env_lin* primitive");
             }
-            params[0]->set_type("spline_type");
-            params[0]->set_unmutatable();
-            params[1]->set_type("spline_num_points");
-            params[2]->set_type("spline_amp_range");
-            params[3]->set_type("spline_segment_length_range");
+            params[0]->set_type("env_lin_num_points");
+            params[1]->set_type("env_lin_amp_range");
+            params[2]->set_type("env_lin_segment_length_range");
 
             std::vector<param*>* splinepoints = new std::vector<param*>();
             splinepoints->push_back(params[2]);
-            splinepoints->push_back(params[3]);
 
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
+            return new primitive::envelope::piecewise_linear(params[0], params[1], splinepoints, signal);
         }
         // else interpret this is a previously instantiated spline
         else {
             // make sure we at least have a type, numPoints and final length
             if (params.size() < 3) {
-				throw std::runtime_error("incorrect number of mutatable params for spline*");
+				throw std::runtime_error("incorrect number of mutatable params for env_lin*");
             }
-            params[0]->set_type("spline_type");
+            params[0]->set_type("env_lin_num_points");
             params[0]->set_unmutatable();
-            params[1]->set_type("spline_num_points");
-            params[1]->set_unmutatable();
 
             std::vector<param*>* splinepoints = new std::vector<param*>();
-            unsigned currentParam = 2;
+            unsigned currentParam = 1;
             while (currentParam + 2 < params.size()) {
-                params[currentParam]->set_type("spline_amp");
+                params[currentParam]->set_type("env_lin_amp");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
-                params[currentParam]->set_type("spline_segment_length");
+                params[currentParam]->set_type("env_lin_segment_length");
                 splinepoints->push_back(params[currentParam]);
                 currentParam++;
             }
-            params[currentParam]->set_type("spline_amp_final");
+            params[currentParam]->set_type("env_lin_amp_final");
             splinepoints->push_back(params[currentParam]);
 
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new SplineEnvelopeNode(params[0], params[1], splinepoints, signal);
+            return new primitive::envelope::piecewise_linear(params[0], params[1], splinepoints, signal);
         }
     }
     // time node
