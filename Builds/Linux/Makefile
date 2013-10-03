@@ -55,10 +55,10 @@ OBJECTS := \
   $(OBJDIR)/kiss_fft_5150b3c.o \
   $(OBJDIR)/kiss_fftr_9d8d5580.o \
   $(OBJDIR)/WaveTableOsc_3abb7d69.o \
-  $(OBJDIR)/adsr_139b05cc.o \
-  $(OBJDIR)/lfo_c5789d75.o \
-  $(OBJDIR)/piecewise_linear_aff4c7fc.o \
-  $(OBJDIR)/wave_table_dcbad452.o \
+  $(OBJDIR)/adsr_eea8c7fd.o \
+  $(OBJDIR)/lfo_ab815124.o \
+  $(OBJDIR)/piecewise_linear_5183c8ad.o \
+  $(OBJDIR)/wave_table_13006dc3.o \
   $(OBJDIR)/adsr_cea0a9de.o \
   $(OBJDIR)/gain_8dec311b.o \
   $(OBJDIR)/lfo_dc052f23.o \
@@ -148,22 +148,22 @@ $(OBJDIR)/WaveTableOsc_3abb7d69.o: ../../src/dependencies/WaveTableOsc/WaveTable
 	@echo "Compiling WaveTableOsc.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/adsr_139b05cc.o: ../../src/primitives/abstract/adsr.cpp
+$(OBJDIR)/adsr_eea8c7fd.o: ../../src/primitives/base/adsr.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling adsr.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/lfo_c5789d75.o: ../../src/primitives/abstract/lfo.cpp
+$(OBJDIR)/lfo_ab815124.o: ../../src/primitives/base/lfo.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/piecewise_linear_aff4c7fc.o: ../../src/primitives/abstract/piecewise_linear.cpp
+$(OBJDIR)/piecewise_linear_5183c8ad.o: ../../src/primitives/base/piecewise_linear.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling piecewise_linear.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wave_table_dcbad452.o: ../../src/primitives/abstract/wave_table.cpp
+$(OBJDIR)/wave_table_13006dc3.o: ../../src/primitives/base/wave_table.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_table.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"

@@ -29,17 +29,17 @@
       </GROUP>
     </GROUP>
     <GROUP id="{98B2B79D-4856-3D12-1872-C5F92C812594}" name="primitives">
-      <GROUP id="{AD8BD9C7-6C6C-F5B1-65F2-90EF999C3090}" name="abstract">
-        <FILE id="qkUMft" name="adsr.cpp" compile="1" resource="0" file="src/primitives/abstract/adsr.cpp"/>
-        <FILE id="NjJha8" name="adsr.h" compile="0" resource="0" file="src/primitives/abstract/adsr.h"/>
-        <FILE id="jftI1X" name="lfo.cpp" compile="1" resource="0" file="src/primitives/abstract/lfo.cpp"/>
-        <FILE id="uxQy1I" name="lfo.h" compile="0" resource="0" file="src/primitives/abstract/lfo.h"/>
-        <FILE id="HWKSMb" name="piecewise_linear.cpp" compile="1" resource="0"
-              file="src/primitives/abstract/piecewise_linear.cpp"/>
-        <FILE id="pWMUnf" name="piecewise_linear.h" compile="0" resource="0"
-              file="src/primitives/abstract/piecewise_linear.h"/>
-        <FILE id="aY60FG" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/abstract/wave_table.cpp"/>
-        <FILE id="shoY70" name="wave_table.h" compile="0" resource="0" file="src/primitives/abstract/wave_table.h"/>
+      <GROUP id="{5BAE057E-94F2-BC85-C4F8-44C1D11C4847}" name="base">
+        <FILE id="uxkmxC" name="adsr.cpp" compile="1" resource="0" file="src/primitives/base/adsr.cpp"/>
+        <FILE id="Sl9kTu" name="adsr.h" compile="0" resource="0" file="src/primitives/base/adsr.h"/>
+        <FILE id="yj7RSD" name="lfo.cpp" compile="1" resource="0" file="src/primitives/base/lfo.cpp"/>
+        <FILE id="tjUapY" name="lfo.h" compile="0" resource="0" file="src/primitives/base/lfo.h"/>
+        <FILE id="sVz6NI" name="piecewise_linear.cpp" compile="1" resource="0"
+              file="src/primitives/base/piecewise_linear.cpp"/>
+        <FILE id="lsEkAy" name="piecewise_linear.h" compile="0" resource="0"
+              file="src/primitives/base/piecewise_linear.h"/>
+        <FILE id="bmRSW5" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/base/wave_table.cpp"/>
+        <FILE id="ALgaiq" name="wave_table.h" compile="0" resource="0" file="src/primitives/base/wave_table.h"/>
       </GROUP>
       <GROUP id="{71D68885-6E7E-FFC3-D1A2-A3A75D1D9659}" name="envelope">
         <FILE id="qh17x8" name="adsr.cpp" compile="1" resource="0" file="src/primitives/envelope/adsr.cpp"/>
