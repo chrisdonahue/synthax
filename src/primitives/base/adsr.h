@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace primitive{namespace super{
+namespace synthax{namespace primitive{namespace abstract{
 	class adsr : public node {
 	public:
 		// node class overrides

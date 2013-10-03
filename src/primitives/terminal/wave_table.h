@@ -4,7 +4,7 @@
 #include "../super/wave_table.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class wave_table : public synthax::primitive::super::wave_table {
+	class wave_table : public synthax::primitive::abstract::wave_table {
 	public:
 		// overrides
 		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);

@@ -6,7 +6,7 @@
     =========
 */
 
-void synthax::primitive::super::wave_table::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::primitive::abstract::wave_table::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
 	sampleRate = sample_rate;
 	osc = new WaveTableOsc();
 	makeAddAllWaveTables((double) sample_rate, 2, 99999, 20.0f, (double) 20.0f * 2.0 / sampleRate);
@@ -14,7 +14,7 @@ void synthax::primitive::super::wave_table::set_render_info(float sample_rate, u
 	node::set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
 }
 
-void synthax::primitive::super::wave_table::done_rendering() {
+void synthax::primitive::abstract::wave_table::done_rendering() {
 	if (prepared_to_render) {
 		delete osc;
 	}
@@ -22,7 +22,7 @@ void synthax::primitive::super::wave_table::done_rendering() {
 }
 
 
-void synthax::primitive::super::wave_table::update_mutated_params() {
+void synthax::primitive::abstract::wave_table::update_mutated_params() {
     node::update_mutated_params();
 }
 
@@ -32,7 +32,7 @@ void synthax::primitive::super::wave_table::update_mutated_params() {
     =================
 */
 
-void synthax::primitive::super::wave_table::fft(int N, double *ar, double *ai)
+void synthax::primitive::abstract::wave_table::fft(int N, double *ar, double *ai)
 {    
     int i, j, k, L;            /* indexes */
     int M, TEMP, LE, LE1, ip;  /* M = log N */
@@ -95,7 +95,7 @@ void synthax::primitive::super::wave_table::fft(int N, double *ar, double *ai)
     }
 }
 
-float synthax::primitive::super::wave_table::makeAddWaveTable(int len, double* ar, double* ai, double scale, double topFreq) {
+float synthax::primitive::abstract::wave_table::makeAddWaveTable(int len, double* ar, double* ai, double scale, double topFreq) {
     fft(len, ar, ai);
     
     if (scale == 0.0) {
@@ -122,7 +122,7 @@ float synthax::primitive::super::wave_table::makeAddWaveTable(int len, double* a
     return scale;
 }
 
-void synthax::primitive::super::wave_table::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
+void synthax::primitive::abstract::wave_table::makeAddAllWaveTables(double sampleRate, unsigned overSamp, unsigned constantRatioLimit, double baseFrequency, double topFrequency) {
     // calc number of harmonics where the highest harmonic baseFreq and lowest alias an octave higher would meet
     double baseFreq = baseFrequency;
     int maxHarms = sampleRate / (3.0 * baseFreq) + 0.5;

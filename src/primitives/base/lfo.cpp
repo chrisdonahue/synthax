@@ -1,6 +1,6 @@
 #include "lfo.h"
 
-void synthax::primitive::super::lfo::update_mutated_params() {
+void synthax::primitive::abstract::lfo::update_mutated_params() {
     node::update_mutated_params();
 
 	// update angular frequency constant

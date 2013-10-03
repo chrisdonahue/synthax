@@ -5,7 +5,7 @@
 #include "../super/adsr.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class adsr : public synthax::primitive::super::adsr {
+	class adsr : public synthax::primitive::abstract::adsr {
 	public:
 		// construction
 		adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel);

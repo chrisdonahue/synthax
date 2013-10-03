@@ -4,7 +4,7 @@
 #include "../super/adsr.h"
 
 namespace synthax{namespace primitive{namespace envelope{
-	class adsr : public synthax::primitive::super::adsr {
+	class adsr : public synthax::primitive::abstract::adsr {
 	public:
 		adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel, node* signal);
 		~adsr();

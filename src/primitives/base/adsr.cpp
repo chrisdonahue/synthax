@@ -6,13 +6,13 @@
     =========
 */
 
-void synthax::primitive::super::adsr::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+void synthax::primitive::abstract::adsr::set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
     node::set_render_info(sample_rate, block_size, max_frame_number, max_frame_start_time);
 	done_rendering();
     sampleRate = sample_rate;
 }
 
-void synthax::primitive::super::adsr::done_rendering() {
+void synthax::primitive::abstract::adsr::done_rendering() {
     node::done_rendering();
     if (prepared_to_render) {
         sampleRate = 0;
@@ -20,7 +20,7 @@ void synthax::primitive::super::adsr::done_rendering() {
     }
 }
 
-void synthax::primitive::super::adsr::update_mutated_params() {
+void synthax::primitive::abstract::adsr::update_mutated_params() {
     node::update_mutated_params();
 
 	// get minimum value for attack or sustain
@@ -46,7 +46,7 @@ void synthax::primitive::super::adsr::update_mutated_params() {
     ==============
 */
 
-void synthax::primitive::super::adsr::fillFromParams() {
+void synthax::primitive::abstract::adsr::fillFromParams() {
 	// update class values from mutatable params
     delay = params[0]->get_cvalue();
     delayFrames = delay * sampleRate;

@@ -4,7 +4,7 @@
 #include "../super/piecewise_linear.h"
 
 namespace synthax{namespace primitive{namespace envelope{
-	class piecewise_linear: public synthax::primitive::super::piecewise_linear {
+	class piecewise_linear: public synthax::primitive::abstract::piecewise_linear {
 	public:
 		piecewise_linear(param* splinetype, param* numpoints, std::vector<param*>* pointsOrParams, node* signal);
 		~piecewise_linear();
