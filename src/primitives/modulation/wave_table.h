@@ -1,10 +1,10 @@
 #ifndef ENVELOPE_WAVE_TABLE_H
 #define ENVELOPE_WAVE_TABLE_H
 
-#include "../abstract/wave_table.h"
+#include "../base/wave_table.h"
 
 namespace synthax{namespace primitive{namespace modulation{
-	class wave_table : public synthax::primitive::abstract::wave_table {
+	class wave_table : public synthax::primitive::base::wave_table {
 	public:
 		// node subclass overrides
 		void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);

@@ -1,10 +1,10 @@
 #ifndef ENVELOPE_LFO_H
 #define ENVELOPE_LFO_H
 
-#include "../abstract/lfo.h"
+#include "../base/lfo.h"
 
 namespace synthax{namespace primitive{namespace envelope{
-	class lfo : public synthax::primitive::abstract::lfo {
+	class lfo : public synthax::primitive::base::lfo {
 	public:
 		lfo(param* rate, node* mod);
 		~lfo();

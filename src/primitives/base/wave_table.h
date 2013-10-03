@@ -5,7 +5,7 @@
 
 #include "../../dependencies/WaveTableOsc/WaveTableOsc.h"
 
-namespace synthax{namespace primitive{namespace abstract{
+namespace synthax{namespace primitive{namespace base{
 	class wave_table : public node {
 	public:
 		// overrides

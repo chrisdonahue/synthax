@@ -1,10 +1,10 @@
 #ifndef TERMINAL_LFO_H
 #define TERMINAL_LFO_H
 
-#include "../abstract/lfo.h"
+#include "../base/lfo.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class lfo : public abstract::lfo {
+	class lfo : public base::lfo {
 	public:
 		lfo(param* rate);
 		~lfo();

@@ -1,10 +1,10 @@
 #ifndef ENVELOPE_PIECEWISE_LINEAR_H
 #define ENVELOPE_PIECEWISE_LINEAR_H
 
-#include "../abstract/piecewise_linear.h"
+#include "../base/piecewise_linear.h"
 
 namespace synthax{namespace primitive{namespace envelope{
-	class piecewise_linear: public synthax::primitive::abstract::piecewise_linear {
+	class piecewise_linear: public synthax::primitive::base::piecewise_linear {
 	public:
 		piecewise_linear(param* splinetype, param* numpoints, std::vector<param*>* pointsOrParams, node* signal);
 		~piecewise_linear();
