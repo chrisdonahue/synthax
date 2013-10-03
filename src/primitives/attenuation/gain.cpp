@@ -26,7 +26,7 @@ synthax::primitive::attenuation::gain::~gain() {
     =========
 */
 
-synthax::primitive::attenuation::gain* synthax::primitive::envelope::gain::get_copy() {
+synthax::primitive::attenuation::gain* synthax::primitive::attenuation::gain::get_copy() {
     return new gain(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 

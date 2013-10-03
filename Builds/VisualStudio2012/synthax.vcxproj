@@ -59,7 +59,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -101,7 +101,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_78A501F=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -135,20 +135,14 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\auxilliary\audio_util.cpp"/>
-    <ClCompile Include="..\..\src\auxilliary\juce_file_io.cpp"/>
-    <ClCompile Include="..\..\src\auxilliary\logger.cpp"/>
-    <ClCompile Include="..\..\src\dependencies\kissfft\kiss_fft.c"/>
-    <ClCompile Include="..\..\src\dependencies\kissfft\kiss_fftr.c"/>
-    <ClCompile Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.cpp"/>
-    <ClCompile Include="..\..\src\primitives\base\adsr.cpp"/>
-    <ClCompile Include="..\..\src\primitives\base\lfo.cpp"/>
-    <ClCompile Include="..\..\src\primitives\base\piecewise_linear.cpp"/>
-    <ClCompile Include="..\..\src\primitives\base\wave_table.cpp"/>
-    <ClCompile Include="..\..\src\primitives\envelope\adsr.cpp"/>
-    <ClCompile Include="..\..\src\primitives\envelope\gain.cpp"/>
-    <ClCompile Include="..\..\src\primitives\envelope\lfo.cpp"/>
-    <ClCompile Include="..\..\src\primitives\envelope\piecewise_linear.cpp"/>
+    <ClCompile Include="..\..\src\primitives\attenuation\adsr_x.cpp"/>
+    <ClCompile Include="..\..\src\primitives\attenuation\env_lin_x.cpp"/>
+    <ClCompile Include="..\..\src\primitives\attenuation\gain.cpp"/>
+    <ClCompile Include="..\..\src\primitives\attenuation\lfo_x.cpp"/>
+    <ClCompile Include="..\..\src\primitives\base\adsr_b.cpp"/>
+    <ClCompile Include="..\..\src\primitives\base\env_lin_b.cpp"/>
+    <ClCompile Include="..\..\src\primitives\base\lfo_b.cpp"/>
+    <ClCompile Include="..\..\src\primitives\base\wave_table_b.cpp"/>
     <ClCompile Include="..\..\src\primitives\function\add.cpp"/>
     <ClCompile Include="..\..\src\primitives\function\cosine.cpp"/>
     <ClCompile Include="..\..\src\primitives\function\multiply.cpp"/>
@@ -156,26 +150,32 @@
     <ClCompile Include="..\..\src\primitives\function\subtract.cpp"/>
     <ClCompile Include="..\..\src\primitives\logic\mixer.cpp"/>
     <ClCompile Include="..\..\src\primitives\logic\switcher.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\sine_amp_mod.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\sine_phase_mod.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\oscillator\saw.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\oscillator\sine.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\oscillator\square.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\oscillator\triangle.cpp"/>
-    <ClCompile Include="..\..\src\primitives\modulation\wave_table.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\oscillator\saw.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\oscillator\sine.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\oscillator\square.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\oscillator\triangle.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\oscillator\saw_fm.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\oscillator\sin_fm.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\oscillator\sqr_fm.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\oscillator\tri_fm.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\sin_am.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\sin_pm.cpp"/>
+    <ClCompile Include="..\..\src\primitives\modulation\wave_table_fm.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\adsr.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\constant.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\input_static.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\env_lin.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\input_s.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\lfo.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\noise.cpp"/>
-    <ClCompile Include="..\..\src\primitives\terminal\piecewise_linear.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\oscillator\saw_s_gen.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\oscillator\sin_s_gen.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\oscillator\sqr_s_gen.cpp"/>
+    <ClCompile Include="..\..\src\primitives\terminal\oscillator\tri_s_gen.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\silence.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\time.cpp"/>
     <ClCompile Include="..\..\src\primitives\terminal\wave_table.cpp"/>
+    <ClCompile Include="..\..\src\auxilliary\audio_util.cpp"/>
+    <ClCompile Include="..\..\src\auxilliary\juce_file_io.cpp"/>
+    <ClCompile Include="..\..\src\auxilliary\logger.cpp"/>
+    <ClCompile Include="..\..\src\dependencies\kissfft\kiss_fft.c"/>
+    <ClCompile Include="..\..\src\dependencies\kissfft\kiss_fftr.c"/>
+    <ClCompile Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.cpp"/>
     <ClCompile Include="..\..\src\algorithm.cpp"/>
     <ClCompile Include="..\..\src\gp_population.cpp"/>
     <ClCompile Include="..\..\src\parser.cpp"/>
@@ -504,21 +504,14 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\juce_core.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\auxilliary\audio_util.h"/>
-    <ClInclude Include="..\..\src\auxilliary\juce_file_io.h"/>
-    <ClInclude Include="..\..\src\auxilliary\logger.h"/>
-    <ClInclude Include="..\..\src\dependencies\kissfft\_kiss_fft_guts.h"/>
-    <ClInclude Include="..\..\src\dependencies\kissfft\kiss_fft.h"/>
-    <ClInclude Include="..\..\src\dependencies\kissfft\kiss_fftr.h"/>
-    <ClInclude Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.h"/>
-    <ClInclude Include="..\..\src\primitives\base\adsr.h"/>
-    <ClInclude Include="..\..\src\primitives\base\lfo.h"/>
-    <ClInclude Include="..\..\src\primitives\base\piecewise_linear.h"/>
-    <ClInclude Include="..\..\src\primitives\base\wave_table.h"/>
-    <ClInclude Include="..\..\src\primitives\envelope\adsr.h"/>
-    <ClInclude Include="..\..\src\primitives\envelope\gain.h"/>
-    <ClInclude Include="..\..\src\primitives\envelope\lfo.h"/>
-    <ClInclude Include="..\..\src\primitives\envelope\piecewise_linear.h"/>
+    <ClInclude Include="..\..\src\primitives\attenuation\adsr_x.h"/>
+    <ClInclude Include="..\..\src\primitives\attenuation\env_lin_x.h"/>
+    <ClInclude Include="..\..\src\primitives\attenuation\gain.h"/>
+    <ClInclude Include="..\..\src\primitives\attenuation\lfo_x.h"/>
+    <ClInclude Include="..\..\src\primitives\base\adsr_b.h"/>
+    <ClInclude Include="..\..\src\primitives\base\env_lin_b.h"/>
+    <ClInclude Include="..\..\src\primitives\base\lfo_b.h"/>
+    <ClInclude Include="..\..\src\primitives\base\wave_table_b.h"/>
     <ClInclude Include="..\..\src\primitives\function\add.h"/>
     <ClInclude Include="..\..\src\primitives\function\cosine.h"/>
     <ClInclude Include="..\..\src\primitives\function\multiply.h"/>
@@ -526,26 +519,34 @@
     <ClInclude Include="..\..\src\primitives\function\subtract.h"/>
     <ClInclude Include="..\..\src\primitives\logic\mixer.h"/>
     <ClInclude Include="..\..\src\primitives\logic\switcher.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\sine_amp_mod.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\sine_phase_mod.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\oscillator\saw.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\oscillator\sine.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\oscillator\square.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\oscillator\triangle.h"/>
-    <ClInclude Include="..\..\src\primitives\modulation\wave_table.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\oscillator\saw.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\oscillator\sine.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\oscillator\square.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\oscillator\triangle.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\oscillator\saw_fm.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\oscillator\sin_fm.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\oscillator\sqr_fm.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\oscillator\tri_fm.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\sin_am.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\sin_pm.h"/>
+    <ClInclude Include="..\..\src\primitives\modulation\wave_table_fm.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\adsr.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\constant.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\input_static.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\env_lin.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\input_s.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\lfo.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\noise.h"/>
-    <ClInclude Include="..\..\src\primitives\terminal\piecewise_linear.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\oscillator\saw_s_gen.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\oscillator\sin_s_gen.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\oscillator\sqr_s_gen.h"/>
+    <ClInclude Include="..\..\src\primitives\terminal\oscillator\tri_s_gen.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\silence.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\time.h"/>
     <ClInclude Include="..\..\src\primitives\terminal\wave_table.h"/>
+    <ClInclude Include="..\..\src\auxilliary\audio_util.h"/>
+    <ClInclude Include="..\..\src\auxilliary\juce_file_io.h"/>
+    <ClInclude Include="..\..\src\auxilliary\logger.h"/>
+    <ClInclude Include="..\..\src\dependencies\kissfft\_kiss_fft_guts.h"/>
+    <ClInclude Include="..\..\src\dependencies\kissfft\kiss_fft.h"/>
+    <ClInclude Include="..\..\src\dependencies\kissfft\kiss_fftr.h"/>
+    <ClInclude Include="..\..\src\dependencies\kissfft\kissfft.hh"/>
+    <ClInclude Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.h"/>
     <ClInclude Include="..\..\src\algorithm.h"/>
     <ClInclude Include="..\..\src\gp_population.h"/>
     <ClInclude Include="..\..\src\helpers.h"/>
@@ -706,7 +707,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\dependencies\kissfft\kissfft.hh"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_formats\juce_module_info"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\juce_module_info"/>

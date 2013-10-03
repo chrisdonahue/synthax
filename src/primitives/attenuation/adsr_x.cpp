@@ -39,7 +39,7 @@ synthax::primitive::attenuation::adsr_x::~adsr_x() {
     =========
 */
 
-synthax::primitive::attenuation::adsr_x* synthax::primitive::envelope::adsr_x::get_copy() {
+synthax::primitive::attenuation::adsr_x* synthax::primitive::attenuation::adsr_x::get_copy() {
     return new adsr_x(params[0]->get_copy(), params[1]->get_copy(), params[2]->get_copy(), params[3]->get_copy(), params[4]->get_copy(), params[5]->get_copy(), params[6]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 

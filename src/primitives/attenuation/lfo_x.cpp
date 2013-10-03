@@ -25,7 +25,7 @@ synthax::primitive::attenuation::lfo_x::~lfo_x() {
     =========
 */
 
-synthax::primitive::attenuation::lfo_x* synthax::primitive::envelope::lfo_x::get_copy() {
+synthax::primitive::attenuation::lfo_x* synthax::primitive::attenuation::lfo_x::get_copy() {
     return new lfo_x(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 

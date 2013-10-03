@@ -46,7 +46,7 @@ synthax::primitive::attenuation::env_lin_x::~env_lin_x() {
     =========
 */
 
-synthax::primitive::attenuation::env_lin_x* synthax::primitive::envelope::env_lin_x::get_copy() {
+synthax::primitive::attenuation::env_lin_x* synthax::primitive::attenuation::env_lin_x::get_copy() {
     // make copies of spline points
     std::vector<param*>* paramCopies = new std::vector<param*>(params.size() - 2);
     for (unsigned i = 2; i < params.size(); i++) {

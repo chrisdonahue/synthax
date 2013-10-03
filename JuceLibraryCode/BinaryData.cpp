@@ -8,7 +8,7 @@ namespace BinaryData
 {
 
 //================== kissfft.hh ==================
-static const unsigned char temp_b8850cd3[] =
+static const unsigned char temp_binary_data_0[] =
 "#ifndef KISSFFT_CLASS_HH\r\n"
 "#include <complex>\r\n"
 "#include <vector>\r\n"
@@ -309,7 +309,7 @@ static const unsigned char temp_b8850cd3[] =
 "};\r\n"
 "#endif\r\n";
 
-const char* kissfft_hh = (const char*) temp_b8850cd3;
+const char* kissfft_hh = (const char*) temp_binary_data_0;
 
 
 const char* getNamedResource (const char*, int&) throw();
@@ -329,5 +329,12 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     numBytes = 0;
     return 0;
 }
+
+const int namedResourceListSize = 1;
+
+const char* namedResourceList[] =
+{
+    "kissfft_hh"
+};
 
 }

@@ -167,7 +167,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
     std::vector<param*> params = parse_mutatable_params(tokenizer_args);
 
     // ADSR nodes
-    else if (type.compare("adsr") == 0) {
+    if (type.compare("adsr") == 0) {
         if (params.size() != 7) {
 			throw std::runtime_error("incorrect number of mutatable params for adsr");
         }
