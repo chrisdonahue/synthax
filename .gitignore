@@ -1,1 +1,5 @@
 Builds/Linux/build/*
+Builds/VisualStudio2012/Debug/*
+Builds/VisualStudio2012/synthax.sdf
+Builds/VisualStudio2012/synthax.v11.suo
+Builds/VisualStudio2012/synthax.vcxproj.user
