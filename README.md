@@ -1,4 +1,4 @@
-gp_synthesis_lib
-================
+synthax
+=======
 
-repository for files used by gp_audio_target_matching and evosynth
+symbolic expression-based audio synthesis programming language
