@@ -1,6 +1,16 @@
 #include "wave_table_b.h"
 
 /*
+    ============
+    construction
+    ============
+*/
+
+synthax::primitive::base::wave_table_b::~wave_table_b() {
+	done_rendering();
+}
+
+/*
     =========
     overrides
     =========

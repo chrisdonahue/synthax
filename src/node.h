@@ -153,6 +153,9 @@ namespace synthax {
 			for (unsigned i = 0; i < arity; i++) {
 				descendants[i]->trace(all_nodes, all_params, this, tree_height, current_depth + 1);
 			}
+
+			// set traced as true
+			traced = true;
 		};
 
 		std::string to_string(unsigned precision) {

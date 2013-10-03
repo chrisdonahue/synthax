@@ -8,6 +8,9 @@
 namespace synthax{namespace primitive{namespace base{
 	class wave_table_b : public node {
 	public:
+		// construction
+		~wave_table_b();
+
 		// overrides
 		void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time);
 		void done_rendering();
