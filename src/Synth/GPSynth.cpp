@@ -28,8 +28,6 @@ GPSynth::GPSynth(GPLogger* logger, GPSynthParams* params, GPRandom* rng, std::ve
     availableFunctions = new std::vector<GPNode*>();
     availableTerminals = new std::vector<GPNode*>();
     for (unsigned i = 0; i < availablePrimitives->size(); i++) {
-		std::cerr << availablePrimitives->at(i)->toString(4);
-		std::string prim_string = availablePrimitives->at(i)->toString(4);
         if (availablePrimitives->at(i)->arity == 0) {
             availableTerminals->push_back(availablePrimitives->at(i));
         }
