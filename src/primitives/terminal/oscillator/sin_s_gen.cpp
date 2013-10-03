@@ -56,10 +56,4 @@ void synthax::primitive::terminal::sin_s_gen::defineHarmonics(int len, int numHa
     // sin
     ar[1] = 1.0f;
     ar[len - 1] = -1.0f;
-
-    /*
-    for (int idx = 0; idx < len; idx++) {
-        std::cout << "idx: " << idx << ", ar[idx]: " << ar[idx] << ", ai[idx]: " << ai[idx] << std::endl;
-    }
-    */
 }

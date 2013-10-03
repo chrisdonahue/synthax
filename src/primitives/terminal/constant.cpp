@@ -17,7 +17,10 @@ synthax::primitive::terminal::constant::constant(bool pi, param* v) {
 
     value = 0.0;
 
-    symbol = "const";
+    if (isPi)
+        symbol = "pi";
+    else
+        symbol = "const";
 }
 
 synthax::primitive::terminal::constant::~constant() {
