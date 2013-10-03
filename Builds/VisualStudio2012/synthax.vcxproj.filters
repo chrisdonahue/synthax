@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="synthax">
@@ -19,6 +20,9 @@
     <Filter Include="synthax\primitives">
       <UniqueIdentifier>{0AC07B5B-4472-07ED-03B5-AD584DF1E000}</UniqueIdentifier>
     </Filter>
+    <Filter Include="synthax\primitives\abstract">
+      <UniqueIdentifier>{05F1191A-53BD-3DD7-8866-6D02F4308A24}</UniqueIdentifier>
+    </Filter>
     <Filter Include="synthax\primitives\envelope">
       <UniqueIdentifier>{7EE882AA-DBFB-5735-0D9F-1D2789449F53}</UniqueIdentifier>
     </Filter>
@@ -33,9 +37,6 @@
     </Filter>
     <Filter Include="synthax\primitives\modulation\oscillator">
       <UniqueIdentifier>{51867824-0571-B0B0-FE89-C25B44490271}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="synthax\primitives\super">
-      <UniqueIdentifier>{816F7527-89C8-FEBF-12F2-C67A3E4D7321}</UniqueIdentifier>
     </Filter>
     <Filter Include="synthax\primitives\terminal">
       <UniqueIdentifier>{8619ABC7-EAF3-2F16-3ECF-85E5A2C12072}</UniqueIdentifier>
@@ -153,6 +154,18 @@
     <ClCompile Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.cpp">
       <Filter>synthax\dependencies\WaveTableOsc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\primitives\abstract\adsr.cpp">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\primitives\abstract\lfo.cpp">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\primitives\abstract\piecewise_linear.cpp">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\primitives\abstract\wave_table.cpp">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\primitives\envelope\adsr.cpp">
       <Filter>synthax\primitives\envelope</Filter>
     </ClCompile>
@@ -206,18 +219,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\primitives\modulation\wave_table.cpp">
       <Filter>synthax\primitives\modulation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\primitives\super\adsr.cpp">
-      <Filter>synthax\primitives\super</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\primitives\super\lfo.cpp">
-      <Filter>synthax\primitives\super</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\primitives\super\piecewise_linear.cpp">
-      <Filter>synthax\primitives\super</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\primitives\super\wave_table.cpp">
-      <Filter>synthax\primitives\super</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\primitives\terminal\oscillator\saw.cpp">
       <Filter>synthax\primitives\terminal\oscillator</Filter>
@@ -570,6 +571,21 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
@@ -622,6 +638,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\dependencies\WaveTableOsc\WaveTableOsc.h">
       <Filter>synthax\dependencies\WaveTableOsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\primitives\abstract\adsr.h">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\primitives\abstract\lfo.h">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\primitives\abstract\piecewise_linear.h">
+      <Filter>synthax\primitives\abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\primitives\abstract\wave_table.h">
+      <Filter>synthax\primitives\abstract</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\envelope\adsr.h">
       <Filter>synthax\primitives\envelope</Filter>
@@ -676,18 +704,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\modulation\wave_table.h">
       <Filter>synthax\primitives\modulation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\primitives\super\adsr.h">
-      <Filter>synthax\primitives\super</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\primitives\super\lfo.h">
-      <Filter>synthax\primitives\super</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\primitives\super\piecewise_linear.h">
-      <Filter>synthax\primitives\super</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\primitives\super\wave_table.h">
-      <Filter>synthax\primitives\super</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\primitives\terminal\oscillator\saw.h">
       <Filter>synthax\primitives\terminal\oscillator</Filter>

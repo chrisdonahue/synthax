@@ -1,8 +1,7 @@
 #ifndef TERMINAL_LFO_H
 #define TERMINAL_LFO_H
 
-#include "../../node.h"
-#include "../super/lfo.h"
+#include "../abstract/lfo.h"
 
 namespace synthax{namespace primitive{namespace terminal{
 	class lfo : public abstract::lfo {

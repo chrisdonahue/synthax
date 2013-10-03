@@ -1,7 +1,7 @@
 #ifndef ENVELOPE_LFO_H
 #define ENVELOPE_LFO_H
 
-#include "../super/lfo.h"
+#include "../abstract/lfo.h"
 
 namespace synthax{namespace primitive{namespace envelope{
 	class lfo : public synthax::primitive::abstract::lfo {

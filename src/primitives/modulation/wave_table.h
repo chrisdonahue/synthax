@@ -1,7 +1,7 @@
 #ifndef ENVELOPE_WAVE_TABLE_H
 #define ENVELOPE_WAVE_TABLE_H
 
-#include "../super/wave_table.h"
+#include "../abstract/wave_table.h"
 
 namespace synthax{namespace primitive{namespace modulation{
 	class wave_table : public synthax::primitive::abstract::wave_table {

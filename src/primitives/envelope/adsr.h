@@ -1,7 +1,7 @@
 #ifndef ENVELOPE_ADSR_H
 #define ENVELOPE_ADSR_H
 
-#include "../super/adsr.h"
+#include "../abstract/adsr.h"
 
 namespace synthax{namespace primitive{namespace envelope{
 	class adsr : public synthax::primitive::abstract::adsr {

@@ -1,7 +1,7 @@
 #ifndef ENVELOPE_PIECEWISE_LINEAR_H
 #define ENVELOPE_PIECEWISE_LINEAR_H
 
-#include "../super/piecewise_linear.h"
+#include "../abstract/piecewise_linear.h"
 
 namespace synthax{namespace primitive{namespace envelope{
 	class piecewise_linear: public synthax::primitive::abstract::piecewise_linear {

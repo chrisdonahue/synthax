@@ -29,6 +29,18 @@
       </GROUP>
     </GROUP>
     <GROUP id="{98B2B79D-4856-3D12-1872-C5F92C812594}" name="primitives">
+      <GROUP id="{AD8BD9C7-6C6C-F5B1-65F2-90EF999C3090}" name="abstract">
+        <FILE id="qkUMft" name="adsr.cpp" compile="1" resource="0" file="src/primitives/abstract/adsr.cpp"/>
+        <FILE id="NjJha8" name="adsr.h" compile="0" resource="0" file="src/primitives/abstract/adsr.h"/>
+        <FILE id="jftI1X" name="lfo.cpp" compile="1" resource="0" file="src/primitives/abstract/lfo.cpp"/>
+        <FILE id="uxQy1I" name="lfo.h" compile="0" resource="0" file="src/primitives/abstract/lfo.h"/>
+        <FILE id="HWKSMb" name="piecewise_linear.cpp" compile="1" resource="0"
+              file="src/primitives/abstract/piecewise_linear.cpp"/>
+        <FILE id="pWMUnf" name="piecewise_linear.h" compile="0" resource="0"
+              file="src/primitives/abstract/piecewise_linear.h"/>
+        <FILE id="aY60FG" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/abstract/wave_table.cpp"/>
+        <FILE id="shoY70" name="wave_table.h" compile="0" resource="0" file="src/primitives/abstract/wave_table.h"/>
+      </GROUP>
       <GROUP id="{71D68885-6E7E-FFC3-D1A2-A3A75D1D9659}" name="envelope">
         <FILE id="qh17x8" name="adsr.cpp" compile="1" resource="0" file="src/primitives/envelope/adsr.cpp"/>
         <FILE id="oBIIux" name="adsr.h" compile="0" resource="0" file="src/primitives/envelope/adsr.h"/>
@@ -79,18 +91,6 @@
         </GROUP>
         <FILE id="Czddhc" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/modulation/wave_table.cpp"/>
         <FILE id="GDPsWJ" name="wave_table.h" compile="0" resource="0" file="src/primitives/modulation/wave_table.h"/>
-      </GROUP>
-      <GROUP id="{773E5E5D-B99F-B67C-0C66-BD91553EFFEF}" name="super">
-        <FILE id="G5zJZU" name="adsr.cpp" compile="1" resource="0" file="src/primitives/super/adsr.cpp"/>
-        <FILE id="j7tURC" name="adsr.h" compile="0" resource="0" file="src/primitives/super/adsr.h"/>
-        <FILE id="N2BI0K" name="lfo.cpp" compile="1" resource="0" file="src/primitives/super/lfo.cpp"/>
-        <FILE id="Ts99SU" name="lfo.h" compile="0" resource="0" file="src/primitives/super/lfo.h"/>
-        <FILE id="yRoLqp" name="piecewise_linear.cpp" compile="1" resource="0"
-              file="src/primitives/super/piecewise_linear.cpp"/>
-        <FILE id="Udf0Cv" name="piecewise_linear.h" compile="0" resource="0"
-              file="src/primitives/super/piecewise_linear.h"/>
-        <FILE id="u6O3hz" name="wave_table.cpp" compile="1" resource="0" file="src/primitives/super/wave_table.cpp"/>
-        <FILE id="VJva7B" name="wave_table.h" compile="0" resource="0" file="src/primitives/super/wave_table.h"/>
       </GROUP>
       <GROUP id="{DAEB0116-A990-76D6-5C85-88462C076E19}" name="terminal">
         <GROUP id="{C345E940-B276-DBBB-3F8E-A8BD13D495B1}" name="oscillator">
@@ -148,7 +148,7 @@
   </MODULES>
   <EXPORTFORMATS>
     <VS2012 targetFolder="Builds/VisualStudio2012" juceFolder="..\..\JUCE\modules"
-            extraCompilerFlags="/I ..\..\boost_1_53_0">
+            extraCompilerFlags="/I ..\..\..\..\boost_1_53_0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="synthax"/>

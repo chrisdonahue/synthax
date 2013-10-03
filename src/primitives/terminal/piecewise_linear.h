@@ -1,7 +1,7 @@
 #ifndef TERMINAL_PIECEWISE_LINEAR_H
 #define TERMINAL_PIECEWISE_LINEAR_H
 
-#include "../super/piecewise_linear.h"
+#include "../abstract/piecewise_linear.h"
 
 namespace synthax{namespace primitive{namespace terminal{
 	class piecewise_linear : public synthax::primitive::abstract::piecewise_linear {

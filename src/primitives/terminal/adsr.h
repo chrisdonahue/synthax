@@ -1,8 +1,7 @@
 #ifndef TERMINALADSR_H
 #define TERMINALADSR_H
 
-#include "../../node.h"
-#include "../super/adsr.h"
+#include "../abstract/adsr.h"
 
 namespace synthax{namespace primitive{namespace terminal{
 	class adsr : public synthax::primitive::abstract::adsr {
