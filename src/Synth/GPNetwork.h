@@ -26,6 +26,7 @@ class GPNetwork {
 public:
     // CONSTRUCTION
     GPNetwork(GPNode* r, std::string o);
+    GPNetwork(GPRandom* rng, std::string node_str);
     ~GPNetwork();
     GPNetwork* getCopy(std::string neworigin);
 
