@@ -4,9 +4,9 @@ void synthax::primitive::base::env_lin_b::ephemeral_random(random* rng) {
     // if this is a primitive spline then generate its points
     if (isPrimitive) {
         // randomize the number of points and lock it
-        params[1]->ephemeral_random(rng);
+        params[0]->ephemeral_random(rng);
         numSegments = params[1]->get_dvalue();
-        params[1]->set_unmutatable();
+        params[0]->set_unmutatable();
 
         // get copies
         param* ampRangeCopy = params[2]->get_copy();
@@ -15,9 +15,9 @@ void synthax::primitive::base::env_lin_b::ephemeral_random(random* rng) {
         segmentLengthRangeCopy->set_type("spline_segment_length");
 
         // remove and delete range specifiers
+        delete params[1];
         delete params[2];
-        delete params[3];
-        params.resize(2);
+        params.resize(1);
 
         // create the segments
         for (int i = 0; i < numSegments; i++) {
@@ -66,9 +66,9 @@ void synthax::primitive::base::env_lin_b::update_mutated_params() {
     assert(!isPrimitive);
 
     // get minimum and maximum value for spline envelope
-    float minSplineHeight = params[2]->get_cmin();
-    float maxSplineHeight = params[2]->get_cmax();
-    for (int i = 4; i < params.size(); i += 2) {
+    float minSplineHeight = params[1]->get_cmin();
+    float maxSplineHeight = params[1]->get_cmax();
+    for (int i = 3; i < params.size(); i += 2) {
         if (params[i]->get_cmin() < minSplineHeight)
             minSplineHeight = params[i]->get_cmin();
         if (params[i]->get_cmax() > maxSplineHeight)
@@ -92,10 +92,10 @@ void synthax::primitive::base::env_lin_b::fillFromParams() {
     if (splineType == 0) {
         unsigned currentFrame = 0;
         unsigned usedPoints = 0;
-        float currentLevel = params[2]->get_cvalue();
+        float currentLevel = params[1]->get_cvalue();
         while (currentFrame < envelopeSize && usedPoints < numSegments) {
-            float transitionLength = params[(usedPoints * 2) + 2 + 1]->get_cvalue();
-            float nextLevel = params[(usedPoints * 2) + 2 + 2]->get_cvalue();
+            float transitionLength = params[(usedPoints * 2) + 2]->get_cvalue();
+            float nextLevel = params[(usedPoints * 2) + 2 + 1]->get_cvalue();
             unsigned currentTransitionFrame = 0;
             unsigned numTransitionFrames = (unsigned) (transitionLength * sampleRate);
             // may be infinite if numTransitionFrames is 0 but will never be used in that case
@@ -115,7 +115,7 @@ void synthax::primitive::base::env_lin_b::fillFromParams() {
     }
     else {
         unsigned currentFrame = 0;
-        float currentLevel = params[2]->get_cvalue();
+        float currentLevel = params[1]->get_cvalue();
         while (currentFrame < envelopeSize) {
             envelope[currentFrame] = currentLevel;
             currentFrame++;

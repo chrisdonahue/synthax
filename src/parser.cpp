@@ -190,7 +190,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[2]->set_type("adsr*_attack_height");
         params[3]->set_type("adsr*_decay");
         params[4]->set_type("adsr*_sustain");
-        params[5]->set_type("adsr*_height");
+        params[5]->set_type("adsr*_sustain_height");
         params[6]->set_type("adsr*_release");
 
 		node* signal;
