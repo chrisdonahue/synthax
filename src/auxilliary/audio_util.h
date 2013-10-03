@@ -8,8 +8,8 @@
 #endif
 
 #include "JuceHeader.h"
-#include "../Dependencies/kissfft/kiss_fft.h"
-#include "../Dependencies/kissfft/kiss_fftr.h"
+#include "../dependencies/kissfft/kiss_fft.h"
+#include "../dependencies/kissfft/kiss_fftr.h"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
