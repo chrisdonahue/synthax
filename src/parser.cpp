@@ -167,17 +167,17 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
     std::vector<param*> params = parse_mutatable_params(tokenizer_args);
 
     // ADSR nodes
-    if (type.compare("adsr") == 0) {
+    else if (type.compare("adsr") == 0) {
         if (params.size() != 7) {
 			throw std::runtime_error("incorrect number of mutatable params for adsr");
         }
-        params[0]->set_type("adsr_terminal_delay");
-        params[1]->set_type("adsr_terminal_attack");
-        params[2]->set_type("adsr_terminal_attack_height");
-        params[3]->set_type("adsr_terminal_decay");
-        params[4]->set_type("adsr_terminal_sustain");
-        params[5]->set_type("adsr_terminal_sustain_height");
-        params[6]->set_type("adsr_terminal_release");
+        params[0]->set_type("adsr_delay");
+        params[1]->set_type("adsr_attack");
+        params[2]->set_type("adsr_attack_height");
+        params[3]->set_type("adsr_decay");
+        params[4]->set_type("adsr_sustain");
+        params[5]->set_type("adsr_sustain_height");
+        params[6]->set_type("adsr_release");
 
         return new primitive::terminal::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
     }
@@ -185,18 +185,18 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         if (params.size() != 7) {
 			throw std::runtime_error("incorrect number of mutatable params for adsr*");
         }
-        params[0]->set_type("adsr_envelope_delay");
-        params[1]->set_type("adsr_envelope_attack");
-        params[2]->set_type("adsr_envelope_attack_height");
-        params[3]->set_type("adsr_envelope_decay");
-        params[4]->set_type("adsr_envelope_sustain");
-        params[5]->set_type("adsr_envelope_sustain_height");
-        params[6]->set_type("adsr_envelope_release");
+        params[0]->set_type("adsr*_delay");
+        params[1]->set_type("adsr*_attack");
+        params[2]->set_type("adsr*_attack_height");
+        params[3]->set_type("adsr*_decay");
+        params[4]->set_type("adsr*_sustain");
+        params[5]->set_type("adsr*_height");
+        params[6]->set_type("adsr*_release");
 
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::envelope::adsr(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
+        return new primitive::envelope::adsr_x(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
     }
     // constant nodes
     else if (type.compare("pi") == 0) {
@@ -303,7 +303,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::envelope::lfo(params[0], signal);
+        return new primitive::envelope::lfo_x(params[0], signal);
     }
     // mixer nodes
     else if (type.compare("switch") == 0) {
@@ -360,7 +360,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::sine_amp_mod(params[0], params[1], params[2], params[3], signal);
+        return new primitive::modulation::sin_am(params[0], params[1], params[2], params[3], signal);
     }
     else if (type.compare("sin_pm") == 0) {
         if (params.size() != 3) {
@@ -374,7 +374,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::sine_phase_mod(params[0], params[1], params[2], signal);
+        return new primitive::modulation::sin_pm(params[0], params[1], params[2], signal);
     }
     // wave table freq mods
     else if (type.compare("saw_fm") == 0) {
@@ -388,7 +388,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::saw(params[0], params[1], params[2], signal);
+        return new primitive::modulation::saw_fm(params[0], params[1], params[2], signal);
     }
     else if (type.compare("sin_fm") == 0) {
         if (params.size() != 3) {
@@ -401,7 +401,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::sine(params[0], params[1], params[2], signal);
+        return new primitive::modulation::sin_fm(params[0], params[1], params[2], signal);
     }
     else if (type.compare("sin_fm") == 0) {
         if (params.size() != 3) {
@@ -414,7 +414,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::square(params[0], params[1], params[2], signal);
+        return new primitive::modulation::sqr_fm(params[0], params[1], params[2], signal);
     }
     else if (type.compare("tri_fm") == 0) {
         if (params.size() != 3) {
@@ -427,7 +427,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::modulation::triangle(params[0], params[1], params[2], signal);
+        return new primitive::modulation::tri_fm(params[0], params[1], params[2], signal);
     }
     // silence node
     else if (type.compare("silence") == 0) {
@@ -452,7 +452,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             std::vector<param*>* splinepoints = new std::vector<param*>();
             splinepoints->push_back(params[2]);
 
-            return new primitive::terminal::piecewise_linear(params[0], params[1], splinepoints);
+            return new primitive::terminal::env_lin(params[0], params[1], splinepoints);
         }
         // else interpret this is a previously instantiated spline
         else {
@@ -476,7 +476,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             params[currentParam]->set_type("env_lin_amp_final");
             splinepoints->push_back(params[currentParam]);
 
-            return new primitive::terminal::piecewise_linear(params[0], params[1], splinepoints);
+            return new primitive::terminal::env_lin(params[0], params[1], splinepoints);
         }
     }
     else if (type.compare("env_lin*") == 0) {
@@ -496,7 +496,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new primitive::envelope::piecewise_linear(params[0], params[1], splinepoints, signal);
+            return new primitive::envelope::env_lin_x(params[0], params[1], splinepoints, signal);
         }
         // else interpret this is a previously instantiated spline
         else {
@@ -523,7 +523,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new primitive::envelope::piecewise_linear(params[0], params[1], splinepoints, signal);
+            return new primitive::envelope::env_lin_x(params[0], params[1], splinepoints, signal);
         }
     }
     // time node
@@ -544,7 +544,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[1]->set_type("input_s_range");
         params[1]->set_unmutatable();
 
-        return new primitive::terminal::input_static(params[0], params[1]);
+        return new primitive::terminal::input_s(params[0], params[1]);
     }
     // wave table oscillator nodes
     else if (type.compare("saw_s_gen") == 0) {
@@ -556,7 +556,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[1]->set_type("saw_s_gen_partial");
         params[2]->set_type("saw_s_gen_phase");
 
-        return new primitive::terminal::saw(params[0], params[1], params[2]);
+        return new primitive::terminal::saw_s_gen(params[0], params[1], params[2]);
     }
     else if (type.compare("sin_s_gen") == 0) {
         if (params.size() != 3) {
@@ -567,7 +567,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[1]->set_type("sin_s_gen_partial");
         params[2]->set_type("sin_s_gen_phase");
 
-        return new primitive::terminal::sine(params[0], params[1], params[2]);
+        return new primitive::terminal::sin_s_gen(params[0], params[1], params[2]);
     }
     else if (type.compare("sqr_s_gen") == 0) {
         if (params.size() != 3) {
@@ -578,7 +578,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[1]->set_type("sqr_s_gen_partial");
         params[2]->set_type("sqr_s_gen_phase");
 
-        return new primitive::terminal::square(params[0], params[1], params[2]);
+        return new primitive::terminal::sqr_s_gen(params[0], params[1], params[2]);
     }
     else if (type.compare("tri_s_gen") == 0) {
         if (params.size() != 3) {
@@ -589,7 +589,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
         params[1]->set_type("tri_s_gen_partial");
         params[2]->set_type("tri_s_gen_phase");
 
-        return new primitive::terminal::triangle(params[0], params[1], params[2]);
+        return new primitive::terminal::tri_s_gen(params[0], params[1], params[2]);
     }
 	// explicitly null node for primitives
 	else if (type.compare("null") == 0) {

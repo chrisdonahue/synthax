@@ -11,11 +11,12 @@ synthax::primitive::function::sine::sine(node* zero) {
 
     descendants.push_back(zero);
 
-    symbol = "sin";
 	minimum = -1.0f;
 	maximum = 1.0f;
 	minimum_true = -1.0f;
 	maximum_true = 1.0f;
+
+    symbol = "sin";
 }
 
 synthax::primitive::function::sine::~sine() {

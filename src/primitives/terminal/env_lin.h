@@ -1,17 +1,18 @@
-#ifndef TERMINAL_LFO_H
-#define TERMINAL_LFO_H
+#ifndef ENV_LIN_H
+#define ENV_LIN_H
 
-#include "../base/lfo_b.h"
+#include "../base/env_lin_b.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class lfo : public base::lfo_b {
+	class env_lin : public base::env_lin_b {
 	public:
-		lfo(param* rate);
-		~lfo();
+		env_lin(param* splinetype, param* numpoints, std::vector<param*>* pointsOrParams);
+		~env_lin();
 
 		// overrides
-		lfo* get_copy();
+		env_lin* get_copy();
 		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+
 
 	private:
 	};

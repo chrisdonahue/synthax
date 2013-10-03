@@ -1,10 +1,10 @@
-#ifndef TERMINALADSR_H
-#define TERMINALADSR_H
+#ifndef ADSR_H
+#define ADSR_H
 
-#include "../base/adsr.h"
+#include "../base/adsr_b.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class adsr : public synthax::primitive::base::adsr {
+	class adsr : public base::adsr_b {
 	public:
 		// construction
 		adsr(param* del, param* atk, param* atkh, param* dec, param* sus, param* sush, param* rel);

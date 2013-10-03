@@ -1,22 +1,26 @@
-#ifndef SINE_H
-#define SINE_H
+#ifndef SIN_PM_H
+#define SIN_PM_H
 
 #include "../../node.h"
 
-namespace synthax{namespace primitive{namespace function{
-	class sine : public node {
+namespace synthax{namespace primitive{namespace modulation{
+	class sin_pm : public node {
 	public:
-		sine(node* zero);
-		~sine();
+		sin_pm(param* vn, param* p, param* i, node* mod);
+		~sin_pm();
 
 		// overrides
-		sine* get_copy();
+		sin_pm* get_copy();
 		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
 		// optional overrides
 		void update_mutated_params();
 
 	private:
+		int variableNum;
+		float partial;
+		float index;
+		double w;
 	};
 }}}
 

@@ -1,19 +1,20 @@
-#ifndef TERMINAL_LFO_H
-#define TERMINAL_LFO_H
+#ifndef INPUT_S_H
+#define INPUT_S_H
 
-#include "../base/lfo_b.h"
+#include "../../node.h"
 
 namespace synthax{namespace primitive{namespace terminal{
-	class lfo : public base::lfo_b {
+	class input_s : public node {
 	public:
-		lfo(param* rate);
-		~lfo();
+		input_s(param* vn, param* range);
+		~input_s();
 
 		// overrides
-		lfo* get_copy();
+		input_s* get_copy();
 		void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
 
 	private:
+		int variableNum;
 	};
 }}}
 
