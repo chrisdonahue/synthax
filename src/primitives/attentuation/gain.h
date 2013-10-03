@@ -3,7 +3,7 @@
 
 #include "../../node.h"
 
-namespace synthax{namespace primitive{namespace envelope{
+namespace synthax{namespace primitive{namespace attenuation{
 	class gain : public node {
 	public:
 		gain(param* v, node* signal);

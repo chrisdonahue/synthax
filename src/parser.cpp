@@ -196,7 +196,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::envelope::adsr_x(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
+        return new primitive::attenuation::adsr_x(params[0], params[1], params[2], params[3], params[4], params[5], params[6], signal);
     }
     // constant nodes
     else if (type.compare("pi") == 0) {
@@ -223,7 +223,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::envelope::gain(params[0], signal);
+        return new primitive::attenuation::gain(params[0], signal);
     }
     // function nodes
     else if (type.compare("+") == 0) {
@@ -303,7 +303,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
 		node* signal;
 		parse_child(tokenizer_args, &signal);
 
-        return new primitive::envelope::lfo_x(params[0], signal);
+        return new primitive::attenuation::lfo_x(params[0], signal);
     }
     // mixer nodes
     else if (type.compare("switch") == 0) {
@@ -496,7 +496,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new primitive::envelope::env_lin_x(params[0], params[1], splinepoints, signal);
+            return new primitive::attenuation::env_lin_x(params[0], params[1], splinepoints, signal);
         }
         // else interpret this is a previously instantiated spline
         else {
@@ -523,7 +523,7 @@ synthax::node* synthax::parser::create_node(tokenizer_function_args) {
             node* signal;
             parse_child(tokenizer_args, &signal);
 
-            return new primitive::envelope::env_lin_x(params[0], params[1], splinepoints, signal);
+            return new primitive::attenuation::env_lin_x(params[0], params[1], splinepoints, signal);
         }
     }
     // time node

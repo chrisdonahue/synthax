@@ -3,7 +3,7 @@
 
 #include "../base/adsr_b.h"
 
-namespace synthax{namespace primitive{namespace envelope{
+namespace synthax{namespace primitive{namespace attenuation{
 	class adsr_x : public base::adsr_b {
 	public:
 		// construction

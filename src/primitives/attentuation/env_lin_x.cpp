@@ -7,7 +7,7 @@
 */
 
 // points should always have something in it
-synthax::primitive::envelope::env_lin_x::env_lin_x(param* splinetype, param* numsegments, std::vector<param*>* pointsOrParams, node* signal)
+synthax::primitive::attenuation::env_lin_x::env_lin_x(param* splinetype, param* numsegments, std::vector<param*>* pointsOrParams, node* signal)
 {
     assert(splinetype->is_unmutatable());
     isPrimitive = (pointsOrParams->size() == 2 && numsegments->is_mutatable());
@@ -36,7 +36,7 @@ synthax::primitive::envelope::env_lin_x::env_lin_x(param* splinetype, param* num
     symbol = "env_lin*";
 }
 
-synthax::primitive::envelope::env_lin_x::~env_lin_x() {
+synthax::primitive::attenuation::env_lin_x::~env_lin_x() {
     done_rendering();
 }
 
@@ -46,7 +46,7 @@ synthax::primitive::envelope::env_lin_x::~env_lin_x() {
     =========
 */
 
-synthax::primitive::envelope::env_lin_x* synthax::primitive::envelope::env_lin_x::get_copy() {
+synthax::primitive::attenuation::env_lin_x* synthax::primitive::envelope::env_lin_x::get_copy() {
     // make copies of spline points
     std::vector<param*>* paramCopies = new std::vector<param*>(params.size() - 2);
     for (unsigned i = 2; i < params.size(); i++) {
@@ -56,7 +56,7 @@ synthax::primitive::envelope::env_lin_x* synthax::primitive::envelope::env_lin_x
     return new env_lin_x(params[0]->get_copy(), params[1]->get_copy(), paramCopies, descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
-void synthax::primitive::envelope::env_lin_x::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::attenuation::env_lin_x::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     // copy envelope into buffer
     for (unsigned bi = 0, ei = firstFrameNumber; bi < numSamples; bi++, ei++) {

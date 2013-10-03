@@ -3,11 +3,11 @@
 
 // effect includes
 
-// envelope includes
-#include "primitives/envelope/adsr_x.h"
-#include "primitives/envelope/gain.h"
-#include "primitives/envelope/lfo_x.h"
-#include "primitives/envelope/env_lin_x.h"
+// attenuation includes
+#include "primitives/attenuation/adsr_x.h"
+#include "primitives/attenuation/gain.h"
+#include "primitives/attenuation/lfo_x.h"
+#include "primitives/attenuation/env_lin_x.h"
 
 // function includes
 #include "primitives/function/add.h"

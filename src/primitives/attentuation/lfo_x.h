@@ -3,7 +3,7 @@
 
 #include "../base/lfo_b.h"
 
-namespace synthax{namespace primitive{namespace envelope{
+namespace synthax{namespace primitive{namespace attenuation{
 	class lfo_x : public base::lfo_b {
 	public:
 		lfo_x(param* rate, node* mod);

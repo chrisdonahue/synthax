@@ -6,7 +6,7 @@
     ========================
 */
 
-synthax::primitive::envelope::lfo_x::lfo_x(param* rate, node* mod)
+synthax::primitive::attenuation::lfo_x::lfo_x(param* rate, node* mod)
 {
     params.push_back(rate);
 
@@ -16,7 +16,7 @@ synthax::primitive::envelope::lfo_x::lfo_x(param* rate, node* mod)
     symbol = "lfo*";
 }
 
-synthax::primitive::envelope::lfo_x::~lfo_x() {
+synthax::primitive::attenuation::lfo_x::~lfo_x() {
 }
 
 /*
@@ -25,11 +25,11 @@ synthax::primitive::envelope::lfo_x::~lfo_x() {
     =========
 */
 
-synthax::primitive::envelope::lfo_x* synthax::primitive::envelope::lfo_x::get_copy() {
+synthax::primitive::attenuation::lfo_x* synthax::primitive::envelope::lfo_x::get_copy() {
     return new lfo_x(params[0]->get_copy(), descendants[0] == NULL ? NULL : descendants[0]->get_copy());
 }
 
-void synthax::primitive::envelope::lfo_x::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void synthax::primitive::attenuation::lfo_x::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
         // produce a sine wave at lfo_x rate
