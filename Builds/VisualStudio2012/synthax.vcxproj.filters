@@ -1233,9 +1233,4 @@
       <Filter>Juce Modules\juce_core</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include=".\resources.rc">
-      <Filter>Juce Library Code</Filter>
-    </ResourceCompile>
-  </ItemGroup>
 </Project>

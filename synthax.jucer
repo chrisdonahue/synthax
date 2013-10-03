@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="E2eohP" name="synthax" projectType="dll" version="0.1" bundleIdentifier="com.rhs.synthax"
-              jucerVersion="3.1.0" companyName="radio hunches software">
+<JUCERPROJECT id="E2eohP" name="synthax" projectType="library" version="0.1"
+              bundleIdentifier="com.rhs.synthax" jucerVersion="3.1.0" companyName="radio hunches software">
   <MAINGROUP id="iQgqzK" name="synthax">
     <GROUP id="{EBC94AD8-B395-A55E-1726-009A2E7E7D8F}" name="auxilliary">
       <FILE id="d4E4dp" name="audio_util.cpp" compile="1" resource="0" file="src/auxilliary/audio_util.cpp"/>

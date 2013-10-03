@@ -22,7 +22,7 @@ ifeq ($(CONFIG),Debug)
   LDDEPS :=
   RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode
   TARGET := libsynthax.a
-  BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
+  BLDCMD = ar -rcs $(OUTDIR)/$(TARGET) $(OBJECTS)
 endif
 
 ifeq ($(CONFIG),Release)
@@ -42,7 +42,7 @@ ifeq ($(CONFIG),Release)
   LDDEPS :=
   RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode
   TARGET := libsynthax.a
-  BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
+  BLDCMD = ar -rcs $(OUTDIR)/$(TARGET) $(OBJECTS)
 endif
 
 # (this disables dependency generation if multiple architectures are set)
