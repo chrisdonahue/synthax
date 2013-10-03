@@ -51,7 +51,7 @@ namespace synthax {
 			if (continuous) {
 				ss << "c ";
 
-				if (minimum_null)
+				if (min_null)
 					ss << "null ";
 				else
 					ss << cminimum << " ";
@@ -61,7 +61,7 @@ namespace synthax {
 				else
 					ss << cvalue << " ";
 
-				if (maximum_null)
+				if (max_null)
 					ss << "null";
 				else
 					ss << cmaximum;
@@ -69,7 +69,7 @@ namespace synthax {
 			else {
 				ss << "d ";
 
-				if (minimum_null)
+				if (min_null)
 					ss << "null ";
 				else
 					ss << dminimum << " ";
@@ -79,7 +79,7 @@ namespace synthax {
 				else
 					ss << dvalue << " ";
 
-				if (maximum_null)
+				if (max_null)
 					ss << "null";
 				else
 					ss << dmaximum;
@@ -133,27 +133,24 @@ namespace synthax {
 
 		// instatiated
 		bool is_instantiated() {
-			return instantiated;
+			return !(min_null || value_null || max_null);
 		}
 
 		bool is_uninstantiated() {
-			return !instantiated;
+			return (min_null || value_null || max_null);
 		}
 
 		// null
 		void set_val_null() {
-			instantiated = false;
 			value_null = true;
 		}
 
 		void set_min_null() {
-			instantiated = false;
-			minimum_null = true;
+			min_null = true;
 		}
 
 		void set_max_null() {
-			instantiated = false;
-			maximum_null = true;
+			max_null = true;
 		}
 
 		bool has_val_null() {
@@ -161,11 +158,11 @@ namespace synthax {
 		}
 
 		bool has_min_null() {
-			return minimum_null;
+			return min_null;
 		}
 
 		bool has_max_null() {
-			return maximum_null;
+			return max_null;
 		}
 
 		// set discrete data
@@ -180,7 +177,11 @@ namespace synthax {
 
 		// set continuous value
 		void set_dvalue(int newvalue) {
-			set_ddata(dminimum, newvalue, dmaximum);
+			assert(!continuous);
+			assert(dminimum <= newvalue || min_null);
+			assert(newvalue <= dmaximum || max_null);
+			value_null = false;
+			dvalue = newvalue;
 		}
 
 		// set continuous data
@@ -195,7 +196,11 @@ namespace synthax {
 
 		// set continuous value
 		void set_cvalue(float newvalue) {
-			set_cdata(cminimum, newvalue, cmaximum);
+			assert(continuous);
+			assert(cminimum <= newvalue || min_null);
+			assert(newvalue <= cmaximum || max_null);
+			value_null = false;
+			cvalue = newvalue;
 		}
 
 		// continuous accessors
@@ -207,13 +212,13 @@ namespace synthax {
 
 		float get_cmin() {
 			assert(continuous);
-			assert(!minimum_null);
+			assert(!min_null);
 			return cminimum;
 		}
 
 		float get_cmax() {
 			assert(continuous);
-			assert(!maximum_null);
+			assert(!max_null);
 			return cmaximum;
 		}
 
@@ -226,13 +231,13 @@ namespace synthax {
 
 		int get_dmin() {
 			assert(!continuous);
-			assert(!minimum_null);
+			assert(!min_null);
 			return dminimum;
 		}
 
 		int get_dmax() {
 			assert(!continuous);
-			assert(!maximum_null);
+			assert(!max_null);
 			return dmaximum;
 		}
 
@@ -246,7 +251,7 @@ namespace synthax {
 		}
 
 		float get_min() {
-			assert(!minimum_null);
+			assert(!min_null);
 			if (continuous)
 				return cminimum;
 			else
@@ -254,7 +259,7 @@ namespace synthax {
 		}
 
 		float get_max() {
-			assert(!maximum_null);
+			assert(!max_null);
 			if (continuous)
 				return cmaximum;
 			else
@@ -267,25 +272,24 @@ namespace synthax {
 				cvalue = ((float) rng->crandom() * (cmaximum - cminimum)) + cminimum;
 			else if (!continuous && mutatable)
 				dvalue = (rng->drandom((dmaximum - dminimum) + 1)) + dminimum;
+			value_null = false;
 		}
 
 	private:
-		void instantiate() {
-			instantiated = true;
+		inline void instantiate() {
 			value_null = false;
-			minimum_null = false;
-			maximum_null = false;
+			min_null = false;
+			max_null = false;
 		}
     
 		std::string type;
 
 		bool continuous;
 		bool mutatable;
-		bool instantiated;
 
 		bool value_null;
-		bool minimum_null;
-		bool maximum_null;
+		bool min_null;
+		bool max_null;
 
 		int dvalue;
 		int dminimum;

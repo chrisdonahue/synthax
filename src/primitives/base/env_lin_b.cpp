@@ -53,7 +53,7 @@ void synthax::primitive::base::env_lin_b::set_render_info(float sr, unsigned blo
 }
 
 void synthax::primitive::base::env_lin_b::done_rendering() {
-    if (prepared_to_render) {
+    if (render_info_set) {
         sampleRate = 0;
         free(envelope);
     }

@@ -23,13 +23,14 @@ namespace synthax {
 		node()
 			: parent(NULL), descendants(0), descendant_buffers(0),
 			  depth(-1),
-			  params(0), minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()), minimum_true((-1) * std::numeric_limits<float>::infinity()), maximum_true(std::numeric_limits<float>::infinity()),
-			  render_info_set(false), prepared_to_render(false)
+			  params(0), minimum((-1) * std::numeric_limits<float>::infinity()), maximum(std::numeric_limits<float>::infinity()),
+			  minimum_true((-1) * std::numeric_limits<float>::infinity()), maximum_true(std::numeric_limits<float>::infinity()),
+			  traced(false), render_info_set(false), mutated_params_updated(false)
 		{
 		}
 		virtual ~node() {
 			// if we prepared this subtree for rendering...
-			if (prepared_to_render) {
+			if (render_info_set) {
 				unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
 				for (unsigned i = 0; i < numdescendant_buffers; i++) {
 					free(descendant_buffers[i]);
@@ -48,6 +49,7 @@ namespace synthax {
 		virtual void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) = 0;
 
 		// virtual methods optionally implemented in subclasses
+		// subclasses: call this at the end of your implementation
 		virtual void ephemeral_random(random* rng) {
 			for (unsigned i = 0; i < params.size(); i++) {
 				params[i]->ephemeral_random(rng);
@@ -57,10 +59,11 @@ namespace synthax {
 			}
 		}
 
-		virtual void prepare_to_play() {
-		}
-
+		// subclasses: call this at end of your implementation
 		virtual void set_render_info(float sample_rate, unsigned block_size, unsigned max_frame_number, float max_frame_start_time) {
+			// make sure this is not primitive
+			assert(!is_primitive());
+
 			// clear out old render info if it exists
 			done_rendering();
 
@@ -79,6 +82,7 @@ namespace synthax {
 			render_info_set = true;
 		}
 
+		// subclasses: call this at the end of your implementation
 		virtual void done_rendering() {
 			if (render_info_set) {
 				unsigned numdescendant_buffers = arity == 0 ? 0 : arity - 1;
@@ -91,19 +95,38 @@ namespace synthax {
 				}
             
 				render_info_set = false;
-				prepared_to_render = false;
+				mutated_params_updated = false;
 			}
 		}
 
+		// subclasses: call this at the beginning of your implementation
 		virtual void update_mutated_params() {
 			assert(render_info_set == true);
 			for (unsigned i = 0; i < arity; i++) {
 				descendants[i]->update_mutated_params();
 			}
-			prepared_to_render = true;
+			mutated_params_updated = true;
+		}
+
+		// true if any of its params or descendants have null values
+		// subclasses: call this anded with your return value
+		virtual bool is_primitive() {
+			bool is_primitive = false;
+			for (unsigned i = 0; i < arity; i++) {
+				is_primitive = is_primitive || descendants[i] == NULL || descendants[i]->is_primitive();
+			}
+			for (unsigned i = 0; i < params.size(); i++) {
+				is_primitive = is_primitive || params[i] == NULL || params[i]->is_uninstantiated();
+			}
+			return is_primitive;
 		}
 
 		// methods that won't be implemented in subclasses
+		// true if this node is ready to render
+		bool is_ready_to_render() {
+			return render_info_set && mutated_params_updated;
+		}
+
 		// this trace method ensures that I only have assign descendant pointers correctly during genetic operations
 		void trace(std::vector<node*>* all_nodes, std::vector<param*>* all_params, node* p, int* tree_height, int current_depth) {
 			// assign parent
@@ -175,12 +198,13 @@ namespace synthax {
 		float minimum_true;
 		float maximum_true;
 
-		// indicators
-		bool render_info_set;
-		bool prepared_to_render;
-
 	protected:
 		std::string symbol;
+		bool traced;
+		bool render_info_set;
+		bool mutated_params_updated;
+
+	private:
 	};
 }
 

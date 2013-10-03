@@ -13,11 +13,11 @@ void synthax::primitive::base::adsr_b::set_render_info(float sample_rate, unsign
 }
 
 void synthax::primitive::base::adsr_b::done_rendering() {
-    node::done_rendering();
-    if (prepared_to_render) {
+    if (render_info_set) {
         sampleRate = 0;
         free(envelope);
     }
+    node::done_rendering();
 }
 
 void synthax::primitive::base::adsr_b::update_mutated_params() {

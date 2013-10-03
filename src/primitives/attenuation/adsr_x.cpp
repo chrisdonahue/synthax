@@ -28,7 +28,7 @@ synthax::primitive::attenuation::adsr_x::adsr_x(param* del, param* atk, param* a
 }
 
 synthax::primitive::attenuation::adsr_x::~adsr_x() {
-    if (prepared_to_render) {
+    if (render_info_set) {
         free(envelope);
     }
 }

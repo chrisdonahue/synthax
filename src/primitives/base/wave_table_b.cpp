@@ -15,7 +15,7 @@ void synthax::primitive::base::wave_table_b::set_render_info(float sample_rate, 
 }
 
 void synthax::primitive::base::wave_table_b::done_rendering() {
-	if (prepared_to_render) {
+	if (render_info_set) {
 		delete osc;
 	}
 	node::done_rendering();

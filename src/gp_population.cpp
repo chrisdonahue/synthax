@@ -28,8 +28,7 @@ synthax::gp_population::gp_population(aux::logger* logger, gp_population_params*
     availableFunctions = new std::vector<node*>();
     availableTerminals = new std::vector<node*>();
     for (unsigned i = 0; i < availablePrimitives->size(); i++) {
-		std::cerr << availablePrimitives->at(i)->to_string(4);
-		std::string prim_string = availablePrimitives->at(i)->to_string(4);
+		assert(availablePrimitives->at(i)->is_primitive());
         if (availablePrimitives->at(i)->arity == 0) {
             availableTerminals->push_back(availablePrimitives->at(i));
         }

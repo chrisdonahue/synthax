@@ -27,7 +27,7 @@ synthax::primitive::terminal::adsr::adsr(param* del, param* atk, param* atkh, pa
 }
 
 synthax::primitive::terminal::adsr::~adsr() {
-    if (prepared_to_render) {
+    if (render_info_set) {
         free(envelope);
     }
 }

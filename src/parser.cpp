@@ -88,13 +88,13 @@ synthax::param* synthax::parser::create_mutatable_param(tokenizer_function_args,
         float min = (float) std::atof(minstr.c_str());
         float val = (float) std::atof(valstr.c_str());
         float max = (float) std::atof(maxstr.c_str());
-        if (min > val && !(min_null | val_null)) {
+        if (min > val && !(min_null || val_null)) {
 			throw std::runtime_error(error_str.c_str());
         }
-		if (val > max && !(val_null | max_null)) {
+		if (val > max && !(val_null || max_null)) {
 			throw std::runtime_error(error_str.c_str());
 		}
-		if (min > max && !(min_null | max_null)) {
+		if (min > max && !(min_null || max_null)) {
 			throw std::runtime_error(error_str.c_str());
 		}
 		ret = new param(type, ismutatable, val, min, max);
@@ -104,13 +104,13 @@ synthax::param* synthax::parser::create_mutatable_param(tokenizer_function_args,
         int min = std::atoi(minstr.c_str());
         int val = std::atoi(valstr.c_str());
         int max = std::atoi(maxstr.c_str());
-        if (min > val && !(min_null | val_null)) {
+        if (min > val && !(min_null || val_null)) {
 			throw std::runtime_error(error_str.c_str());
         }
-		if (val > max && !(val_null | max_null)) {
+		if (val > max && !(val_null || max_null)) {
 			throw std::runtime_error(error_str.c_str());
 		}
-		if (min > max && !(min_null | max_null)) {
+		if (min > max && !(min_null || max_null)) {
 			throw std::runtime_error(error_str.c_str());
 		}
         ret = new param(type, ismutatable, val, min, max);

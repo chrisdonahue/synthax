@@ -34,6 +34,7 @@ void synthax::primitive::terminal::time::done_rendering() {
     if (render_info_set) {
         maximum = 0.0;
     }
+	node::done_rendering();
 }
 
 void synthax::primitive::terminal::time::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {

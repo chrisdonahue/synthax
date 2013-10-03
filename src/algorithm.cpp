@@ -12,6 +12,7 @@ synthax::algorithm::algorithm(node* r, std::string o) :
     traced(false), prepared_to_render(false),
     render_root(new primitive::terminal::silence()), root(r), all_nodes(0), all_mutatable_params(0)
 {
+	assert(!r->is_primitive());
 }
 
 synthax::algorithm::~algorithm() {
