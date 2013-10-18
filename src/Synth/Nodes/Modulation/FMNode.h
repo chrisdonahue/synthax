@@ -29,10 +29,9 @@ private:
 
 	// calculated
     double cf_mult;
-	double mf_outer_mult;
-	double mf_inner_mult;
-	double freq_m;
-	double freq_b;
+	double mf_mult;
+	double mf_m;
+	double mf_b;
 };
 
 #endif

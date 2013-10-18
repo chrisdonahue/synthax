@@ -40,8 +40,9 @@ FMNode* FMNode::getCopy() {
 void FMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
     descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
-		double mf = buffer[i] * freq_m + freq_b;
-		buffer[i] = (float) sin((cf_mult * sampleTimes[i] * constantVariables[variableNum]) + ((mf_outer_mult * mf) * (mf_inner_mult * sampleTimes[i] * mf)));
+		double mf = buffer[i] * mf_m + mf_b;
+		double t = (double) sampleTimes[i];
+		buffer[i] = (float) cos((cf_mult * t * constantVariables[variableNum]) + (mf_mult * mf * t));
     }
 }
 
@@ -54,6 +55,7 @@ void FMNode::updateMutatedParams() {
     GPNode::updateMutatedParams();
 
 	// get params
+	variableNum = mutatableParams[0]->getDValue();
     partial = mutatableParams[1]->getValue();
 	mf_low = mutatableParams[2]->getValue();
 	mf_high = mutatableParams[3]->getValue();
@@ -64,10 +66,9 @@ void FMNode::updateMutatedParams() {
 	assert(mf_low >= 0 && mf_high <= nyquist_rate);
 
 	// precompute for efficiency
-    cf_mult = (2.0 * M_PI * partial) / sample_rate;
-	mf_outer_mult = (2.0 * M_PI * index);
-	mf_inner_mult = (2.0 * M_PI) / sample_rate;
+    cf_mult = (2.0 * M_PI * partial);
+	mf_mult = (2.0 * M_PI);
     
     // minimum/maximum constant and declared in constructor
-    continuousMapRange((double) descendants[0]->minimum, (double) descendants[0]->maximum, mf_low, mf_high, &freq_m, &freq_b);
+    continuousMapRange((double) descendants[0]->minimum, (double) descendants[0]->maximum, mf_low, mf_high, &mf_m, &mf_b);
 }
