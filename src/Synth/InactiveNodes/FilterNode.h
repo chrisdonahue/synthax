@@ -23,7 +23,7 @@ public:
     FilterNode* getCopy();
 	void prepareToPlay();
     void evaluateBlock(unsigned fn, double* t, unsigned nv, double* v, double* min, double* max, unsigned n, float* buffer);
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer);
 	void setRenderInfo(float sr, unsigned blockSize, float maxTime);
 	void updateMutatedParams();
     void toString(std::stringstream& ss);

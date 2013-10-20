@@ -30,7 +30,7 @@ LFOTerminalNode* LFOTerminalNode::getCopy() {
     return new LFOTerminalNode(mutatableParams[0]->getCopy());
 }
 
-void LFOTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void LFOTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     for (unsigned i = 0; i < numSamples; i++) {
         // produce a sine wave at LFO rate
         buffer[i] = sin(w * (sampleTimes[i]));

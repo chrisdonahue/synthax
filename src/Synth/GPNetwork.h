@@ -31,7 +31,7 @@ public:
     GPNetwork* getCopy(std::string neworigin);
 
     // EXAMINATION
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer);
     std::string toString(unsigned precision);
     GPNode* getRoot();
     bool equals(GPNetwork* other, unsigned precision);

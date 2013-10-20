@@ -28,8 +28,8 @@ SineNode* SineNode::getCopy() {
     return ret;
 }
 
-void SineNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
-    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+void SineNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
+    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
         buffer[i] = sin(buffer[i]);
     }

@@ -116,8 +116,8 @@ void SplineEnvelopeNode::doneRendering() {
     GPNode::doneRendering();
 }
 
-void SplineEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
-    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+void SplineEnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
+    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
     // copy envelope into buffer
     for (unsigned bi = 0, ei = firstFrameNumber; bi < numSamples; bi++, ei++) {
         buffer[bi] = buffer[bi] * envelope[ei];

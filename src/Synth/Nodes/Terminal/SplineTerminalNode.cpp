@@ -115,7 +115,7 @@ void SplineTerminalNode::doneRendering() {
     GPNode::doneRendering();
 }
 
-void SplineTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void SplineTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     // copy envelope into buffer
     for (unsigned bi = 0, ei = firstFrameNumber; bi < numSamples; bi++, ei++) {
         buffer[bi] = envelope[ei];

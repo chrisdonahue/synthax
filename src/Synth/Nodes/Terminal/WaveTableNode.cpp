@@ -21,11 +21,10 @@ void WaveTableNode::doneRendering() {
 	GPNode::doneRendering();
 }
 
-void WaveTableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void WaveTableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 	// use unused variables
 	sampleTimes;
-	numConstantVariables;
-	constantVariables;
+	constantValues;
 	
 	// check if first frame number
 	if (firstFrameNumber == 0) {
@@ -33,7 +32,7 @@ void WaveTableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned
 	}
 	
 	// fill the audio buffer
-	float freqVal = (constantVariables[variableNum] * partial) / sampleRate;
+	float freqVal = (constantValues[variableNum] * partial) / sampleRate;
     for (unsigned i = 0; i < numSamples; i++) {
         osc->setFrequency(freqVal);
         buffer[i] = osc->getOutput();

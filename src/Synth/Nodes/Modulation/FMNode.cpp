@@ -37,12 +37,12 @@ FMNode* FMNode::getCopy() {
     return new FMNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy(), mutatableParams[2]->getCopy(), mutatableParams[3]->getCopy(), mutatableParams[4]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void FMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
-    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+void FMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
+    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
 		double mf = buffer[i] * mf_m + mf_b;
 		double t = (double) sampleTimes[i];
-		buffer[i] = (float) cos((cf_mult * t * constantVariables[variableNum]) + (mf_mult * mf * t));
+		buffer[i] = (float) cos((cf_mult * t * constantValues[variableNum]) + (mf_mult * mf * t));
     }
 }
 

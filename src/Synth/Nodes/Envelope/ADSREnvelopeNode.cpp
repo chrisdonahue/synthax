@@ -57,7 +57,7 @@ void ADSREnvelopeNode::doneRendering() {
     GPNode::doneRendering();
 }
 
-void ADSREnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void ADSREnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     // if frame number is within the envelope
     if (firstFrameNumber < framesInEnvelope)
         releaseFinished = false;
@@ -66,7 +66,7 @@ void ADSREnvelopeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsig
 
     if (!releaseFinished) {
         // TODO: slight enhancement would be to only evaluate remaining samples
-        descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+        descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
         // if ADSR hasn't finished releasing but will within these n frames
         if (firstFrameNumber + numSamples > framesInEnvelope) {
             for (unsigned i = 0; firstFrameNumber + i < framesInEnvelope; i++) {

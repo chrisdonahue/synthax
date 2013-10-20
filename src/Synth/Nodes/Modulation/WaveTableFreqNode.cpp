@@ -22,9 +22,9 @@ void WaveTableFreqNode::doneRendering() {
 	GPNode::doneRendering();
 }
 
-void WaveTableFreqNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void WaveTableFreqNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     // evaluate frequency child
-    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
 	
 	// check if first frame number
 	if (firstFrameNumber == 0) {

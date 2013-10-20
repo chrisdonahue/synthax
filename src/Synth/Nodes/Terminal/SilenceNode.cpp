@@ -25,12 +25,11 @@ SilenceNode* SilenceNode::getCopy() {
     return new SilenceNode();
 }
 
-void SilenceNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void SilenceNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;
-	numConstantVariables;
-	constantVariables;
+	constantValues;
 
     for (unsigned i = 0; i < numSamples; i++) {
         buffer[i] = 0.0;

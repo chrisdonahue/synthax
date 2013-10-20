@@ -9,7 +9,7 @@ public:
     // overrides
     void setRenderInfo(float sr, unsigned blockSize, unsigned maxFrameNumber, float maxTime);
     void doneRendering();
-    void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+    void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer);
 	void updateMutatedParams();
 
 	// WaveTable helpers

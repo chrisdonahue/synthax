@@ -36,10 +36,9 @@ void TimeNode::doneRendering() {
     }
 }
 
-void TimeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void TimeNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     firstFrameNumber;
-    numConstantVariables;
-    constantVariables;
+    constantValues;
 
     for (unsigned i = 0; i < numSamples; i++) {
         buffer[i] = sampleTimes[i];

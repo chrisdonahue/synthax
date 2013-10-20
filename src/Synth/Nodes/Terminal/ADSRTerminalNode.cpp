@@ -56,7 +56,7 @@ void ADSRTerminalNode::doneRendering() {
     GPNode::doneRendering();
 }
 
-void ADSRTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void ADSRTerminalNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     // if frame number is within the envelope
     if (firstFrameNumber < framesInEnvelope)
         releaseFinished = false;

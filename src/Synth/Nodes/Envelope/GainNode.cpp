@@ -30,14 +30,12 @@ GainNode* GainNode::getCopy() {
     return new GainNode(mutatableParams[0]->getCopy(), descendants[0] == NULL ? NULL : descendants[0]->getCopy());
 }
 
-void GainNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void GainNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;
-	numConstantVariables;
-	constantVariables;
 
-    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, numConstantVariables, constantVariables, buffer);
+    descendants[0]->evaluateBlockPerformance(firstFrameNumber, numSamples, sampleTimes, constantValues, variableValues, buffer);
     for (unsigned i = 0; i < numSamples; i++) {
         buffer[i] *= value;
     }

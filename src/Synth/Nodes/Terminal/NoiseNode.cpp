@@ -28,11 +28,10 @@ NoiseNode* NoiseNode::getCopy() {
     return new NoiseNode();
 }
 
-void NoiseNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void NoiseNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 	firstFrameNumber;
 	sampleTimes;
-    numConstantVariables;
-    constantVariables;
+    constantValues;
 
     if (firstFrameNumber == 0) {
         g_fScale = 2.0f / 0xffffffff;

@@ -163,7 +163,7 @@ void FilterNode::setRenderInfo(float sr, unsigned blockSize, float maxTime) {
 
 }
 
-void FilterNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void FilterNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 
 }
 

@@ -33,12 +33,10 @@ ConstantNode* ConstantNode::getCopy() {
     return new ConstantNode(isPi, isPi ? NULL : mutatableParams[0]->getCopy());
 }
 
-void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void ConstantNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
 	// use unused variables
 	firstFrameNumber;
 	sampleTimes;
-	numConstantVariables;
-	constantVariables;
 
     // fill buffer with value
     for (unsigned i = 0; i < numSamples; i++) {

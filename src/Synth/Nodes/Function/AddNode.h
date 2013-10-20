@@ -10,7 +10,7 @@ public:
 
 	// overrides
     AddNode* getCopy();
-	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer);
+	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer);
 
     // optional overrides
 	void updateMutatedParams();

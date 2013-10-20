@@ -34,12 +34,11 @@ VariableNode* VariableNode::getCopy() {
     return new VariableNode(mutatableParams[0]->getCopy(), mutatableParams[1]->getCopy());
 }
 
-void VariableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, unsigned numConstantVariables, float* constantVariables, float* buffer) {
+void VariableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     firstFrameNumber;
     sampleTimes;
-    numConstantVariables;
 
     for (unsigned i = 0; i < numSamples; i++) {
-        buffer[i] = constantVariables[variableNum];
+        buffer[i] = constantValues[variableNum];
     }
 }
