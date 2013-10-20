@@ -194,7 +194,31 @@ void GPAudioUtil::find_moving_average(unsigned type, unsigned n, const double* d
     *max_deviation_below = maxdevb;
 }
 
+// FROM: http://musicdsp.org/showArchiveComment.php?ArchiveID=136 
+void GPAudioUtil::follow_envelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double sample_rate) {
+    double attack_coef = exp(log(0.01)/( attack_in_ms * sample_rate * 0.001));
+    double release_coef = exp(log(0.01)/( release_in_ms * sample_rate * 0.001));
+    
+    double currentValue;
+    envelope[0] = buffer[0];
+    double currentEnvelope = envelope[0];
+    for (unsigned i = 1; i < n; i++) {
+        currentValue = fabs(buffer[i]);
+        if (currentValue > currentEnvelope) {
+            currentEnvelope = attack_coef * (currentEnvelope - currentValue) + currentValue;
+        }
+        else {
+            currentEnvelope = release_coef * (currentEnvelope - currentValue) + currentValue;
+        }
+        envelope[i] = currentEnvelope;
+    }
+}
 
+void GPAudioUtil::apply_envelope(unsigned n, float* buffer, const float* envelope) {
+	for (unsigned i = 0; i < n; i++) {
+		buffer[i] *= envelope[i];
+	}
+}
 
 /*
 	==================
@@ -281,32 +305,6 @@ std::string GPAudioUtil::double_buffers_to_graph_string(std::string options, std
 	LEGACY
 	======
 */
-
-void GPAudioUtil::applyEnvelope(unsigned n, float* buffer, const float* envelope) {
-	for (unsigned i = 0; i < n; i++) {
-		buffer[i] *= envelope[i];
-	}
-}
-
-// FROM: http://musicdsp.org/showArchiveComment.php?ArchiveID=136 
-void GPAudioUtil::followEnvelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double samplerate) {
-    double attack_coef = exp(log(0.01)/( attack_in_ms * samplerate * 0.001));
-    double release_coef = exp(log(0.01)/( release_in_ms * samplerate * 0.001));
-    
-    double currentValue;
-    envelope[0] = buffer[0];
-    double currentEnvelope = envelope[0];
-    for (unsigned i = 1; i < n; i++) {
-        currentValue = fabs(buffer[i]);
-        if (currentValue > currentEnvelope) {
-            currentEnvelope = attack_coef * (currentEnvelope - currentValue) + currentValue;
-        }
-        else {
-            currentEnvelope = release_coef * (currentEnvelope - currentValue) + currentValue;
-        }
-        envelope[i] = currentEnvelope;
-    }
-}
 
 void GPAudioUtil::findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float* env) {
     // MAKE AMPLITUDE ENVELOPE OF TARGET
