@@ -121,6 +121,32 @@ std::string GPLogger::param_to_string_print(GPMutatableParam* param) {
 std::string GPLogger::get_system_info() {
     std::stringstream stream;
 
+    // backup cwd
+    long size;
+    char *cwdbuff;
+    char *cwd;
+    size = pathconf(".", _PC_PATH_MAX);
+    if ((cwdbuff = (char*)malloc((size_t)size)) != NULL)
+        cwd = getcwd(cwdbuff, (size_t)size);
+    else
+        return std::string("couldnt back up cwd");
+
+    // set command execution directory to be that of the executable
+    char pathbuff[1024];
+    std::string path;
+    ssize_t len = readlink("/proc/self/exe", pathbuff, sizeof(pathbuff)-1);
+    if (len != -1) {
+        pathbuff[len] = '\0';
+        path = std::string(pathbuff);
+    } else {
+        return std::string("path too long");
+    }
+    size_t pos = path.find_last_of("\\/");
+    path = (std::string::npos == pos) ? "" : path.substr(0, pos);
+    if (chdir(path.c_str()) != 0) {
+        return std::string("couldnt chdir to exe path");
+    }
+
     // print time/date
     time_t now = time(0);
     struct tm tstruct;
@@ -160,6 +186,10 @@ std::string GPLogger::get_system_info() {
         stream << meminfobuffer;
     }
     pclose(meminfo);
+
+    if (chdir(cwd) != 0) {
+        return std::string("couldnt chdir back to original cwd");
+    }
 
     return stream.str();
 }
