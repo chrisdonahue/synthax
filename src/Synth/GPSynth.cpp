@@ -390,7 +390,7 @@ void GPSynth::printGenerationSummary() {
 void GPSynth::printEvolutionSummary() {
     float numEvaluatedGenerations = (float) currentGenerationNumber + (evaluated.size() / populationSize);
 
-    logger->log << logger->get_runtime_string() << ": ------------------------ SUMMARY -------------------------" << std::flush;
+    logger->log << logger->get_runtime_string() << ": -------------------------- SUMMARY ---------------------------" << std::flush;
     logger->log << "Evolution ran for " << numEvaluatedGenerations << " generations" << std::flush;
     if (champ != NULL) {
         logger->log << "The best synthesis algorithm found was number " << champ->ID << " made by " << champ->origin << " with height " << champ->height << ", fitness " << champ->fitness << " and structure " << logger->net_to_string_print(champ) << std::flush;

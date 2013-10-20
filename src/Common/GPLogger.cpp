@@ -111,7 +111,7 @@ std::string GPLogger::get_runtime_string() {
     int mins = (difference/(CLOCKS_PER_SEC * 60)) - (hours * 60);
     double seconds = (double(difference)/(CLOCKS_PER_SEC)) - (hours * 60 * 60) - (mins * 60);
     std::stringstream ss;
-    ss.precision(4)
+    ss.precision(4);
     ss << "[" << hours << "h:" << mins << "m:" << seconds << "s]";
     return ss.str();
 }
