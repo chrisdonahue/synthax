@@ -79,7 +79,7 @@ bool GPLog::forward_and_flush()
 */
 
 GPLogger::GPLogger(GPLoggerParams* params, std::string seed_string, std::string output_dir_path) :
-    params(params), seed_string(seed_string),
+    params(params), seed_string(seed_string), start_clock(clock()),
     log_buff(params->log_params, output_dir_path + seed_string + ".log"),
     verbose_buff(params->verbose_params, output_dir_path + seed_string + ".log.verbose"),
     debug_buff(params->debug_params, output_dir_path + seed_string + ".debug"),
@@ -103,6 +103,17 @@ GPLogger::~GPLogger() {
 
 std::string GPLogger::get_seed_string() {
     return seed_string;
+}
+
+std::string GPLogger::get_runtime_string() {
+    clock_t difference = clock() - start_clock;
+    int hours = difference/(CLOCKS_PER_SEC * 60 * 60);
+    int mins = (difference/(CLOCKS_PER_SEC * 60)) - (hours * 60);
+    double seconds = (double(difference)/(CLOCKS_PER_SEC)) - (hours * 60 * 60) - (mins * 60);
+    std::stringstream ss;
+    ss.precision(4)
+    ss << "[" << hours << "h:" << mins << "m:" << seconds << "s]";
+    return ss.str();
 }
 
 std::string GPLogger::net_to_string_print(GPNetwork* net) {

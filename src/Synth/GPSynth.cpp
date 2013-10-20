@@ -326,7 +326,7 @@ int GPSynth::prevGeneration() {
 }
 
 void GPSynth::printGenerationDelim() {
-    logger->log << "------------------------- START OF GENERATION " << currentGenerationNumber << " -------------------------" << std::flush;
+    logger->log << logger->get_runtime_string() << ": ------------------------- START OF GENERATION " << currentGenerationNumber << " -------------------------" << std::flush;
 }
 
 void GPSynth::endGeneration() {
@@ -384,13 +384,13 @@ void GPSynth::endGeneration() {
 
 void GPSynth::printGenerationSummary() {
     // print generation summary
-    logger->log << "Generation " << currentGenerationNumber << " had average fitness " << generationAverageFitness << " and best fitness " << generationBestFitness << " attained by algorithm " << generationChamp->ID << " made by " << generationChamp->origin << " with height " << generationChamp->height << " and structure " << logger->net_to_string_print(generationChamp) << std::flush;
+    logger->log << logger->get_runtime_string() << ": Generation " << currentGenerationNumber << " had average fitness " << generationAverageFitness << " and best fitness " << generationBestFitness << " attained by algorithm " << generationChamp->ID << " made by " << generationChamp->origin << " with height " << generationChamp->height << " and structure " << logger->net_to_string_print(generationChamp) << std::flush;
 }
 
 void GPSynth::printEvolutionSummary() {
     float numEvaluatedGenerations = (float) currentGenerationNumber + (evaluated.size() / populationSize);
 
-    logger->log << "-------------------------------- SUMMARY --------------------------------" << std::flush;
+    logger->log << logger->get_runtime_string() << ": ------------------------ SUMMARY -------------------------" << std::flush;
     logger->log << "Evolution ran for " << numEvaluatedGenerations << " generations" << std::flush;
     if (champ != NULL) {
         logger->log << "The best synthesis algorithm found was number " << champ->ID << " made by " << champ->origin << " with height " << champ->height << ", fitness " << champ->fitness << " and structure " << logger->net_to_string_print(champ) << std::flush;

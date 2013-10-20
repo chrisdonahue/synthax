@@ -1,6 +1,7 @@
 #ifndef GPLOGGER_H
 #define GPLOGGER_H
 
+#include <ctime>
 #include <string>
 #include <streambuf>
 #include <sstream>
@@ -68,6 +69,7 @@ class GPLogger {
 #endif
 
         std::string get_seed_string();
+        std::string get_runtime_string();
 
         std::string net_to_string_print(GPNetwork* net);
         std::string net_to_string_save(GPNetwork* net);
@@ -81,6 +83,7 @@ class GPLogger {
     private:
         GPLoggerParams* params;
         std::string seed_string;
+        clock_t start_clock;
 
         GPLog log_buff;
         GPLog verbose_buff;
