@@ -549,6 +549,18 @@ GPNode* createNode(tokenizerFunctionArgs) {
 
         return new ValueVariableNode(params[0], params[1]);
     }
+    // basic sin oscillator node
+    else if (type.compare("sinoscb_s") == 0) {
+        if (params.size() != 3) {
+            throw std::runtime_error("incorrect number of mutatable params for sinoscb_s");
+        }
+        params[0]->setType("sinoscb_s_var_num");
+        params[0]->setUnmutatable();
+        params[1]->setType("sinoscb_s_partial");
+        params[2]->setType("sinoscb_s_phase");
+
+        return new SinOscBasicNode(params[0], params[1], params[2]);
+    }
     // wave table oscillator nodes
     else if (type.compare("sinosc") == 0) {
         if (params.size() != 3) {

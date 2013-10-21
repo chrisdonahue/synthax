@@ -49,6 +49,7 @@
 #include "Nodes/Terminal/LFOTerminalNode.h"
 #include "Nodes/Terminal/NoiseNode.h"
 #include "Nodes/Terminal/SilenceNode.h"
+#include "Nodes/Terminal/SinOscBasicNode.h"
 #include "Nodes/Terminal/SplineTerminalNode.h"
 #include "Nodes/Terminal/TimeNode.h"
 #include "Nodes/Terminal/ValueStaticNode.h"

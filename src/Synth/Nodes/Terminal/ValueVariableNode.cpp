@@ -36,9 +36,11 @@ ValueVariableNode* ValueVariableNode::getCopy() {
 
 void ValueVariableNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer) {
     float* variable = variableValues + offset;
-    memcpy(buffer, variable, numSamples);
+    memcpy(buffer, variable, sizeof(float) * numSamples);
 }
 
+// TODO: sizeof(float) * numSamples could maybe be precalc'd here
 void ValueVariableNode::setRenderInfo(float sr, unsigned blockSize, unsigned maxNumFrames, float maxTime) {
     offset = variableNum * blockSize;
+    GPNode::setRenderInfo(sr, blockSize, maxNumFrames, maxTime);
 }
