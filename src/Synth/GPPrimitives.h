@@ -34,6 +34,7 @@
 #include "Nodes/Modulation/AMNode.h"
 #include "Nodes/Modulation/PMNode.h"
 #include "Nodes/Modulation/FMNode.h"
+#include "Nodes/Modulation/FMINode.h"
 #include "Nodes/Modulation/FreqOscillator/SinFreqOscNode.h"
 #include "Nodes/Modulation/FreqOscillator/SawFreqOscNode.h"
 #include "Nodes/Modulation/FreqOscillator/SquareFreqOscNode.h"

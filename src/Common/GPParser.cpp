@@ -366,6 +366,22 @@ GPNode* createNode(tokenizerFunctionArgs) {
 
         return new FMNode(params[0], params[1], params[2], params[3], params[4], signal);
     }
+    else if (type.compare("fm_i") == 0) {
+        if (params.size() != 5) {
+			throw std::runtime_error("incorrect number of mutatable params for fm_i");
+        }
+        params[0]->setType("fm_i_var_num");
+        params[0]->setUnmutatable();
+        params[1]->setType("fm_i_partial");
+        params[2]->setType("fm_i_mf_ratio");
+        params[3]->setType("fm_i_index_low");
+        params[4]->setType("fm_i_index_high");
+
+		GPNode* signal;
+		parseChild(tokenizerArgs, &signal);
+
+        return new FMINode(params[0], params[1], params[2], params[3], params[4], signal);
+    }
     // wave table freq nodes
     else if (type.compare("sinfreqosc") == 0) {
         if (params.size() != 1) {

@@ -42,7 +42,7 @@ void FMNode::evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSam
     for (unsigned i = 0; i < numSamples; i++) {
 		double mf = buffer[i] * mf_m + mf_b;
 		double t = (double) sampleTimes[i];
-		buffer[i] = (float) cos((cf_mult * t * constantValues[variableNum]) + (mf_mult * mf * t));
+		buffer[i] = (float) cos((cf_mult * t * constantValues[variableNum]) + index * (mf_mult * mf * t));
     }
 }
 
