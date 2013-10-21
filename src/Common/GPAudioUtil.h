@@ -23,6 +23,7 @@ namespace GPAudioUtil {
 
 	// waveform analysis
     extern void find_moving_average(unsigned type, unsigned n, const double* data, double* moving_average_buffer, double* data_average, double* max_deviation_below, double* max_deviation_above, unsigned past_radius, unsigned future_radius, double alpha);
+    extern void find_envelope(bool ignore_zeroes, unsigned n, float* wav, float* env);
     extern void follow_envelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double sample_rate);
 	extern void apply_envelope(unsigned n, float* buffer, const float* envelope);
 
@@ -35,8 +36,6 @@ namespace GPAudioUtil {
 	extern std::string double_buffers_to_graph_string(std::string options, std::string x_label, std::string y_label, bool index_as_x_axis, unsigned n, const double* x, const double* y, const double* z);
 
 	// LEGACY
-    extern void followEnvelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double samplerate);
-    extern void findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float* env);
 	extern double compareAmplitudes(unsigned numSamples, const float* samplesOne, const float* samplesTwo);
     extern double compareAmplitudesWeighted(unsigned numSamples, const float* samplesOne, const float* samplesTwo, float weight);
     extern void FftReal(kiss_fftr_cfg cfg, unsigned numFrames, const float* input, unsigned n, unsigned overlap, const float* window, kiss_fft_scalar* in, kiss_fft_cpx* out, bool dB, double* magnitude, double* phase);

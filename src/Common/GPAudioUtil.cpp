@@ -194,6 +194,75 @@ void GPAudioUtil::find_moving_average(unsigned type, unsigned n, const double* d
     *max_deviation_below = maxdevb;
 }
 
+void GPAudioUtil::find_envelope(bool ignore_zeroes, unsigned n, float* wav, float* env) {
+    // MAKE AMPLITUDE ENVELOPE OF TARGET
+    // x/y pairs for absolute waveform bound
+    std::vector<unsigned> x;
+    x.resize(0, 0);
+    std::vector<float> y;
+    y.resize(0, 0);
+
+    // set initial value
+    x.push_back(0);
+    y.push_back(fabs(wav[0]));
+
+    // find waveform minima/maxima
+    float prevSlope = (wav[1] - wav[0]);
+    float currSlope = 0;
+    float slopeProduct = 0;
+    for (unsigned i = 1; i < n - 2; i++) {
+        currSlope = (wav[i + 1] - wav[i]);
+
+        // if one slope is 0 we're at one edge of a plateau or silence
+        float slopeProduct = currSlope * prevSlope;
+
+        if (!ignore_zeroes) {
+            if (slopeProduct == 0) {
+                x.push_back(i);
+                y.push_back(fabs(wav[i]));
+            }
+            // else if slope has changed we found a minimum or maximum
+            else if (slopeProduct < 0 && prevSlope > 0) {
+                x.push_back(i);
+                y.push_back(fabs(wav[i]));
+            }
+        }
+        else {
+            //std::cout << i << ", " << n << std::endl;
+            //std::cout << slopeProduct << std::endl;
+            //std::cout << prevSlope << std::endl;
+            if (slopeProduct < 0 && prevSlope > 0) {
+                x.push_back(i);
+                y.push_back(fabs(wav[i]));
+            }
+        }
+
+        prevSlope = currSlope;
+    }
+
+    // set final value
+    x.push_back(n - 1);
+    y.push_back(fabs(wav[n - 1]));
+
+    // fill env buffer
+    for (unsigned i = 0; i < x.size() - 1; i++) {
+        // calculate slope between points
+        unsigned currFrameNumber = x[i];
+        float currEnvValue = y[i];
+        unsigned nextFrameNumber = x[i+1];
+        float nextEnvValue = y[i+1];
+        float slope = (nextEnvValue - currEnvValue)/(nextFrameNumber - currFrameNumber);
+
+        // fill buffer from slope
+        unsigned assignEnvelopeSample = currFrameNumber;
+        while (assignEnvelopeSample < nextFrameNumber) {
+            env[assignEnvelopeSample] = ((assignEnvelopeSample - currFrameNumber) * slope) + currEnvValue;
+            assignEnvelopeSample++;
+        }
+    }
+    env[n - 1] = wav[n - 1];
+}
+
 // FROM: http://musicdsp.org/showArchiveComment.php?ArchiveID=136 
 void GPAudioUtil::follow_envelope(unsigned n, float* buffer, float* envelope, double attack_in_ms, double release_in_ms, double sample_rate) {
     double attack_coef = exp(log(0.01)/( attack_in_ms * sample_rate * 0.001));
@@ -305,75 +374,6 @@ std::string GPAudioUtil::double_buffers_to_graph_string(std::string options, std
 	LEGACY
 	======
 */
-
-void GPAudioUtil::findEnvelope(bool ignoreZeroes, unsigned n, float* wav, float* env) {
-    // MAKE AMPLITUDE ENVELOPE OF TARGET
-    // x/y pairs for absolute waveform bound
-    std::vector<unsigned> x;
-    x.resize(0, 0);
-    std::vector<float> y;
-    y.resize(0, 0);
-
-    // set initial value
-    x.push_back(0);
-    y.push_back(fabs(wav[0]));
-
-    // find waveform minima/maxima
-    float prevSlope = (wav[1] - wav[0]);
-    float currSlope = 0;
-    float slopeProduct = 0;
-    for (unsigned i = 1; i < n - 2; i++) {
-        currSlope = (wav[i + 1] - wav[i]);
-
-        // if one slope is 0 we're at one edge of a plateau or silence
-        float slopeProduct = currSlope * prevSlope;
-
-        if (!ignoreZeroes) {
-            if (slopeProduct == 0) {
-                x.push_back(i);
-                y.push_back(fabs(wav[i]));
-            }
-            // else if slope has changed we found a minimum or maximum
-            else if (slopeProduct < 0 && prevSlope > 0) {
-                x.push_back(i);
-                y.push_back(fabs(wav[i]));
-            }
-        }
-        else {
-            //std::cout << i << ", " << n << std::endl;
-            //std::cout << slopeProduct << std::endl;
-            //std::cout << prevSlope << std::endl;
-            if (slopeProduct < 0 && prevSlope > 0) {
-                x.push_back(i);
-                y.push_back(fabs(wav[i]));
-            }
-        }
-
-        prevSlope = currSlope;
-    }
-
-    // set final value
-    x.push_back(n - 1);
-    y.push_back(fabs(wav[n - 1]));
-
-    // fill env buffer
-    for (unsigned i = 0; i < x.size() - 1; i++) {
-        // calculate slope between points
-        unsigned currFrameNumber = x[i];
-        float currEnvValue = y[i];
-        unsigned nextFrameNumber = x[i+1];
-        float nextEnvValue = y[i+1];
-        float slope = (nextEnvValue - currEnvValue)/(nextFrameNumber - currFrameNumber);
-
-        // fill buffer from slope
-        unsigned assignEnvelopeSample = currFrameNumber;
-        while (assignEnvelopeSample < nextFrameNumber) {
-            env[assignEnvelopeSample] = ((assignEnvelopeSample - currFrameNumber) * slope) + currEnvValue;
-            assignEnvelopeSample++;
-        }
-    }
-    env[n - 1] = wav[n - 1];
-}
 
 double GPAudioUtil::compareAmplitudes(unsigned numSamples, const float* samplesOne, const float* samplesTwo) {
     double sum = 0;
