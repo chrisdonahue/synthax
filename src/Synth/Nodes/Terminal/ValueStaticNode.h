@@ -1,15 +1,15 @@
-#ifndef VARIABLENODE_H
-#define VARIABLENODE_H
+#ifndef VALUESTATICNODE_H
+#define VALUESTATICNODE_H
 
 #include "../../GPNode.h"
 
-class VariableNode: public GPNode {
+class ValueStaticNode: public GPNode {
 public:
-    VariableNode(GPMutatableParam* vn, GPMutatableParam* range);
-    ~VariableNode();
+    ValueStaticNode(GPMutatableParam* vn, GPMutatableParam* range);
+    ~ValueStaticNode();
 
 	// overrides
-    VariableNode* getCopy();
+    ValueStaticNode* getCopy();
 	void evaluateBlockPerformance(unsigned firstFrameNumber, unsigned numSamples, float* sampleTimes, float* constantValues, float* variableValues, float* buffer);
 
 private:

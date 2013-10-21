@@ -526,17 +526,28 @@ GPNode* createNode(tokenizerFunctionArgs) {
 
         return new TimeNode();
     }
-    // variable node
-    else if (type.compare("var") == 0) {
+    // valiable nodes
+    else if (type.compare("val_s") == 0) {
         if (params.size() != 2) {
-            throw std::runtime_error("incorrect number of mutatable params for var");
+            throw std::runtime_error("incorrect number of mutatable params for val_s");
         }
-        params[0]->setType("var_num");
+        params[0]->setType("val_s_num");
         params[0]->setUnmutatable();
-        params[1]->setType("var_range");
+        params[1]->setType("val_s_range");
         params[1]->setUnmutatable();
 
-        return new VariableNode(params[0], params[1]);
+        return new ValueStaticNode(params[0], params[1]);
+    }
+    else if (type.compare("val_v") == 0) {
+        if (params.size() != 2) {
+            throw std::runtime_error("incorrect number of mutatable params for val_r");
+        }
+        params[0]->setType("val_v_num");
+        params[0]->setUnmutatable();
+        params[1]->setType("val_v_range");
+        params[1]->setUnmutatable();
+
+        return new ValueVariableNode(params[0], params[1]);
     }
     // wave table oscillator nodes
     else if (type.compare("sinosc") == 0) {
