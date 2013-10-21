@@ -150,11 +150,13 @@ std::string GPLogger::get_system_info() {
         pathbuff[len] = '\0';
         path = std::string(pathbuff);
     } else {
+        free(cwdbuff);
         return std::string("path too long");
     }
     size_t pos = path.find_last_of("\\/");
     path = (std::string::npos == pos) ? "" : path.substr(0, pos);
     if (chdir(path.c_str()) != 0) {
+        free(cwdbuff);
         return std::string("couldnt chdir to exe path");
     }
 
@@ -199,9 +201,11 @@ std::string GPLogger::get_system_info() {
     pclose(meminfo);
 
     if (chdir(cwd) != 0) {
+        free(cwdbuff);
         return std::string("couldnt chdir back to original cwd");
     }
 
+    free(cwdbuff);
     return stream.str();
 }
 #endif
