@@ -6,14 +6,15 @@
     ========================
 */
 
-FMINode::FMINode(GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* m_ratio, GPMutatableParam* i_low, GPMutatableParam* i_high, GPNode* mod) {
+FMINode::FMINode(GPMutatableParam* vn, GPMutatableParam* p, GPMutatableParam* m_ratio, GPMutatableParam* i_center, GPMutatableParam* i_radius, GPNode* mod) {
     assert(vn->isUnmutatable() && vn->isDiscrete());
+	assert(i_radius->getMin() >= 0);
 
 	mutatableParams.push_back(vn);
 	mutatableParams.push_back(p);
 	mutatableParams.push_back(m_ratio);
-    mutatableParams.push_back(i_low);
-    mutatableParams.push_back(i_high);
+    mutatableParams.push_back(i_center);
+    mutatableParams.push_back(i_radius);
 
     descendants.push_back(mod);
     arity = 1;
@@ -58,8 +59,10 @@ void FMINode::updateMutatedParams() {
 	variableNum = mutatableParams[0]->getDValue();
     partial = mutatableParams[1]->getValue();
 	mf_ratio = mutatableParams[2]->getValue();
-	i_low = mutatableParams[3]->getValue();
-	i_high = mutatableParams[4]->getValue();
+	float i_center = mutatableParams[3]->getValue();
+	float i_radius = mutatableParams[4]->getValue();
+	i_low = i_center - i_radius;
+	i_high = i_center + i_radius;
 
 	// precompute for efficiency
     cf_mult = (2.0 * M_PI * partial);
